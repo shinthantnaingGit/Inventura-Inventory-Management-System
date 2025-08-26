@@ -12,6 +12,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import LogOutButton from "./LogOutButton";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -20,7 +21,9 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
   // Close profile menu on outside click / Esc
   useEffect(() => {
     const onClick = (e) =>
-      profileRef.current && !profileRef.current.contains(e.target) && setOpenProfile(false);
+      profileRef.current &&
+      !profileRef.current.contains(e.target) &&
+      setOpenProfile(false);
     const onKey = (e) => e.key === "Escape" && setOpenProfile(false);
     document.addEventListener("mousedown", onClick);
     document.addEventListener("keydown", onKey);
@@ -118,10 +121,18 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
                   role="menu"
                   className="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg"
                 >
-                  <MenuItem href="/dashboard/profile" icon={User} label="Profile" />
-                  <MenuItem href="/dashboard/settings" icon={Settings} label="Settings" />
+                  <MenuItem
+                    href="/dashboard/profile"
+                    icon={User}
+                    label="Profile"
+                  />
+                  <MenuItem
+                    href="/dashboard/settings"
+                    icon={Settings}
+                    label="Settings"
+                  />
                   <div className="my-1 h-px bg-gray-200 dark:bg-gray-800" />
-                  <MenuItem href="/logout" icon={LogOut} label="Log out" />
+                  <LogOutButton />
                 </div>
               )}
             </div>

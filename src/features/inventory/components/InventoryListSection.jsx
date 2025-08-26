@@ -1,20 +1,41 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryActionBar from "./InventoryActionBar";
 import InventoryListSkeleton from "./InventoryListSkeleton";
-import { getProducts } from "@/services/product";
+import { getProducts, productApiUrl } from "@/services/product";
 import useAccountStore from "@/store/useAccountStore";
-import { AlertTriangle, RotateCcw } from "lucide-react";
+import {
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
+  RotateCcw,
+} from "lucide-react";
+import { AfterContext } from "next/dist/server/after/after-context";
 
 const InventoryListSection = () => {
   // SWR hook (get mutate so we can Retry on error)
-  const { data: products, error, isLoading, mutate } = getProducts();
-
+  const [url, setUrl] = useState(productApiUrl);
+  const { data: products, error, isLoading, mutate } = getProducts(url);
+  console.log(products);
   // Debug if needed
   // console.log(useAccountStore.getState());
   // console.log(products?.data);
+  const currentPage = parseInt(products?.meta?.current_page);
+  const lastPage = products?.meta?.last_page;
+  const nextPage = currentPage + 1 < lastPage ? currentPage + 1 : lastPage;
 
+  //WITHOUT LINKS FROM BACKEND
+  // const handleNext = () => {
+  //   setUrl(`${productApiUrl}/?limit=5&page=${nextPage}`);
+  // };
+  // const handlePrev = () => {
+  //   setUrl(
+  //     `${productApiUrl}/?limit=5&page=${
+  //       parseInt(products?.meta?.current_page) - 1
+  //     }`
+  //   );
+  // };
   // Loading → show skeleton UI
   if (isLoading) {
     return (
@@ -67,6 +88,32 @@ const InventoryListSection = () => {
       <div className="px-4 sm:px-6 lg:px-10 py-4 space-y-6">
         <InventoryActionBar />
         <InventoryTable products={products?.data} />
+      </div>
+      {/* Pagination controls */}
+      <div className="flex justify-center items-center gap-4 mt-6">
+        <button
+          type="button"
+          className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+          // onClick={handlePrev}
+          disabled={!products?.links?.prev}
+          onClick={() => setUrl(products?.links?.prev)}
+        >
+          <ChevronLeft className="size-4" /> Prev
+        </button>
+
+        <span className="text-sm text-gray-600 dark:text-gray-400">
+          {products?.meta?.current_page}
+        </span>
+
+        <button
+          type="button"
+          className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+          // onClick={handleNext}
+          disabled={!products?.links?.next}
+          onClick={() => setUrl(products?.links?.next)}
+        >
+          Next <ChevronRight className="size-4" />
+        </button>
       </div>
     </section>
   );

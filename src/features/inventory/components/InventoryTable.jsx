@@ -109,7 +109,7 @@ const InventoryTable = ({ products }) => {
             </tr>
           )}
 
-          {products.map((product) => (
+          {products?.map((product) => (
             <InventoryTableRow key={product.id} product={product} />
           ))}
         </tbody>

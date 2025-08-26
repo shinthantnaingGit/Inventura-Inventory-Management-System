@@ -14,8 +14,8 @@ export const fetcher = (url) =>
   }).then((res) => res.json()); // Reusable fetcher
 
 // 1) GET (READ) Products
-export const getProducts = () => {
-  return useSWR(productApiUrl, fetcher); // Use SWR for fetching
+export const getProducts = (url) => {
+  return useSWR(url, fetcher); // Use SWR for fetching
 };
 
 // 2) POST (CREATE) Product

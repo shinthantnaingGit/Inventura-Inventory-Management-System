@@ -1,7 +1,7 @@
 const { create } = require("zustand");
 
 const useActiveMenu = create((set) => ({
-  active: "inventory",
+  active: "dashboard",
   setActive: (menu) => set((state) => ({ active: menu })),
 }));
 export default useActiveMenu;
