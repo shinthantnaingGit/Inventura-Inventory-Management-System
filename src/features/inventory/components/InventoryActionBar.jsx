@@ -3,14 +3,21 @@
 import React from "react";
 import { Search, Plus } from "lucide-react";
 import Link from "next/link";
+import { productApiUrl } from "@/services/product";
+import { debounce } from "lodash";
 
-const InventoryActionBar = () => {
+const InventoryActionBar = ({ setUrl }) => {
+  const handleOnChange = debounce((event) => {
+    const q = event.target.value;
+    setUrl(`${productApiUrl}?q=${q}`);
+  }, 500);
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-5">
       {/* Search Product Input */}
       <div className="relative w-full sm:w-1/3">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 w-5 h-5" />
         <input
+          onChange={handleOnChange}
           type="text"
           placeholder="Search product..."
           className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 

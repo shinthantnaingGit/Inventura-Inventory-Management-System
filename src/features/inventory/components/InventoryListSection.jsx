@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryActionBar from "./InventoryActionBar";
-import InventoryListSkeleton from "./InventoryListSkeleton";
+import InventoryListSkeleton from "./InventoryTableSkeleton";
 import { getProducts, productApiUrl } from "@/services/product";
 import useAccountStore from "@/store/useAccountStore";
 import {
@@ -12,38 +12,21 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { AfterContext } from "next/dist/server/after/after-context";
+import InventoryTableSkeleton from "./InventoryTableSkeleton";
 
 const InventoryListSection = () => {
   // SWR hook (get mutate so we can Retry on error)
   const [url, setUrl] = useState(productApiUrl);
   const { data: products, error, isLoading, mutate } = getProducts(url);
   console.log(products);
-  // Debug if needed
-  // console.log(useAccountStore.getState());
-  // console.log(products?.data);
-  const currentPage = parseInt(products?.meta?.current_page);
-  const lastPage = products?.meta?.last_page;
-  const nextPage = currentPage + 1 < lastPage ? currentPage + 1 : lastPage;
 
   //WITHOUT LINKS FROM BACKEND
-  // const handleNext = () => {
-  //   setUrl(`${productApiUrl}/?limit=5&page=${nextPage}`);
-  // };
-  // const handlePrev = () => {
-  //   setUrl(
-  //     `${productApiUrl}/?limit=5&page=${
-  //       parseInt(products?.meta?.current_page) - 1
-  //     }`
-  //   );
-  // };
+  // const currentPage = parseInt(products?.meta?.current_page);
+  // const lastPage = Number(products?.meta?.last_page || 1);
+  // const makeUrl = (page) => `${productApiUrl}?limit=5&page=${page}`;
+  // const handleNext = () => setUrl(makeUrl(Math.min(lastPage, currentPage + 1)));
+  // const handlePrevManual = () => setUrl(makeUrl(Math.max(1, currentPage - 1)));
   // Loading → show skeleton UI
-  if (isLoading) {
-    return (
-      <>
-        <InventoryListSkeleton rows={6} />
-      </>
-    );
-  }
 
   // Error → show compact card + Retry
   if (error) {
@@ -86,8 +69,12 @@ const InventoryListSection = () => {
   return (
     <section>
       <div className="px-4 sm:px-6 lg:px-10 py-4 space-y-6">
-        <InventoryActionBar />
-        <InventoryTable products={products?.data} />
+        <InventoryActionBar setUrl={setUrl} />
+        {isLoading ? (
+          <InventoryTableSkeleton rows={6} />
+        ) : (
+          <InventoryTable products={products?.data} />
+        )}
       </div>
       {/* Pagination controls */}
       <div className="flex justify-center items-center gap-4 mt-6">

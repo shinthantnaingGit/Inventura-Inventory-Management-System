@@ -3,7 +3,6 @@ import React from "react";
 import { Box, Home, LogOut, ShoppingCart, Ticket } from "lucide-react";
 import useActiveMenu from "../hooks/useActiveMenu";
 import Link from "next/link";
-import LogOutButton from "./LogOutButton";
 
 const DashBoardSideBar = () => {
   const { active, setActive } = useActiveMenu();
@@ -55,7 +54,6 @@ const DashBoardSideBar = () => {
           </Link>
         ))}
       </div>
-      <LogOutButton />
     </aside>
   );
 };
