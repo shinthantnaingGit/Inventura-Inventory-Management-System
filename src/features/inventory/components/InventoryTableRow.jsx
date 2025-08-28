@@ -20,7 +20,6 @@ const InventoryTableRow = ({ product: { id, product_name, price } }) => {
         try {
           const res = await destroyProduct(id);
           const result = await res.json();
-          // console.log(result);
           if (!res.ok) {
             throw new Error(result.message || "Fail to delete");
           }

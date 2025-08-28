@@ -11,8 +11,7 @@ import DashBoardHeader from "./DashBoardHeader";
 const DashBoardLayout = ({ children }) => {
   const router = useRouter();
   // const { token } = useAccountStore.getState();
-  // console.log(JSON.parse(localStorage.getItem("account-storage")))
-  // console.log(token);
+ 
   // if(!token){
   //   return <p>You are not allowed to log in</p>
   // }

@@ -9,7 +9,6 @@ const LogOutButton = () => {
   const router = useRouter();
 
   const handleLogOut = () => {
-    console.log("log out");
     logOut();
     router.push("/");
   };

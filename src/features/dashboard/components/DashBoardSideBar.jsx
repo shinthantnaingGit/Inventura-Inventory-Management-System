@@ -44,7 +44,7 @@ const DashBoardSideBar = () => {
             key={item.id}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-900 dark:text-gray-100 focus:outline-none transition-colors duration-200 shadow-sm ${
               active === item.id
-                ? "bg-blue-200 dark:bg-blue-800/60"
+                ? "bg-blue-500 dark:bg-blue-800/60"
                 : "bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60"
             }`}
             onClick={() => setActive(item.id)}

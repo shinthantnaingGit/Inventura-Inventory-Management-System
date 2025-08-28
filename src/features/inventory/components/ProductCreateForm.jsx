@@ -15,20 +15,15 @@ const ProductCreateForm = () => {
   } = useForm();
 
   const confirmed = watch("confirm");
-  // console.log(confirmed);
   const router = useRouter();
 
   const onSubmit = async (data) => {
-    // console.log(data);
     try {
       const res = await storeProduct({
         product_name: data.product_name,
         price: data.price,
       });
-      // console.log(res);
       const result = await res.json();
-      // console.log(result);
-      // console.log(result.message);
       if (!res.ok) {
         throw new Error(result.message || "Failed to create product");
       }
@@ -40,7 +35,6 @@ const ProductCreateForm = () => {
         router.push(`/dashboard/inventory`);
       }
     } catch (err) {
-      console.log(err);
       toast.error(err.message || "Something went wrong");
     }
   };

@@ -68,7 +68,6 @@ const ProductEditForm = () => {
         router.push(`/dashboard/inventory/${id}`);
       }
     } catch (err) {
-      console.error(err);
       toast.error(err.message || "Something went wrong");
     }
   };

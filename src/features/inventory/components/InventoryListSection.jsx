@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryActionBar from "./InventoryActionBar";
 import InventoryListSkeleton from "./InventoryTableSkeleton";
@@ -13,20 +13,20 @@ import {
 } from "lucide-react";
 import { AfterContext } from "next/dist/server/after/after-context";
 import InventoryTableSkeleton from "./InventoryTableSkeleton";
+import { useSearchParams } from "next/navigation";
+import InventoryListPagination from "./InventoryListPagination";
 
 const InventoryListSection = () => {
+  const searchParams = useSearchParams();
   // SWR hook (get mutate so we can Retry on error)
   const [url, setUrl] = useState(productApiUrl);
   const { data: products, error, isLoading, mutate } = getProducts(url);
-  console.log(products);
+  useEffect(() => {
+    setUrl(`${productApiUrl}?${searchParams.toString()}`);
+  }, []);
 
-  //WITHOUT LINKS FROM BACKEND
-  // const currentPage = parseInt(products?.meta?.current_page);
-  // const lastPage = Number(products?.meta?.last_page || 1);
-  // const makeUrl = (page) => `${productApiUrl}?limit=5&page=${page}`;
-  // const handleNext = () => setUrl(makeUrl(Math.min(lastPage, currentPage + 1)));
-  // const handlePrevManual = () => setUrl(makeUrl(Math.max(1, currentPage - 1)));
-  // Loading → show skeleton UI
+  
+
 
   // Error → show compact card + Retry
   if (error) {
@@ -77,31 +77,7 @@ const InventoryListSection = () => {
         )}
       </div>
       {/* Pagination controls */}
-      <div className="flex justify-center items-center gap-4 mt-6">
-        <button
-          type="button"
-          className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
-          // onClick={handlePrev}
-          disabled={!products?.links?.prev}
-          onClick={() => setUrl(products?.links?.prev)}
-        >
-          <ChevronLeft className="size-4" /> Prev
-        </button>
-
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          {products?.meta?.current_page}
-        </span>
-
-        <button
-          type="button"
-          className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
-          // onClick={handleNext}
-          disabled={!products?.links?.next}
-          onClick={() => setUrl(products?.links?.next)}
-        >
-          Next <ChevronRight className="size-4" />
-        </button>
-      </div>
+   <InventoryListPagination setUrl={setUrl} products={products}/>
     </section>
   );
 };

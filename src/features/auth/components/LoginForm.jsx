@@ -21,29 +21,23 @@ const LoginForm = () => {
 
   // Handle form submit
   const onSubmit = async (data) => {
-    // console.log(loginAuthUrl);
-    console.log("Form Submitted ✅", data);
-    // console.log(data.email);
-    // console.log(data.password);
+
     try {
       const res = await userLogin({
         email: data.email,
         password: data.password,
       });
       const loginData = await res.json();
-      console.log(res);
-      console.log(loginData);
+  
       if (!res.ok) {
         throw new Error(loginData.message || "Login Failed");
       }
       setToken(loginData.token);
-      console.log(loginData.token);
       toast.success("Login Successfully");
       reset();
       router.push("/dashboard");
     } catch (err) {
       toast.error(err.message);
-      console.error(err);
     }
   };
 

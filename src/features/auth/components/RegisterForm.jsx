@@ -22,7 +22,6 @@ const RegisterForm = () => {
   const password = watch("password", "");
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       // Adjust payload to match your backend API keys exactly
       const payload = {
