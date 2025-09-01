@@ -1,6 +1,6 @@
 import { productApiUrl } from "@/services/product";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
 import { Spiral } from "ldrs/react";
 import "ldrs/react/Spiral.css";
@@ -9,6 +9,7 @@ const InventoryListPagination = ({ setUrl, products }) => {
   const router = useRouter();
   // console.log(products);
   const pageRef = useRef();
+  const searchParams = useSearchParams();
   const handleNext = () => {
     const url = new URL(products?.links?.next);
     // console.log(url.search);
@@ -87,7 +88,7 @@ const InventoryListPagination = ({ setUrl, products }) => {
           ref={pageRef}
           id="limit"
           onChange={handleChangeLimit}
-          value={products?.meta?.per_page || 5}
+          value={searchParams.get("limit") || products?.meta?.per_page || 5}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {[5, 10, 20, 50].map((n) => (
