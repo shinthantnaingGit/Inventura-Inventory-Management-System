@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 const DashBoardSideBar = () => {
   const pathname = usePathname();
+  console.log(usePathname())
 
   const menuItems = [
     {

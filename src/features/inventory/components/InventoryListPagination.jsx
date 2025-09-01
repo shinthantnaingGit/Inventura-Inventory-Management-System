@@ -7,11 +7,11 @@ import "ldrs/react/Spiral.css";
 
 const InventoryListPagination = ({ setUrl, products }) => {
   const router = useRouter();
-  console.log(products);
+  // console.log(products);
   const pageRef = useRef();
   const handleNext = () => {
     const url = new URL(products?.links?.next);
-    console.log(url.search);
+    // console.log(url.search);
     setUrl(`${productApiUrl}/${url.search}`);
     router.push(`${url.search}`);
   };
