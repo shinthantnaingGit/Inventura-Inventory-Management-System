@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { Box, Home, LogOut, ShoppingCart, Ticket } from "lucide-react";
-import useActiveMenu from "../hooks/useActiveMenu";
+import { Box, Home, ShoppingCart, Ticket } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const DashBoardSideBar = () => {
-  const { active, setActive } = useActiveMenu();
+  const pathname = usePathname();
 
   const menuItems = [
     {
@@ -14,7 +14,6 @@ const DashBoardSideBar = () => {
       icon: <Home className="size-5" />,
       path: "/dashboard",
     },
-
     {
       id: "orders",
       label: "Orders",
@@ -35,24 +34,34 @@ const DashBoardSideBar = () => {
     },
   ];
 
+  const isActive = (path) => {
+    // Exact match for the root dashboard
+    if (path === "/dashboard") return pathname === "/dashboard";
+    // Exact or nested for the rest (e.g., /dashboard/inventory/123)
+    return pathname === path || pathname.startsWith(path + "/");
+  };
+
   return (
     <aside className="hidden md:block w-56 flex-shrink-0">
       <div className="sticky top-24 space-y-2">
-        {menuItems.map((item) => (
-          <Link
-            href={item.path}
-            key={item.id}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-900 dark:text-gray-100 focus:outline-none transition-colors duration-200 shadow-sm ${
-              active === item.id
-                ? "bg-blue-500 dark:bg-blue-800/60"
-                : "bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60"
-            }`}
-            onClick={() => setActive(item.id)}
-          >
-            {item.icon}
-            <span className="text-md font-medium">{item.label}</span>
-          </Link>
-        ))}
+        {menuItems.map((item) => {
+          const active = isActive(item.path);
+          return (
+            <Link
+              href={item.path}
+              key={item.id}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-900 dark:text-gray-100 focus:outline-none transition-colors duration-200 shadow-sm ${
+                active
+                  ? "bg-blue-500 dark:bg-blue-800/60"
+                  : "bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60"
+              }`}
+              aria-current={active ? "page" : undefined}
+            >
+              {item.icon}
+              <span className="text-md font-medium">{item.label}</span>
+            </Link>
+          );
+        })}
       </div>
     </aside>
   );
