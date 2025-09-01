@@ -8,7 +8,7 @@ import "ldrs/react/Spiral.css";
 const InventoryListPagination = ({ setUrl, products }) => {
   const router = useRouter();
   // console.log(products);
-  const pageRef = useRef();
+  const limitRef = useRef();
   const searchParams = useSearchParams();
   const handleNext = () => {
     const url = new URL(products?.links?.next);
@@ -23,14 +23,25 @@ const InventoryListPagination = ({ setUrl, products }) => {
     router.push(`${url.search}`);
   };
 
-  const handleChangeLimit = () => {
-    const limit = pageRef.current.value;
-    // always reset to page=1 when changing limit
-    const url = `${productApiUrl}?limit=${limit}&page=1`;
-    setUrl(url);
-    router.push(`?limit=${limit}&page=1`);
-  };
+  // const handleChangeLimit = () => {
+  //   const limit = pageRef.current.value;
+  //   // always reset to page=1 when changing limit
+  //   const url = `${productApiUrl}?limit=${limit}&page=1`;
+  //   setUrl(url);
+  //   router.push(`?limit=${limit}&page=1`);
+  // };
 
+  const handleChangeLimit = () => {
+    const paramObj = Object.fromEntries(searchParams.entries());
+    const currentSearchParams = new URLSearchParams({
+      ...paramObj,
+      limit: limitRef.current.value,
+      page: 1,
+    });
+    const newQueryString = currentSearchParams.toString();
+    router.push(`?${newQueryString}`);
+    setUrl(`${productApiUrl}?${newQueryString}`);
+  };
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
       {/* Total */}
@@ -85,7 +96,7 @@ const InventoryListPagination = ({ setUrl, products }) => {
           Show
         </label>
         <select
-          ref={pageRef}
+          ref={limitRef}
           id="limit"
           onChange={handleChangeLimit}
           value={searchParams.get("limit") || products?.meta?.per_page || 5}
