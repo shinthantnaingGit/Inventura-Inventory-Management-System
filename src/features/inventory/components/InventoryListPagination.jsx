@@ -1,40 +1,15 @@
-import { productApiUrl } from "@/services/product";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
 import { Spiral } from "ldrs/react";
 import "ldrs/react/Spiral.css";
 
-const InventoryListPagination = ({ setUrl, products }) => {
-  const router = useRouter();
-  // console.log(products);
-  const limitRef = useRef();
-  const searchParams = useSearchParams();
-  const handleNext = () => {
-    const url = new URL(products?.links?.next);
-    // console.log(url.search);
-    setUrl(`${productApiUrl}${url.search}`);
-    router.push(`${url.search}`);
-  };
-
-  const handlePrev = () => {
-    const url = new URL(products?.links?.prev);
-    setUrl(`${productApiUrl}${url.search}`);
-    router.push(`${url.search}`);
-  };
-
-
-  const handleChangeLimit = () => {
-    const current = Object.fromEntries(searchParams.entries());
-    const params = new URLSearchParams({
-      ...current,
-      limit: String(limitRef.current.value),
-      page: "1",
-    });
-    const qs = params.toString();
-    router.push(`?${qs}`); // URL bar
-    setUrl(`${productApiUrl}?${qs}`); // SWR key
-  };
+const InventoryListPagination = ({
+  products,
+  handlePagination,
+  limitRef,
+  handleChangeLimit,
+  searchParams,
+}) => {
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
       {/* Total */}
@@ -55,7 +30,7 @@ const InventoryListPagination = ({ setUrl, products }) => {
           type="button"
           className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
           disabled={!products?.links?.prev}
-          onClick={handlePrev}
+          onClick={() => handlePagination(products?.links?.prev)}
         >
           <ChevronLeft className="size-4" /> Prev
         </button>
@@ -74,7 +49,7 @@ const InventoryListPagination = ({ setUrl, products }) => {
           type="button"
           className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
           disabled={!products?.links?.next}
-          onClick={handleNext}
+          onClick={() => handlePagination(products?.links?.next)}
         >
           Next <ChevronRight className="size-4" />
         </button>

@@ -6,53 +6,14 @@ import Link from "next/link";
 import { productApiUrl } from "@/services/product";
 import { debounce } from "lodash";
 import { useRouter, useSearchParams } from "next/navigation";
+import useProduct from "../hooks/useProduct";
 
-const InventoryActionBar = ({ setUrl }) => {
-  const searchParams = useSearchParams();
-  const searchRef = useRef();
-  const router = useRouter();
-
-  // one debounced function per mount
-  const debouncedSearch = useMemo(
-    () =>
-      debounce((value) => {
-        const q = encodeURIComponent(value.trim());
-        const params = new URLSearchParams(searchParams.toString());
-        // set q (remove if empty)
-        if (q) {
-          params.set("q", q); // URLSearchParams will encode for you
-          params.set("page", "1"); // <-- reset page
-        } else {
-          params.delete("q");
-          params.set("page", "1"); // optional: start from 1 when clearing too
-        }
-
-        // 1) update SWR key for SEARCHING
-        setUrl(`${productApiUrl}?${params.toString()}`);
-        // 2) update URL bar (shareable)
-        router.push(`?${params.toString()}`);
-      }, 500),
-    [searchParams, setUrl]
-  );
-
-  // hydrate input from URL on mount
-  useEffect(() => {
-    const q = searchParams.get("q");
-    if (q && searchRef.current) searchRef.current.value = q;
-    return () => debouncedSearch.cancel();
-  }, [debouncedSearch, searchParams]);
-
-  const handleOnChange = (e) => debouncedSearch(e.target.value);
-
-  const clearSearch = () => {
-    if (!searchRef.current) return;
-    searchRef.current.value = "";
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("q");
-    setUrl(productApiUrl); // reset SWR key
-    router.push("?"); // clear URL params
-  };
-
+const InventoryActionBar = ({
+  setUrl,
+  searchRef,
+  handleOnChange,
+  clearSearch,
+}) => {
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-5">
       {/* Search Product Input */}

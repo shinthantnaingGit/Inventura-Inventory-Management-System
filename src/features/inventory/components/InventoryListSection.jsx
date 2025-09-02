@@ -2,34 +2,28 @@
 import React, { useEffect, useState } from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryActionBar from "./InventoryActionBar";
-import InventoryListSkeleton from "./InventoryTableSkeleton";
-import { getProducts, productApiUrl } from "@/services/product";
-import useAccountStore from "@/store/useAccountStore";
-import {
-  AlertTriangle,
-  ChevronLeft,
-  ChevronRight,
-  RotateCcw,
-} from "lucide-react";
-import { AfterContext } from "next/dist/server/after/after-context";
+import { AlertTriangle, RotateCcw } from "lucide-react";
 import InventoryTableSkeleton from "./InventoryTableSkeleton";
-import { useSearchParams } from "next/navigation";
 import InventoryListPagination from "./InventoryListPagination";
+import useProduct from "../hooks/useProduct";
 
 const InventoryListSection = () => {
-  const searchParams = useSearchParams();
-  // SWR hook (get mutate so we can Retry on error)
-  const [url, setUrl] = useState(productApiUrl);
-  const { data: products, error, isLoading, mutate } = getProducts(url);
-  useEffect(() => {
-    setUrl(`${productApiUrl}?${searchParams.toString()}`);
-  }, []);
-
-  
-
-
+  const {
+    setUrl,
+    products,
+    productsError,
+    mutate,
+    productsLoading,
+    handlePagination,
+    limitRef,
+    handleChangeLimit,
+    searchParams,
+    searchRef,
+    handleOnChange,
+    clearSearch,
+  } = useProduct();
   // Error → show compact card + Retry
-  if (error) {
+  if (productsError) {
     return (
       <section className="rounded-xl bg-[--color-card] text-[--color-fg] border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-start gap-3">
@@ -57,7 +51,7 @@ const InventoryListSection = () => {
 
             {/* Optional: surface the actual message for debugging */}
             <pre className="mt-4 max-h-28 overflow-auto text-xs text-red-400/90">
-              {String(error?.message ?? "Unknown error")}
+              {String(productsError?.message ?? "Unknown error")}
             </pre>
           </div>
         </div>
@@ -69,15 +63,27 @@ const InventoryListSection = () => {
   return (
     <section>
       <div className="px-4 sm:px-6 lg:px-10 py-4 space-y-6">
-        <InventoryActionBar setUrl={setUrl} />
-        {isLoading ? (
+        <InventoryActionBar
+          searchRef={searchRef}
+          setUrl={setUrl}
+          handleOnChange={handleOnChange}
+          clearSearch={clearSearch}
+        />
+        {productsLoading ? (
           <InventoryTableSkeleton rows={6} />
         ) : (
           <InventoryTable products={products?.data} />
         )}
       </div>
       {/* Pagination controls */}
-   <InventoryListPagination setUrl={setUrl} products={products}/>
+      <InventoryListPagination
+        setUrl={setUrl}
+        products={products}
+        handlePagination={handlePagination}
+        limitRef={limitRef}
+        handleChangeLimit={handleChangeLimit}
+        searchParams={searchParams}
+      />
     </section>
   );
 };
