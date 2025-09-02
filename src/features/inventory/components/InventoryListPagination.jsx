@@ -13,34 +13,27 @@ const InventoryListPagination = ({ setUrl, products }) => {
   const handleNext = () => {
     const url = new URL(products?.links?.next);
     // console.log(url.search);
-    setUrl(`${productApiUrl}/${url.search}`);
+    setUrl(`${productApiUrl}${url.search}`);
     router.push(`${url.search}`);
   };
 
   const handlePrev = () => {
     const url = new URL(products?.links?.prev);
-    setUrl(`${productApiUrl}/${url.search}`);
+    setUrl(`${productApiUrl}${url.search}`);
     router.push(`${url.search}`);
   };
 
-  // const handleChangeLimit = () => {
-  //   const limit = pageRef.current.value;
-  //   // always reset to page=1 when changing limit
-  //   const url = `${productApiUrl}?limit=${limit}&page=1`;
-  //   setUrl(url);
-  //   router.push(`?limit=${limit}&page=1`);
-  // };
 
   const handleChangeLimit = () => {
-    const paramObj = Object.fromEntries(searchParams.entries());
-    const currentSearchParams = new URLSearchParams({
-      ...paramObj,
-      limit: limitRef.current.value,
-      page: 1,
+    const current = Object.fromEntries(searchParams.entries());
+    const params = new URLSearchParams({
+      ...current,
+      limit: String(limitRef.current.value),
+      page: "1",
     });
-    const newQueryString = currentSearchParams.toString();
-    router.push(`?${newQueryString}`);
-    setUrl(`${productApiUrl}?${newQueryString}`);
+    const qs = params.toString();
+    router.push(`?${qs}`); // URL bar
+    setUrl(`${productApiUrl}?${qs}`); // SWR key
   };
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
