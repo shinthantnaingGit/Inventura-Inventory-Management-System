@@ -13,7 +13,7 @@ import {
 
 const DashBoardSection = () => {
   return (
-    <section className="px-4 sm:px-6 lg:px-10 py-4 space-y-6">
+    <section className="px-4 sm:px-6 lg:px-10 py-4  space-y-6">
       {/* Top bar */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>

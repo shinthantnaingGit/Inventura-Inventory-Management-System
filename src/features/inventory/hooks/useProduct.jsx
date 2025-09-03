@@ -1,16 +1,18 @@
 "use client";
 import { getProducts, productApiUrl } from "@/services/product";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const useProduct = () => {
-  const searchParams = useSearchParams();
-  const searchRef = useRef();
   const router = useRouter();
-  const limitRef = useRef();
+  const searchParams = useSearchParams();
 
-  // SWR hook (get mutate so we can Retry on error)
+  // UI refs (controlled by hook, used by UI)
+  const searchRef = useRef(null);
+  const limitRef = useRef(null);
+
+  // SWR key
   const [url, setUrl] = useState(productApiUrl);
   const {
     data: products,
@@ -19,88 +21,108 @@ const useProduct = () => {
     mutate,
   } = getProducts(url);
 
-  //  <<<<<<< SEARCH SYSTEM >>>>>>>
-  // one debounced function per mount
+  // Helper: push merged params to URL (shareable) and SWR key updates automatically via effect
+  const updateParams = (patch) => {
+    const current = Object.fromEntries(searchParams.entries());
+    const merged = new URLSearchParams({ ...current, ...patch });
+    router.push(`?${merged.toString()}`);
+  };
+
+  // Debounced search
   const debouncedSearch = useMemo(
     () =>
       debounce((value) => {
-        const q = encodeURIComponent(value.trim());
-        const params = new URLSearchParams(searchParams.toString());
-        // set q (remove if empty)
-        if (q) {
-          params.set("q", q); // URLSearchParams will encode for you
-          params.set("page", "1"); // <-- reset page
+        const v = value.trim();
+        if (v) {
+          updateParams({ q: v, page: "1" });
         } else {
+          const params = new URLSearchParams(searchParams.toString());
           params.delete("q");
-          params.set("page", "1"); // optional: start from 1 when clearing too
+          params.set("page", "1");
+          router.push(`?${params.toString()}`);
         }
-
-        // 1) update SWR key for SEARCHING
-        // setUrl(`${productApiUrl}?${params.toString()}`);
-        // 2) update URL bar (shareable)
-        router.push(`?${params.toString()}`);
       }, 500),
-    [searchParams]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchParams] // router is stable; searchParams change should rebuild
   );
 
-  // hydrate input from URL on mount
-  //   useEffect(() => {}, [searchParams]);
+  // Wire input change to debounce
+  const handleOnChange = (e) => debouncedSearch(e.target.value);
+
+  // Clear search (back to base or keep other params)
+  const handleClearSearch = () => {
+    if (searchRef.current) searchRef.current.value = "";
+    const current = Object.fromEntries(searchParams.entries());
+    const merged = new URLSearchParams(current);
+    merged.delete("q");
+    merged.set("page", "1");
+    router.push(`?${merged.toString()}`);
+  };
+
+  // Pagination using API links (prev/next)
+  const handlePagination = (absoluteLink) => {
+    if (!absoluteLink) return;
+    const u = new URL(absoluteLink);
+    const pageParams = Object.fromEntries(u.searchParams.entries());
+    updateParams(pageParams);
+  };
+
+  // Page limit change (preserve other filters, reset page=1)
+  const handleChangeLimit = () => {
+    const limit = String(limitRef.current?.value || "");
+    if (!limit) return;
+    updateParams({ limit, page: "1" });
+  };
+
+  // Sync: whenever URL params change, rebuild SWR key and hydrate inputs
   useEffect(() => {
-    setUrl(`${productApiUrl}?${searchParams.toString()}`);
+    const qs = searchParams.toString();
+    setUrl(qs ? `${productApiUrl}?${qs}` : productApiUrl);
+
     const q = searchParams.get("q");
     if (q && searchRef.current) searchRef.current.value = q;
+
+    // set initial limit select value
+    const limit = searchParams.get("limit");
+    if (limit && limitRef.current) limitRef.current.value = limit;
+
     return () => debouncedSearch.cancel();
   }, [searchParams, debouncedSearch]);
 
-  const handleOnChange = (e) => debouncedSearch(e.target.value);
-
-  const clearSearch = () => {
-    if (!searchRef.current) return;
-    searchRef.current.value = "";
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("q");
-    // setUrl(productApiUrl); // reset SWR key
-    router.push("?"); // clear URL params
-  };
-  //  <<<<<<< SEARCH SYSTEM >>>>>>>
-
-  //  <<<<<<< PAGINATION SYSTEM >>>>>>>
-  const handlePagination = (link) => {
-    const url = new URL(link);
-    // console.log(url.search);
-    // setUrl(`${productApiUrl}${url.search}`);
-    router.push(`${url.search}`);
-  };
-
-  const handleChangeLimit = () => {
-    const current = Object.fromEntries(searchParams.entries());
-    const params = new URLSearchParams({
-      ...current,
-      limit: String(limitRef.current.value),
-      page: "1",
-    });
-    const qs = params.toString();
-    router.push(`?${qs}`); // URL bar
-    // setUrl(`${productApiUrl}?${qs}`); // SWR key
-  };
-  //  <<<<<<< PAGINATION SYSTEM >>>>>>>
+  // Convenience values for UI (avoid passing raw searchParams/products around)
+  const meta = products?.meta || {};
+  const links = products?.links || {};
+  const total = meta.total;
+  const currentPage = meta.current_page;
+  const lastPage = meta.last_page ;
+  const perPage =searchParams.get("limit") || products?.meta?.per_page ;
 
   return {
-    searchParams,
-    url,
-    setUrl,
-    mutate,
+    // data
     products,
     productsError,
     productsLoading,
+    mutate,
+
+    // refs
     searchRef,
-    router,
-    handleOnChange,
-    clearSearch,
     limitRef,
-    handleChangeLimit,
+
+    // handlers
+    handleOnChange,
+    handleClearSearch,
     handlePagination,
+    handleChangeLimit,
+
+    // derived UI values
+    total,
+    currentPage,
+    lastPage,
+    perPage,
+    hasPrev: Boolean(links.prev),
+    hasNext: Boolean(links.next),
+    prevLink: links.prev,
+    nextLink: links.next,
   };
 };
-
 export default useProduct;

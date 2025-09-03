@@ -1,34 +1,26 @@
-"use client";
-import { useEffect } from "react";
-
-import useAccountStore from "@/store/useAccountStore";
-import { useRouter } from "next/navigation";
-import AuthHeader from "@/features/auth/components/AuthHeader";
-import { token } from "@/services/profile";
-import DashBoardSideBar from "./DashBoardSideBar";
+import DashBoardBottomNav from "./DashBoardBottomNav";
 import DashBoardHeader from "./DashBoardHeader";
+import DashBoardSideBar from "./DashBoardSideBar";
 
 const DashBoardLayout = ({ children }) => {
-  const router = useRouter();
-  // const { token } = useAccountStore.getState();
- 
-  // if(!token){
-  //   return <p>You are not allowed to log in</p>
-  // }
-  useEffect(() => {
-    if (!token) {
-      router.push("/login");
-    }
-  }, [token]);
-  //need dependencies to use token directly from useAccountStore
-
   return (
-    <main className="py-2 px-5 min-h-screen bg-gray-50 dark:bg-gray-900 ">
-      <DashBoardHeader/>
-      <div className="flex gap-6 items-start p-5">
-        <DashBoardSideBar />
-        <div className="flex-1 border py-5 px-3 dark:border-gray-700 border-gray-300 rounded-xl">{children}</div>
+    <main className="pb-16 min-h-screen  bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <DashBoardHeader />
+
+      {/* Sidebar + content (desktop only) */}
+      <div className="hidden md:block p-5">
+        <div className="w-full flex items-start border border-gray-300 dark:border-gray-700 rounded-lg shadow-md">
+          <DashBoardSideBar />
+          <div className="flex-1 bg-stone-100 dark:bg-gray-800 px-3">{children}</div>
+        </div>
       </div>
+
+      {/* Content only (mobile) */}
+      <div className="md:hidden p-5">{children}</div>
+
+      {/* Bottom nav (mobile only) */}
+      <DashBoardBottomNav />
     </main>
   );
 };

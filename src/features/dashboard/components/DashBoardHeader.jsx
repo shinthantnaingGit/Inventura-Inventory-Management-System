@@ -13,6 +13,7 @@ import {
   User,
 } from "lucide-react";
 import LogOutButton from "./LogOutButton";
+import InventuraMark from "@/components/InventuraMark";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -34,7 +35,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
   }, []);
 
   return (
-    <header className="sticky mb-5 top-0 z-40 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
+    <header className="sticky mb-5 top-0 z-40 border-b border-gray-200 dark:border-gray-600 bg-white/70 dark:bg-gray-900/60 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
       <div className="mx-auto px-4 sm:px-6 lg:px-10">
         <div className="h-16 flex items-center justify-between gap-3">
           {/* Left: mobile menu + brand */}
@@ -50,12 +51,12 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
 
             <Link
               href="/dashboard"
-              className="font-bold text-lg sm:text-xl tracking-tight text-gray-900 dark:text-gray-100"
+              className="flex items-center gap-2 font-bold text-lg sm:text-xl tracking-tight text-gray-900 dark:text-gray-100"
             >
-              {brand}
+              <InventuraMark className="size-6" />
+              <span>Inventura</span>
             </Link>
           </div>
-
           {/* Center: search (hidden on xs) */}
           <div className="hidden md:block flex-1 max-w-xl">
             <div className="relative">
@@ -93,7 +94,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
             </button>
 
             {/* Theme toggle (Flowbite) */}
-            <div className="hidden sm:block">
+            <div className="block">
               <DarkThemeToggle />
             </div>
 

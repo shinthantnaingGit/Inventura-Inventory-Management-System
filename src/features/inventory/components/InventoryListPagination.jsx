@@ -4,11 +4,17 @@ import { Spiral } from "ldrs/react";
 import "ldrs/react/Spiral.css";
 
 const InventoryListPagination = ({
-  products,
-  handlePagination,
+  total,
+  currentPage,
+  lastPage,
+  perPage,
+  hasPrev,
+  hasNext,
+  prevLink,
+  nextLink,
   limitRef,
   handleChangeLimit,
-  searchParams,
+  handlePagination
 }) => {
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
@@ -18,9 +24,7 @@ const InventoryListPagination = ({
           Total
         </span>
         <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-          {products?.meta?.total ?? (
-            <Spiral size="20" speed="0.9" color="gray" />
-          )}
+          {total ?? <Spiral size="20" speed="0.9" color="gray" />}
         </span>
       </div>
 
@@ -29,27 +33,22 @@ const InventoryListPagination = ({
         <button
           type="button"
           className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
-          disabled={!products?.links?.prev}
-          onClick={() => handlePagination(products?.links?.prev)}
+          disabled={!hasPrev}
+          onClick={() => handlePagination(prevLink)}
         >
           <ChevronLeft className="size-4" /> Prev
         </button>
 
         <span className="text-sm text-gray-600 dark:text-gray-400">
-          {products?.meta?.current_page ?? (
-            <Spiral size="20" speed="0.9" color="gray" />
-          )}{" "}
-          /{" "}
-          {products?.meta?.last_page ?? (
-            <Spiral size="20" speed="0.9" color="gray" />
-          )}
+          {currentPage ?? <Spiral size="20" speed="0.9" color="gray" />} /{" "}
+          {lastPage ?? <Spiral size="20" speed="0.9" color="gray" />}
         </span>
 
         <button
           type="button"
           className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
-          disabled={!products?.links?.next}
-          onClick={() => handlePagination(products?.links?.next)}
+          disabled={!hasNext}
+          onClick={() => handlePagination(nextLink)}
         >
           Next <ChevronRight className="size-4" />
         </button>
@@ -67,7 +66,7 @@ const InventoryListPagination = ({
           ref={limitRef}
           id="limit"
           onChange={handleChangeLimit}
-          value={searchParams.get("limit") || products?.meta?.per_page || 5}
+          value={perPage ?? ""}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {[5, 10, 20, 50].map((n) => (

@@ -1,70 +1,119 @@
 "use client";
 import React from "react";
-import { Box, Home, ShoppingCart, Ticket } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home, ShoppingCart, Ticket, Box, ChevronRight } from "lucide-react";
+import InventuraMark from "@/components/InventuraMark";
 
-const DashBoardSideBar = () => {
+const DashBoardSideBar = ({ onNavigate }) => {
   const pathname = usePathname();
-  console.log(usePathname())
 
+  // keep your items; only styling changes
   const menuItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: <Home className="size-5" />,
-      path: "/dashboard",
-    },
+    { id: "dashboard", label: "Dashboard", icon: Home, path: "/dashboard" },
     {
       id: "orders",
       label: "Orders",
-      icon: <ShoppingCart className="size-5" />,
+      icon: ShoppingCart,
       path: "/dashboard/orders",
     },
     {
       id: "vouchers",
       label: "Vouchers",
-      icon: <Ticket className="size-5" />,
+      icon: Ticket,
       path: "/dashboard/vouchers",
     },
     {
       id: "inventory",
       label: "Inventory",
-      icon: <Box className="size-5" />,
+      icon: Box,
       path: "/dashboard/inventory",
     },
   ];
 
   const isActive = (path) => {
-    // Exact match for the root dashboard
     if (path === "/dashboard") return pathname === "/dashboard";
-    // Exact or nested for the rest (e.g., /dashboard/inventory/123)
     return pathname === path || pathname.startsWith(path + "/");
   };
 
   return (
-    <aside className="hidden md:block w-56 flex-shrink-0">
-      <div className="sticky top-24 space-y-2">
-        {menuItems.map((item) => {
-          const active = isActive(item.path);
-          return (
-            <Link
-              href={item.path}
-              key={item.id}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-gray-900 dark:text-gray-100 focus:outline-none transition-colors duration-200 shadow-sm ${
-                active
-                  ? "bg-blue-500 dark:bg-blue-800/60"
-                  : "bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60"
-              }`}
-              aria-current={active ? "page" : undefined}
-            >
-              {item.icon}
-              <span className="text-md font-medium">{item.label}</span>
-            </Link>
-          );
-        })}
+    <section className="w-56 h-[80vh] dark:bg-gray flex-shrink-0 px-1  bg-stone-900 dark:bg-stone-50 rounded-l-lg border-r-gray-300 dark:border-r-gray-700 border-r ">
+      {/* Panel shell matches your cards */}
+      <div className=" h-full flex flex-col  p-1 ">
+    
+
+        {/* Navigation */}
+        <nav className="space-y-1">
+          {menuItems.map(({ id, label, icon: Icon, path }) => {
+            const active = isActive(path);
+            return (
+              <Link
+                key={id}
+                href={path}
+                onClick={onNavigate}
+                aria-current={active ? "page" : undefined}
+                className={[
+                  "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
+                  "border border-transparent",
+                  active
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-sm"
+                    : "hover:bg-blue-50/70 dark:hover:bg-blue-900/20 text-gray-300 dark:text-gray-700 border-gray-200/0 dark:border-gray-800/0",
+                ].join(" ")}
+              >
+                {/* Icon chip */}
+                <span
+                  className={[
+                    "grid place-items-center size-8 rounded-lg ring-1",
+                    active
+                      ? "bg-white/20 ring-white/30"
+                      : "bg-white dark:bg-gray-900 ring-gray-200 dark:ring-gray-800 group-hover:ring-blue-300/60",
+                  ].join(" ")}
+                >
+                  <Icon
+                    className={[
+                      "size-4",
+                      active
+                        ? "text-white"
+                        : "text-gray-700 dark:text-gray-300",
+                    ].join(" ")}
+                  />
+                </span>
+
+                {/* Label */}
+                <span className={active ? "font-medium" : "font-medium"}>
+                  {label}
+                </span>
+
+                {/* Chevron hint (subtle) */}
+                <ChevronRight
+                  className={[
+                    "ml-auto size-4 transition-opacity",
+                    active
+                      ? "opacity-100"
+                      : "opacity-0 group-hover:opacity-100 text-gray-400",
+                  ].join(" ")}
+                />
+
+                {/* Focus ring for a11y */}
+                <span
+                  className={[
+                    "pointer-events-none absolute inset-0 rounded-xl ring-2 ring-transparent",
+                    "focus-within:ring-blue-500/50",
+                  ].join(" ")}
+                />
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer strip to match your divider rhythm */}
+        <div className="mt-auto bg-gray-200 dark:bg-gray-800 rounded"/>
+          <div className="mt-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/70 dark:bg-gray-800/60 px-3 py-2 text-[11px] text-gray-600 dark:text-gray-400">
+            <span>Tip: Use the search on top 🔍</span>
+          </div>
+        
       </div>
-    </aside>
+    </section>
   );
 };
 

@@ -1,19 +1,8 @@
 "use client";
-
-import React, { useEffect, useMemo, useRef } from "react";
 import { Search, Plus, X } from "lucide-react";
 import Link from "next/link";
-import { productApiUrl } from "@/services/product";
-import { debounce } from "lodash";
-import { useRouter, useSearchParams } from "next/navigation";
-import useProduct from "../hooks/useProduct";
 
-const InventoryActionBar = ({
-  setUrl,
-  searchRef,
-  handleOnChange,
-  clearSearch,
-}) => {
+const InventoryActionBar = ({ searchRef, handleOnChange, handleClearSearch }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-5">
       {/* Search Product Input */}
@@ -32,7 +21,7 @@ const InventoryActionBar = ({
         {searchRef.current?.value && (
           <button
             type="button"
-            onClick={clearSearch}
+            onClick={handleClearSearch}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           >
             <X className="w-4 h-4" />

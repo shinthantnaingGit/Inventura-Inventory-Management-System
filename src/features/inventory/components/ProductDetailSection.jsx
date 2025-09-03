@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getProduct } from "@/services/product";
 import {
   AlertTriangle,
@@ -12,11 +12,13 @@ import {
   Calendar,
   Clock,
   Pencil,
+  ArrowLeft,
 } from "lucide-react";
 import ProductDetailSkeleton from "./ProductDetailSkeleton";
 
 const ProductDetailSection = () => {
   const { id } = useParams();
+  const router = useRouter();
   // Use SWR-style hook to fetch a single product
   const { data: product, error, isLoading, mutate } = getProduct(id);
 
@@ -74,11 +76,22 @@ const ProductDetailSection = () => {
 
   // Success state → creative card layout
   return (
-    <section className="">
+    <section className="h-[80vh] mx-auto max-w-[80%] sm:max-w-[60%] sm:p-5">
+        <button
+              type="button"
+              onClick={() => router.push("/dashboard/inventory")}
+              className="mb-5 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+                   bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+                   text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+                   transition active:scale-95"
+            >
+              <ArrowLeft className="size-4" />
+              <span>Back to Inventory</span>
+            </button>
       <h3 className="text-gray-900 text-xl dark:text-gray-100 font-bold mb-5">
         Product Detail
       </h3>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-10 space-y-6 mx-auto max-w-[100%] sm:max-w-[70%] lg:max-w-[60%]">
+      <div className="bg-white border dark:border-gray-700 border-gray-300 dark:bg-gray-800 rounded-xl p-6">
         {/* Top row: ID badge, product name, and edit button */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700">
@@ -143,6 +156,17 @@ const ProductDetailSection = () => {
           </div>
         </div>
       </div>
+         <button
+        type="button"
+        onClick={() => router.push("/dashboard/inventory")}
+        className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+             bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             transition active:scale-95"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Inventory</span>
+      </button>
     </section>
   );
 };

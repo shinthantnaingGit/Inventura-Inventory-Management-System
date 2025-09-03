@@ -1,5 +1,6 @@
 "use client";
 import { storeProduct } from "@/services/product";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -40,7 +41,20 @@ const ProductCreateForm = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] mb-5">
+    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] h-[80vh] sm:p-5">
+      {/* 🔙 Back button */}
+      <button
+        type="button"
+        onClick={() => router.push("/dashboard/inventory")}
+        className="mb-5 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+             bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             transition active:scale-95"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Inventory</span>
+      </button>
+
       <h3 className="text-gray-900 text-xl dark:text-gray-100 font-bold mb-5">
         Create New Product
       </h3>
@@ -67,9 +81,9 @@ const ProductCreateForm = () => {
               className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                        text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.product && (
+            {errors.product_name && (
               <p className="mt-1 text-sm text-red-500">
-                {errors.product.message}
+                {errors.product_name.message}
               </p>
             )}
           </div>
@@ -152,6 +166,17 @@ const ProductCreateForm = () => {
           </div>
         </form>
       </div>
+      <button
+        type="button"
+        onClick={() => router.push("/dashboard/inventory")}
+        className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+             bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             transition active:scale-95"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Inventory</span>
+      </button>
     </div>
   );
 };

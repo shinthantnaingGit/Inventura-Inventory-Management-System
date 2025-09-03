@@ -5,7 +5,7 @@ import Link from "next/link";
 import { confirmDialog } from "primereact/confirmdialog"; // For confirmDialog method
 import { destroyProduct, productApiUrl } from "@/services/product";
 import { toast } from "sonner";
-import { mutate, useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 const InventoryTableRow = ({ product: { id, product_name, price } }) => {
   const { mutate } = useSWRConfig();

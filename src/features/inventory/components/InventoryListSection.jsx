@@ -6,21 +6,37 @@ import { AlertTriangle, RotateCcw } from "lucide-react";
 import InventoryTableSkeleton from "./InventoryTableSkeleton";
 import InventoryListPagination from "./InventoryListPagination";
 import useProduct from "../hooks/useProduct";
+import InventoryListMobile from "./InventoryListMobile";
+import InventoryListMobileSkeleton from "./InventoryListMobileSkeleton";
+import InventoryListPaginationMobile from "./InventoryListPaginationMobile";
 
 const InventoryListSection = () => {
   const {
-    setUrl,
+    // data
     products,
     productsError,
-    mutate,
     productsLoading,
-    handlePagination,
-    limitRef,
-    handleChangeLimit,
-    searchParams,
+    mutate,
+
+    // refs
     searchRef,
+    limitRef,
+
+    // handlers
     handleOnChange,
-    clearSearch,
+    handleClearSearch,
+    handlePagination,
+    handleChangeLimit,
+
+    // pagination
+    total,
+    currentPage,
+    lastPage,
+    perPage,
+    hasPrev,
+    hasNext,
+    prevLink,
+    nextLink,
   } = useProduct();
   // Error → show compact card + Retry
   if (productsError) {
@@ -61,29 +77,64 @@ const InventoryListSection = () => {
 
   // Success → your normal UI
   return (
-    <section>
-      <div className="px-4 sm:px-6 lg:px-10 py-4 space-y-6">
+    <section className="h-[80vh]">
+      <div className=" px-4 sm:px-6 lg:px-10 pt-4">
         <InventoryActionBar
           searchRef={searchRef}
-          setUrl={setUrl}
           handleOnChange={handleOnChange}
-          clearSearch={clearSearch}
+          handleClearSearch={handleClearSearch}
         />
-        {productsLoading ? (
-          <InventoryTableSkeleton rows={6} />
-        ) : (
-          <InventoryTable products={products?.data} />
-        )}
+        <div className="hidden sm:block">
+          {productsLoading ? (
+            <InventoryTableSkeleton rows={6} />
+          ) : (
+            <InventoryTable products={products?.data} />
+          )}
+        </div>
+
+        <div className="block sm:hidden">
+          {productsLoading ? (
+            <InventoryListMobileSkeleton rows={6} />
+          ) : (
+            <InventoryListMobile products={products?.data} />
+          )}
+        </div>
+
+        {/* Pagination controls */}
+        <div className="hidden md:block">
+          <InventoryListPagination
+            total={total}
+            currentPage={currentPage}
+            lastPage={lastPage}
+            perPage={perPage}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            prevLink={prevLink}
+            nextLink={nextLink}
+            limitRef={limitRef}
+            handleChangeLimit={handleChangeLimit}
+            handlePagination={handlePagination}
+          />
+        </div>
+
+        {/* Mobile pagination */}
+        <div className="md:hidden">
+          <InventoryListPaginationMobile
+            total={total}
+            currentPage={currentPage}
+            lastPage={lastPage}
+            perPage={perPage}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            prevLink={prevLink}
+            nextLink={nextLink}
+            limitRef={limitRef}
+            handleChangeLimit={handleChangeLimit}
+            handlePagination={handlePagination}
+            // sticky // uncomment to stick controls to bottom on phones
+          />
+        </div>
       </div>
-      {/* Pagination controls */}
-      <InventoryListPagination
-        setUrl={setUrl}
-        products={products}
-        handlePagination={handlePagination}
-        limitRef={limitRef}
-        handleChangeLimit={handleChangeLimit}
-        searchParams={searchParams}
-      />
     </section>
   );
 };

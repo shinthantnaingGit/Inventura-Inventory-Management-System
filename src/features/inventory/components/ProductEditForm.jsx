@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import { getProduct, updateProduct } from "@/services/product";
+import { ArrowLeft } from "lucide-react";
+import ProductEditSkeleton from "./ProductEditSkeleton";
 
 const ProductEditForm = () => {
   const router = useRouter();
@@ -74,20 +76,7 @@ const ProductEditForm = () => {
 
   // Loading / Error minimal states (keeps it simple & consistent)
   if (isLoading) {
-    return (
-      <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%]">
-        <div className="bg-white border dark:border-gray-700 border-gray-300 dark:bg-gray-800 rounded-xl p-6">
-          <div className="space-y-4 animate-pulse">
-            <div className="h-5 w-40 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-5 w-56 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-8 w-full sm:w-36 bg-gray-200 dark:bg-gray-700 rounded" />
-          </div>
-        </div>
-      </div>
-    );
+    return <ProductEditSkeleton />;
   }
 
   if (error) {
@@ -103,7 +92,23 @@ const ProductEditForm = () => {
   }
 
   return (
-    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%]">
+    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] h-[80vh] sm:p-5">
+      {/* 🔙 Back button */}
+      <button
+        type="button"
+        onClick={() => router.push("/dashboard/inventory")}
+        className="mb-5 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+             bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             transition active:scale-95"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Inventory</span>
+      </button>
+
+      <h3 className="text-gray-900 text-xl dark:text-gray-100 font-bold mb-5">
+        Edit Product
+      </h3>
       <div className="bg-white border dark:border-gray-700 border-gray-300 dark:bg-gray-800 rounded-xl p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Product */}
@@ -219,6 +224,18 @@ const ProductEditForm = () => {
           </div>
         </form>
       </div>
+      <button
+        type="button"
+        onClick={() => router.push("/dashboard/inventory")}
+        className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
+             bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
+             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             transition active:scale-95"
+      >
+        <ArrowLeft className="size-4" />
+        <span>Back to Inventory</span>
+      </button>
+
     </div>
   );
 };
