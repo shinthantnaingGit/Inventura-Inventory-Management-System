@@ -26,7 +26,6 @@ export default function InventoryListPaginationMobile({
   hasNext,
   prevLink,
   nextLink,
-  limitRef,
   handleChangeLimit,
   handlePagination,
   sticky = false,
@@ -46,7 +45,9 @@ export default function InventoryListPaginationMobile({
       <div className="flex items-center justify-between gap-3">
         {/* Total (compact pill) */}
         <div className="inline-flex items-center gap-1 rounded-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-2.5 py-1 shadow-sm">
-          <span className="text-[11px] text-gray-500 dark:text-gray-400">Total</span>
+          <span className="text-[11px] text-gray-500 dark:text-gray-400">
+            Total
+          </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
             {total ?? <Spiral size="18" speed="0.9" color="gray" />}
           </span>
@@ -59,10 +60,10 @@ export default function InventoryListPaginationMobile({
           </label>
           <div className="relative">
             <select
-              ref={limitRef}
               id="limit-mobile"
-              onChange={handleChangeLimit}
-              value={perPage ?? ""}   // important: avoid value=null warning
+              onChange={(e) => handleChangeLimit(e.target.value)}
+              defaultValue={String(perPage ?? "5")}
+              // important: avoid value=null warning
               className="appearance-none rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 pr-7 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-[112px]"
               aria-label="Items per page"
             >

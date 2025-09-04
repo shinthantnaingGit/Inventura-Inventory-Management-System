@@ -40,14 +40,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Shin Bakery" }) => {
         <div className="h-16 flex items-center justify-between gap-3">
           {/* Left: mobile menu + brand */}
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={onOpenSidebar}
-              className="inline-flex lg:hidden items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-2 hover:bg-gray-50 dark:hover:bg-gray-700"
-              aria-label="Open sidebar"
-            >
-              <Menu className="size-5" />
-            </button>
+         
 
             <Link
               href="/dashboard"

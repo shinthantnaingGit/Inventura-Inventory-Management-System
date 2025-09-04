@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useRef } from "react";
+import React from "react";
 import { Spiral } from "ldrs/react";
 import "ldrs/react/Spiral.css";
 
@@ -12,10 +12,14 @@ const InventoryListPagination = ({
   hasNext,
   prevLink,
   nextLink,
-  limitRef,
+
   handleChangeLimit,
-  handlePagination
+  handlePagination,
 }) => {
+  const handleChange = (e) => {
+    console.log(limitRef.current.value);
+    console.log(e.target.value);
+  };
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
       {/* Total */}
@@ -54,7 +58,7 @@ const InventoryListPagination = ({
         </button>
       </div>
 
-      {/* Dedicated select box: items per page */}
+      {/* Items per page */}
       <div className="flex items-center gap-2">
         <label
           htmlFor="limit"
@@ -63,10 +67,10 @@ const InventoryListPagination = ({
           Show
         </label>
         <select
-          ref={limitRef}
           id="limit"
-          onChange={handleChangeLimit}
-          value={perPage ?? ""}
+          // ✅ Use defaultValue so it's uncontrolled (works with ref)
+          onChange={(e) => handleChangeLimit(e.target.value)}
+          defaultValue={String(perPage ?? "5")}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {[5, 10, 20, 50].map((n) => (

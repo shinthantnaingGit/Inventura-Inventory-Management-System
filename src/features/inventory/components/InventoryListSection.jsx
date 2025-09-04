@@ -20,7 +20,6 @@ const InventoryListSection = () => {
 
     // refs
     searchRef,
-    limitRef,
 
     // handlers
     handleOnChange,
@@ -77,7 +76,7 @@ const InventoryListSection = () => {
 
   // Success → your normal UI
   return (
-    <section className="h-[80vh]">
+    <section>
       <div className=" px-4 sm:px-6 lg:px-10 pt-4">
         <InventoryActionBar
           searchRef={searchRef}
@@ -111,7 +110,6 @@ const InventoryListSection = () => {
             hasNext={hasNext}
             prevLink={prevLink}
             nextLink={nextLink}
-            limitRef={limitRef}
             handleChangeLimit={handleChangeLimit}
             handlePagination={handlePagination}
           />
@@ -128,7 +126,6 @@ const InventoryListSection = () => {
             hasNext={hasNext}
             prevLink={prevLink}
             nextLink={nextLink}
-            limitRef={limitRef}
             handleChangeLimit={handleChangeLimit}
             handlePagination={handlePagination}
             // sticky // uncomment to stick controls to bottom on phones
