@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const ProductCreateForm = () => {
   const {
@@ -15,6 +16,7 @@ const ProductCreateForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const { t } = useI18n();
   const confirmed = watch("confirm");
   const router = useRouter();
 
@@ -26,23 +28,24 @@ const ProductCreateForm = () => {
       });
       const result = await res.json();
       if (!res.ok) {
-        throw new Error(result.message || "Failed to create product");
+        throw new Error(
+          t("productCreate.toast.fail", "商品の作成に失敗しました")
+        );
       }
-      toast.success(result.message || "Product created successfully");
-      reset(); // optional
-      // router.push("/dashboard/inventory");
+      toast.success(t("productCreate.toast.success", "商品を作成しました"));
+      reset();
       router.push(`/dashboard/inventory/${result.data.id}`);
       if (data.goback) {
         router.push(`/dashboard/inventory`);
       }
     } catch (err) {
-      toast.error(err.message || "Something went wrong");
+      toast.error(t("productCreate.toast.error", "エラーが発生しました"));
     }
   };
 
   return (
     <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] h-[80vh] sm:p-5">
-      {/* 🔙 Back button */}
+      {/* 🔙 Back button (mobile) */}
       <button
         type="button"
         onClick={() => router.push("/dashboard/inventory")}
@@ -52,12 +55,13 @@ const ProductCreateForm = () => {
              transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Inventory</span>
+        <span>{t("productCreate.backToInventory", "在庫に戻る")}</span>
       </button>
 
       <h3 className="text-gray-900 text-xl dark:text-gray-100 font-bold mb-5">
-        Create New Product
+        {t("productCreate.title", "新規商品を作成")}
       </h3>
+
       <div className="bg-white border dark:border-gray-700 border-gray-300 dark:bg-gray-800 rounded-xl p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Product */}
@@ -66,18 +70,37 @@ const ProductCreateForm = () => {
               htmlFor="product"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Product <span className="text-red-500">*</span>
+              {t("productCreate.labels.product", "商品")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               id="product"
               type="text"
-              placeholder="e.g., Data Analytics Services"
+              placeholder={t(
+                "productCreate.placeholders.product",
+                "例：データ分析サービス"
+              )}
               {...register("product_name", {
-                required: "Product is required",
-                minLength: { value: 2, message: "Min 2 characters" },
-                maxLength: { value: 80, message: "Max 80 characters" },
+                required: t(
+                  "productCreate.errors.productRequired",
+                  "商品名は必須です"
+                ),
+                minLength: {
+                  value: 2,
+                  message: t(
+                    "productCreate.errors.productMin",
+                    "2文字以上で入力してください"
+                  ),
+                },
+                maxLength: {
+                  value: 80,
+                  message: t(
+                    "productCreate.errors.productMax",
+                    "80文字以内で入力してください"
+                  ),
+                },
               })}
-              aria-invalid={!!errors.product}
+              aria-invalid={!!errors.product_name}
               className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                        text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -94,16 +117,26 @@ const ProductCreateForm = () => {
               htmlFor="price"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Price <span className="text-red-500">*</span>
+              {t("productCreate.labels.price", "価格")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               id="price"
               type="number"
-              placeholder="e.g., 1100"
+              placeholder={t("productCreate.placeholders.price", "例：1100")}
               {...register("price", {
-                required: "Price is required",
+                required: t(
+                  "productCreate.errors.priceRequired",
+                  "価格は必須です"
+                ),
                 valueAsNumber: true,
-                min: { value: 0, message: "Cannot be negative" },
+                min: {
+                  value: 0,
+                  message: t(
+                    "productCreate.errors.priceMin",
+                    "0未満にはできません"
+                  ),
+                },
               })}
               aria-invalid={!!errors.price}
               className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
@@ -121,12 +154,18 @@ const ProductCreateForm = () => {
             <input
               type="checkbox"
               {...register("confirm", {
-                required: "Please confirm to create this product",
+                required: t(
+                  "productCreate.errors.confirmRequired",
+                  "作成前に確認にチェックしてください"
+                ),
               })}
               className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
-              I confirm to create this product
+              {t(
+                "productCreate.labels.confirm",
+                "この商品を作成することを確認します"
+              )}
             </span>
           </div>
           {errors.confirm && (
@@ -141,7 +180,10 @@ const ProductCreateForm = () => {
               className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
-              Go Back To Product List After Saving
+              {t(
+                "productCreate.labels.goBackAfterSave",
+                "保存後に商品一覧へ戻る"
+              )}
             </span>
           </div>
 
@@ -153,7 +195,7 @@ const ProductCreateForm = () => {
               className="w-full sm:w-auto rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 
                        text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
-              Reset
+              {t("productCreate.actions.reset", "リセット")}
             </button>
             <button
               type="submit"
@@ -161,11 +203,15 @@ const ProductCreateForm = () => {
               className="w-full sm:w-auto rounded-lg bg-blue-600 text-white px-4 py-2 
                        hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition"
             >
-              {isSubmitting ? "Creating…" : "Create Product"}
+              {isSubmitting
+                ? t("productCreate.actions.creating", "作成中…")
+                : t("productCreate.actions.create", "商品を作成")}
             </button>
           </div>
         </form>
       </div>
+
+      {/* Back button (desktop) */}
       <button
         type="button"
         onClick={() => router.push("/dashboard/inventory")}
@@ -175,7 +221,7 @@ const ProductCreateForm = () => {
              transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Inventory</span>
+        <span>{t("productCreate.backToInventory", "在庫に戻る")}</span>
       </button>
     </div>
   );

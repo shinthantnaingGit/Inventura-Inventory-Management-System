@@ -70,6 +70,7 @@ const useProduct = () => {
     if (!limit) return;
     updateParams({ limit, page: "1" });
   };
+
   // Sync: whenever URL params change, or mount unmount
   //Hydrating SEARCH INPUT and PER PAGE
   useEffect(() => {
@@ -79,7 +80,19 @@ const useProduct = () => {
     return () => debouncedSearch.cancel();
   }, [searchParams, debouncedSearch]);
 
-  // //<-----CONVINIENCE VALUES FOR UI----->
+  // <-----SORTING SYSTEM-----> (name/price + asc/desc)
+  const sortBy = searchParams.get("sort_by") || ""; // ADDED
+  const sortDirection = searchParams.get("sort_direction") || ""; // ADDED
+
+  const handleSortBy = (value) => {
+    updateParams({ sort_by: value || "", page: "1" });
+  };
+
+  const handleSortDirection = (value) => {
+    updateParams({ sort_direction: value || "", page: "1" });
+  };
+
+  // <-----CONVINIENCE VALUES FOR UI----->
   const meta = products?.meta || {};
   const links = products?.links || {};
   const total = meta.total;
@@ -102,6 +115,8 @@ const useProduct = () => {
     handleClearSearch,
     handlePagination,
     handleChangeLimit,
+    handleSortBy,
+    handleSortDirection,
 
     // derived UI values
     total,
@@ -112,6 +127,8 @@ const useProduct = () => {
     hasNext: Boolean(links.next),
     prevLink: links.prev,
     nextLink: links.next,
+    sortBy,
+    sortDirection,
   };
 };
 

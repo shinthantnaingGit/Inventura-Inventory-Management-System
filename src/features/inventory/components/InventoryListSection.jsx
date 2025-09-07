@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import InventoryTable from "./InventoryTable";
 import InventoryActionBar from "./InventoryActionBar";
 import { AlertTriangle, RotateCcw } from "lucide-react";
@@ -9,8 +9,11 @@ import useProduct from "../hooks/useProduct";
 import InventoryListMobile from "./InventoryListMobile";
 import InventoryListMobileSkeleton from "./InventoryListMobileSkeleton";
 import InventoryListPaginationMobile from "./InventoryListPaginationMobile";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const InventoryListSection = () => {
+  const { t } = useI18n();
+
   const {
     // data
     products,
@@ -26,7 +29,8 @@ const InventoryListSection = () => {
     handleClearSearch,
     handlePagination,
     handleChangeLimit,
-
+    handleSortBy,
+    handleSortDirection,
     // pagination
     total,
     currentPage,
@@ -36,7 +40,10 @@ const InventoryListSection = () => {
     hasNext,
     prevLink,
     nextLink,
+    sortBy,
+    sortDirection,
   } = useProduct();
+
   // Error → show compact card + Retry
   if (productsError) {
     return (
@@ -48,10 +55,16 @@ const InventoryListSection = () => {
           />
           <div className="flex-1">
             <h3 className="text-gray-900 dark:text-gray-100 text-lg font-semibold">
-              Failed to load products
+              {t(
+                "inventoryListSection.errorTitle",
+                "商品の読み込みに失敗しました"
+              )}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Please check your connection and try again.
+              {t(
+                "inventoryListSection.errorBody",
+                "接続を確認して、もう一度お試しください。"
+              )}
             </p>
 
             <div className="mt-4">
@@ -60,14 +73,11 @@ const InventoryListSection = () => {
                 className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 active:scale-[.99] transition"
               >
                 <RotateCcw className="size-4" />
-                Retry
+                {t("inventoryListSection.retry", "再試行")}
               </button>
             </div>
 
-            {/* Optional: surface the actual message for debugging */}
-            <pre className="mt-4 max-h-28 overflow-auto text-xs text-red-400/90">
-              {String(productsError?.message ?? "Unknown error")}
-            </pre>
+
           </div>
         </div>
       </section>
@@ -112,6 +122,10 @@ const InventoryListSection = () => {
             nextLink={nextLink}
             handleChangeLimit={handleChangeLimit}
             handlePagination={handlePagination}
+            handleSortBy={handleSortBy}
+            handleSortDirection={handleSortDirection}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
           />
         </div>
 
@@ -128,7 +142,10 @@ const InventoryListSection = () => {
             nextLink={nextLink}
             handleChangeLimit={handleChangeLimit}
             handlePagination={handlePagination}
-            // sticky // uncomment to stick controls to bottom on phones
+            handleSortBy={handleSortBy}
+            handleSortDirection={handleSortDirection}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
           />
         </div>
       </div>

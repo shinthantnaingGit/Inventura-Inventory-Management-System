@@ -1,8 +1,14 @@
 "use client";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Search, Plus, X } from "lucide-react";
 import Link from "next/link";
 
-const InventoryActionBar = ({ searchRef, handleOnChange, handleClearSearch }) => {
+const InventoryActionBar = ({
+  searchRef,
+  handleOnChange,
+  handleClearSearch,
+}) => {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-5">
       {/* Search Product Input */}
@@ -12,7 +18,7 @@ const InventoryActionBar = ({ searchRef, handleOnChange, handleClearSearch }) =>
           ref={searchRef}
           onChange={handleOnChange}
           type="text"
-          placeholder="Search product..."
+          placeholder={t("inventory.searchProduct", "商品を検査...")}
           className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
                      bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 
                      focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
@@ -38,7 +44,7 @@ const InventoryActionBar = ({ searchRef, handleOnChange, handleClearSearch }) =>
                          transition-colors w-full sm:w-auto shadow-xl"
       >
         <Plus className="w-5 h-5" />
-        <span>Create Product</span>
+        <span>{t("inventory.createProduct","商品を作成する")}</span>
       </Link>
     </div>
   );

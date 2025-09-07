@@ -4,15 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, ShoppingCart, Ticket, Box, ChevronRight } from "lucide-react";
 import InventuraMark from "@/components/InventuraMark";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const DashBoardSideBar = ({ onNavigate }) => {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: Home, path: "/dashboard" },
-    { id: "orders", label: "Orders", icon: ShoppingCart, path: "/dashboard/orders" },
-    { id: "vouchers", label: "Vouchers", icon: Ticket, path: "/dashboard/vouchers" },
-    { id: "inventory", label: "Inventory", icon: Box, path: "/dashboard/inventory" },
+    { id: "dashboard", label: t("nav.dashboard", "ダッシュボード"), icon: Home, path: "/dashboard" },
+    { id: "orders", label: t("nav.orders", "注文"), icon: ShoppingCart, path: "/dashboard/orders" },
+    { id: "vouchers", label: t("nav.vouchers", "バウチャー"), icon: Ticket, path: "/dashboard/vouchers" },
+    { id: "inventory", label: t("nav.inventory", "在庫"), icon: Box, path: "/dashboard/inventory" },
   ];
 
   const isActive = (path) => {
@@ -22,13 +24,13 @@ const DashBoardSideBar = ({ onNavigate }) => {
 
   return (
     <aside className="w-56 flex-shrink-0">
-      <div className="h-full flex flex-col rounded border dark:border-gray-700 border-gray-30 bg-white/90 dark:bg-gray-900/70 shadow-sm p-3">
+      <div className="h-full flex flex-col rounded border dark:border-gray-700 border-gray-300 bg-white/90 dark:bg-gray-900/70 shadow-sm p-3">
         
         {/* Brand */}
         <div className="mb-4 flex items-center gap-2 rounded-xl bg-gray-50 dark:bg-gray-800 px-3 py-2 border border-gray-200 dark:border-gray-700">
           <InventuraMark className="size-6" />
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-            Manage Inventory
+            {t("sidebar.manageInventory", "在庫管理")}
           </span>
         </div>
 
@@ -42,6 +44,8 @@ const DashBoardSideBar = ({ onNavigate }) => {
                 href={path}
                 onClick={onNavigate}
                 aria-current={active ? "page" : undefined}
+                aria-label={label}
+                title={label}
                 className={[
                   "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
                   active
@@ -86,7 +90,7 @@ const DashBoardSideBar = ({ onNavigate }) => {
         {/* Footer tip */}
         <div className="mt-auto">
           <div className="mt-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 px-3 py-2 text-[11px] text-gray-600 dark:text-gray-400">
-            💡 Tip: Use the search bar on top
+            {t("sidebar.tipSearch", "💡 ヒント：上部の検索バーを活用しましょう")}
           </div>
         </div>
       </div>

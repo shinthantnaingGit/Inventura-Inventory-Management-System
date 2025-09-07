@@ -13,6 +13,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import useAccountStore from "@/store/useAccountStore";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Chart.js
 import {
@@ -51,6 +52,8 @@ const fetcher = (url) =>
 /* ------------------------------ UI ------------------------------ */
 
 export default function DashBoardSection() {
+  const { t } = useI18n();
+
   // filters map 1:1 to backend
   const [filters, setFilters] = useState({
     voucher_id: "",
@@ -130,7 +133,7 @@ export default function DashBoardSection() {
     // top products by qty
     const qtyMap = new Map();
     for (const r of records) {
-      const name = r.product?.product_name ?? "Unknown";
+      const name = r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
       qtyMap.set(name, (qtyMap.get(name) ?? 0) + Number(r.quantity || 0));
     }
     const top = [...qtyMap.entries()]
@@ -147,7 +150,7 @@ export default function DashBoardSection() {
       revenueOverTime: overTime,
       revenueByMonth: byMonth,
     };
-  }, [records]);
+  }, [records, t]);
 
   /* --------------------------- handlers -------------------------- */
 
@@ -184,7 +187,7 @@ export default function DashBoardSection() {
     labels: revenueOverTime.map((p) => p.label),
     datasets: [
       {
-        label: "Revenue",
+        label: t("dashboard.charts.revenue", "Revenue"),
         data: revenueOverTime.map((p) => p.cost),
         borderColor: "rgba(59,130,246,1)",        // blue-500
         backgroundColor: "rgba(59,130,246,0.25)", // blue-500/25
@@ -199,7 +202,7 @@ export default function DashBoardSection() {
     labels: revenueByMonth.map((m) => m.label),
     datasets: [
       {
-        label: "Revenue by Month",
+        label: t("dashboard.charts.revenueByMonthLegend", "Revenue by Month"),
         data: revenueByMonth.map((m) => m.revenue),
         backgroundColor: "rgba(16,185,129,0.8)", // emerald-500
       },
@@ -210,7 +213,7 @@ export default function DashBoardSection() {
     labels: topProducts.map((p) => p.name),
     datasets: [
       {
-        label: "Quantity",
+        label: t("dashboard.charts.quantity", "Quantity"),
         data: topProducts.map((p) => p.qty),
         backgroundColor: "rgba(245,158,11,0.85)", // amber-500
       },
@@ -233,22 +236,22 @@ export default function DashBoardSection() {
       {/* INSIGHTS */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard
-          title="Total Revenue"
+          title={t("dashboard.stats.totalRevenue", "Total Revenue")}
           value={fmtCurrency(totalRevenue)}
           icon={BarChart3}
         />
         <StatsCard
-          title="Total Quantity"
+          title={t("dashboard.stats.totalQuantity", "Total Quantity")}
           value={fmtNumber(totalQuantity)}
           icon={ShoppingCart}
         />
         <StatsCard
-          title="Avg Cost / Record"
+          title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")}
           value={fmtCurrency(avgCostPerRecord)}
           icon={Package}
         />
         <StatsCard
-          title="Top Product"
+          title={t("dashboard.stats.topProduct", "Top Product")}
           value={topProducts[0]?.name ?? "—"}
           icon={Trophy}
         />
@@ -256,19 +259,19 @@ export default function DashBoardSection() {
 
       {/* CHARTS */}
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card title="Revenue Over Time">
+        <Card title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}>
           <div className="h-64">
             <Line data={lineData} options={baseOptions} />
           </div>
         </Card>
 
-        <Card title="Revenue by Month">
+        <Card title={t("dashboard.charts.revenueByMonth", "Revenue by Month")}>
           <div className="h-64">
             <Bar data={monthData} options={baseOptions} />
           </div>
         </Card>
 
-        <Card title="Top Products by Quantity">
+        <Card title={t("dashboard.charts.topProductsByQty", "Top Products by Quantity")}>
           <div className="h-64">
             <Bar
               data={topData}
@@ -283,18 +286,18 @@ export default function DashBoardSection() {
         title={
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="size-4 text-gray-500" />
-            <span>Filters</span>
+            <span>{t("dashboard.filters.title", "Filters")}</span>
           </div>
         }
-        subtitle="Refine result set, then Apply"
+        subtitle={t("dashboard.filters.subtitle", "Refine result set, then Apply")}
         rightSlot={
           <button
             onClick={() => mutate()}
             className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
-            title="Refresh now"
+            title={t("dashboard.filters.refreshNow", "Refresh now")}
           >
             <RefreshCw className="size-4" />
-            Refresh
+            {t("dashboard.filters.refresh", "Refresh")}
           </button>
         }
       >
@@ -302,26 +305,26 @@ export default function DashBoardSection() {
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
             <CalendarDays className="size-4" />
-            Quick ranges:
+            {t("dashboard.filters.quickRanges", "Quick ranges:")}
           </span>
-          <PresetBtn onClick={() => setRange(7)}>Last 7 days</PresetBtn>
-          <PresetBtn onClick={() => setRange(30)}>Last 30 days</PresetBtn>
-          <PresetBtn onClick={() => setRange(90)}>Last 90 days</PresetBtn>
+          <PresetBtn onClick={() => setRange(7)}>{t("dashboard.filters.last7", "Last 7 days")}</PresetBtn>
+          <PresetBtn onClick={() => setRange(30)}>{t("dashboard.filters.last30", "Last 30 days")}</PresetBtn>
+          <PresetBtn onClick={() => setRange(90)}>{t("dashboard.filters.last90", "Last 90 days")}</PresetBtn>
           <PresetBtn onClick={() => setFilters((s) => ({ ...s, date_from: "", date_to: "" }))}>
-            Clear range
+            {t("dashboard.filters.clearRange", "Clear range")}
           </PresetBtn>
         </div>
 
         {/* Form grid */}
         <div className="grid gap-3 md:grid-cols-4">
-          <Input label="Voucher ID" name="voucher_id" value={filters.voucher_id} onChange={onField} />
-          <Input label="Product ID" name="product_id" value={filters.product_id} onChange={onField} />
-          <Input label="Min Quantity" name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
-          <Input label="Max Quantity" name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
-          <Input label="Min Cost" name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
-          <Input label="Max Cost" name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
-          <Input label="Date From" name="date_from" value={filters.date_from} onChange={onField} type="date" />
-          <Input label="Date To" name="date_to" value={filters.date_to} onChange={onField} type="date" />
+          <Input label={t("dashboard.filters.voucherId", "Voucher ID")} name="voucher_id" value={filters.voucher_id} onChange={onField} />
+          <Input label={t("dashboard.filters.productId", "Product ID")} name="product_id" value={filters.product_id} onChange={onField} />
+          <Input label={t("dashboard.filters.minQty", "Min Quantity")} name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
+          <Input label={t("dashboard.filters.maxQty", "Max Quantity")} name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
+          <Input label={t("dashboard.filters.minCost", "Min Cost")} name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
+          <Input label={t("dashboard.filters.maxCost", "Max Cost")} name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
+          <Input label={t("dashboard.filters.dateFrom", "Date From")} name="date_from" value={filters.date_from} onChange={onField} type="date" />
+          <Input label={t("dashboard.filters.dateTo", "Date To")} name="date_to" value={filters.date_to} onChange={onField} type="date" />
         </div>
 
         <div className="mt-4 flex items-center gap-2">
@@ -330,26 +333,26 @@ export default function DashBoardSection() {
             onClick={() => mutate()}
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 text-white text-sm px-4 py-2 hover:bg-blue-700 active:scale-95"
           >
-            Apply
+            {t("dashboard.filters.apply", "Apply")}
           </button>
           <button
             type="button"
             onClick={onClear}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
-            Reset
+            {t("dashboard.filters.reset", "Reset")}
           </button>
           <Link
             href="/dashboard/inventory"
             className="ml-auto inline-flex items-center gap-2 rounded-xl bg-blue-600 text-white px-4 py-2 text-sm hover:bg-blue-700"
           >
-            Inventory <ArrowRight className="size-4" />
+            {t("nav.inventory", "在庫")} <ArrowRight className="size-4" />
           </Link>
         </div>
       </Card>
 
       {/* RECENTS */}
-      <Card title="Recent Records">
+      <Card title={t("dashboard.recents.title", "Recent Records")}>
         {isLoading ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -365,24 +368,24 @@ export default function DashBoardSection() {
               <li key={r.id} className="flex items-start justify-between gap-4 py-3">
                 <div>
                   <p className="text-sm text-gray-800 dark:text-gray-200">
-                    {r.product?.product_name ?? "Unknown"} × {r.quantity}
+                    {(r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown"))} × {r.quantity}
                   </p>
                   <p className="text-xs text-gray-500">
-                    Cost {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · Voucher #{r.voucher_id}
+                    {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs text-gray-500">ID {r.id}</span>
+                <span className="shrink-0 text-xs text-gray-500">{t("dashboard.recents.id", "ID")} {r.id}</span>
               </li>
             ))}
           </ul>
         ) : (
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-600 dark:text-gray-300">
-            No records match your filters.
+            {t("dashboard.recents.empty", "No records match your filters.")}
           </div>
         )}
         {error && (
           <div className="mt-3 rounded-lg border border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200 p-3">
-            Failed to load dashboard.
+            {t("dashboard.recents.error", "Failed to load dashboard.")}
           </div>
         )}
       </Card>
@@ -476,7 +479,7 @@ function toISO(d) {
 function fmtCurrency(n) {
   return new Intl.NumberFormat(undefined, {
     style: "currency",
-    currency: "USD", // adjust if you need
+    currency: "JPY", // adjust if you need
     maximumFractionDigits: 0,
   }).format(Number(n || 0));
 }

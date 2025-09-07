@@ -13,13 +13,16 @@ import {
   Clock,
   Pencil,
   ArrowLeft,
+  BadgeJapaneseYenIcon,
 } from "lucide-react";
 import ProductDetailSkeleton from "./ProductDetailSkeleton";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const ProductDetailSection = () => {
   const { id } = useParams();
   const router = useRouter();
   const { data: product, error, isLoading, mutate } = getProduct(id);
+  const { t } = useI18n();
 
   if (isLoading) return <ProductDetailSkeleton />;
 
@@ -31,10 +34,10 @@ const ProductDetailSection = () => {
             <AlertTriangle className="size-5 text-red-500 mt-0.5" aria-hidden="true" />
             <div className="flex-1">
               <h3 className="text-gray-900 dark:text-gray-100 text-lg font-semibold">
-                Failed to load product
+                {t("productDetail.errorTitle", "商品の読み込みに失敗しました")}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {error?.message || "Please check your connection and try again."}
+                {error?.message || t("productDetail.errorBody", "接続を確認して、もう一度お試しください。")}
               </p>
               <div className="mt-4">
                 <button
@@ -42,7 +45,7 @@ const ProductDetailSection = () => {
                   className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 active:scale-[.99] transition"
                 >
                   <RotateCcw className="size-4" />
-                  Retry
+                  {t("productDetail.retry", "再試行")}
                 </button>
               </div>
             </div>
@@ -79,11 +82,11 @@ const ProductDetailSection = () => {
                    transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Inventory</span>
+        <span>{t("productDetail.backToInventory", "在庫に戻る")}</span>
       </button>
 
       <h3 className="text-gray-900 dark:text-gray-100 text-xl font-bold mb-4">
-        Product Detail
+        {t("productDetail.title", "商品詳細")}
       </h3>
 
       <div className="rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-10 shadow-sm">
@@ -91,7 +94,7 @@ const ProductDetailSection = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700">
             <Tag className="w-4 h-4" />
-            ID: {product?.data?.id ?? id}
+            {t("productDetail.idBadge", "ID")}: {product?.data?.id ?? id}
           </span>
 
           <h4 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 flex-1">
@@ -103,13 +106,13 @@ const ProductDetailSection = () => {
             className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm bg-amber-500 text-white hover:bg-amber-600 active:scale-[.98] transition"
           >
             <Pencil className="w-4 h-4" />
-            Edit
+            {t("productDetail.edit", "編集")}
           </Link>
         </div>
 
         {/* Price */}
         <div className="mt-3 flex items-center gap-2 text-xl font-bold text-green-600 dark:text-green-400">
-          <DollarSign className="w-5 h-5" />
+          <BadgeJapaneseYenIcon className="w-5 h-5" />
           <span>{price}</span>
         </div>
 
@@ -118,7 +121,7 @@ const ProductDetailSection = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
             <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Created at</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.createdAt", "作成日時")}</p>
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{createdAt}</p>
             </div>
           </div>
@@ -126,7 +129,7 @@ const ProductDetailSection = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
             <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Updated at</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.updatedAt", "更新日時")}</p>
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{updatedAt}</p>
             </div>
           </div>
@@ -135,7 +138,7 @@ const ProductDetailSection = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 md:hidden">
             <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Price</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.price", "価格")}</p>
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{price}</p>
             </div>
           </div>
@@ -152,7 +155,7 @@ const ProductDetailSection = () => {
                    transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
-        <span>Back to Inventory</span>
+        <span>{t("productDetail.backToInventory", "在庫に戻る")}</span>
       </button>
     </section>
   );

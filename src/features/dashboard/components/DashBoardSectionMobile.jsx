@@ -15,6 +15,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import useAccountStore from "@/store/useAccountStore";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Chart.js
 import {
@@ -51,6 +52,8 @@ const fetcher = (url) =>
 
 /* ------------------------------ UI ------------------------------ */
 export default function DashBoardSectionMobile() {
+  const { t } = useI18n();
+
   // filters map 1:1 to backend
   const [filters, setFilters] = useState({
     voucher_id: "",
@@ -124,7 +127,7 @@ export default function DashBoardSectionMobile() {
 
     const qtyMap = new Map();
     for (const r of records) {
-      const name = r.product?.product_name ?? "Unknown";
+      const name = r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
       qtyMap.set(name, (qtyMap.get(name) ?? 0) + Number(r.quantity || 0));
     }
     const top = [...qtyMap.entries()]
@@ -141,7 +144,7 @@ export default function DashBoardSectionMobile() {
       revenueOverTime: overTime,
       revenueByMonth: byMonth,
     };
-  }, [records]);
+  }, [records, t]);
 
   /* --------------------------- handlers -------------------------- */
   const onField = (e) =>
@@ -184,7 +187,7 @@ export default function DashBoardSectionMobile() {
     labels: revenueOverTime.map((p) => p.label),
     datasets: [
       {
-        label: "Revenue",
+        label: t("dashboard.charts.revenue", "Revenue"),
         data: revenueOverTime.map((p) => p.cost),
         borderColor: "rgba(59,130,246,1)",
         backgroundColor: "rgba(59,130,246,0.25)",
@@ -199,7 +202,7 @@ export default function DashBoardSectionMobile() {
     labels: revenueByMonth.map((m) => m.label),
     datasets: [
       {
-        label: "Revenue by Month",
+        label: t("dashboard.charts.revenueByMonthLegend", "Revenue by Month"),
         data: revenueByMonth.map((m) => m.revenue),
         backgroundColor: "rgba(16,185,129,0.85)",
       },
@@ -210,7 +213,7 @@ export default function DashBoardSectionMobile() {
     labels: topProducts.map((p) => p.name),
     datasets: [
       {
-        label: "Quantity",
+        label: t("dashboard.charts.quantity", "Quantity"),
         data: topProducts.map((p) => p.qty),
         backgroundColor: "rgba(245,158,11,0.9)",
       },
@@ -222,26 +225,26 @@ export default function DashBoardSectionMobile() {
     <section className="px-4 py-4 space-y-5">
       {/* INSIGHTS (single column cards) */}
       <div className="grid gap-3">
-        <StatsCard title="Total Revenue" value={fmtCurrency(totalRevenue)} icon={BarChart3} />
-        <StatsCard title="Total Quantity" value={fmtNumber(totalQuantity)} icon={ShoppingCart} />
-        <StatsCard title="Avg Cost / Record" value={fmtCurrency(avgCostPerRecord)} icon={Package} />
-        <StatsCard title="Top Product" value={topProducts[0]?.name ?? "—"} icon={Trophy} />
+        <StatsCard title={t("dashboard.stats.totalRevenue", "Total Revenue")} value={fmtCurrency(totalRevenue)} icon={BarChart3} />
+        <StatsCard title={t("dashboard.stats.totalQuantity", "Total Quantity")} value={fmtNumber(totalQuantity)} icon={ShoppingCart} />
+        <StatsCard title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")} value={fmtCurrency(avgCostPerRecord)} icon={Package} />
+        <StatsCard title={t("dashboard.stats.topProduct", "Top Product")} value={topProducts[0]?.name ?? "—"} icon={Trophy} />
       </div>
 
       {/* CHARTS (stacked, shorter height for phones) */}
-      <Card title="Revenue Over Time">
+      <Card title={t("dashboard.cards.revenueOverTime", "Revenue Over Time")}>
         <div className="h-52">
           <Line data={lineData} options={baseOptions} />
         </div>
       </Card>
 
-      <Card title="Revenue by Month">
+      <Card title={t("dashboard.cards.revenueByMonth", "Revenue by Month")}>
         <div className="h-52">
           <Bar data={monthData} options={baseOptions} />
         </div>
       </Card>
 
-      <Card title="Top Products by Quantity">
+      <Card title={t("dashboard.cards.topProductsByQty", "Top Products by Quantity")}>
         <div className="h-56">
           <Bar data={topData} options={{ ...baseOptions, indexAxis: "y" }} />
         </div>
@@ -257,22 +260,22 @@ export default function DashBoardSectionMobile() {
           >
             <span className="inline-flex items-center gap-2">
               <SlidersHorizontal className="size-4 text-gray-500" />
-              Filters
+              {t("dashboard.filters.title", "Filters")}
             </span>
             <ChevronDown
               className={`size-4 text-gray-500 transition-transform ${filtersOpen ? "rotate-180" : ""}`}
             />
           </button>
         }
-        subtitle="Refine result set, then Apply"
+        subtitle={t("dashboard.filters.subtitle", "Refine result set, then Apply")}
         rightSlot={
           <button
             onClick={() => mutate()}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
-            title="Refresh"
+            title={t("dashboard.filters.refreshNow", "Refresh")}
           >
             <RefreshCw className="size-4" />
-            Refresh
+            {t("dashboard.filters.refresh", "Refresh")}
           </button>
         }
       >
@@ -282,33 +285,33 @@ export default function DashBoardSectionMobile() {
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
                 <CalendarDays className="size-4" />
-                Quick ranges:
+                {t("dashboard.filters.quickRanges", "Quick ranges:")}
               </span>
-              <PresetBtn onClick={() => setRange(7)}>7d</PresetBtn>
-              <PresetBtn onClick={() => setRange(30)}>30d</PresetBtn>
-              <PresetBtn onClick={() => setRange(90)}>90d</PresetBtn>
+              <PresetBtn onClick={() => setRange(7)}>{t("dashboard.filters.last7Short", "7d")}</PresetBtn>
+              <PresetBtn onClick={() => setRange(30)}>{t("dashboard.filters.last30Short", "30d")}</PresetBtn>
+              <PresetBtn onClick={() => setRange(90)}>{t("dashboard.filters.last90Short", "90d")}</PresetBtn>
               <PresetBtn onClick={() => setFilters((s) => ({ ...s, date_from: "", date_to: "" }))}>
-                Clear
+                {t("dashboard.filters.clearRangeShort", "Clear")}
               </PresetBtn>
             </div>
 
             {/* Compact grid inputs */}
             <div className="grid gap-3">
               <Row>
-                <Input label="Voucher" name="voucher_id" value={filters.voucher_id} onChange={onField} />
-                <Input label="Product" name="product_id" value={filters.product_id} onChange={onField} />
+                <Input label={t("dashboard.filters.voucherIdShort", "Voucher")} name="voucher_id" value={filters.voucher_id} onChange={onField} />
+                <Input label={t("dashboard.filters.productIdShort", "Product")} name="product_id" value={filters.product_id} onChange={onField} />
               </Row>
               <Row>
-                <Input label="Min Qty" name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
-                <Input label="Max Qty" name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
+                <Input label={t("dashboard.filters.minQtyShort", "Min Qty")} name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
+                <Input label={t("dashboard.filters.maxQtyShort", "Max Qty")} name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
               </Row>
               <Row>
-                <Input label="Min Cost" name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
-                <Input label="Max Cost" name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
+                <Input label={t("dashboard.filters.minCostShort", "Min Cost")} name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
+                <Input label={t("dashboard.filters.maxCostShort", "Max Cost")} name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
               </Row>
               <Row>
-                <Input label="From" name="date_from" value={filters.date_from} onChange={onField} type="date" />
-                <Input label="To" name="date_to" value={filters.date_to} onChange={onField} type="date" />
+                <Input label={t("dashboard.filters.fromShort", "From")} name="date_from" value={filters.date_from} onChange={onField} type="date" />
+                <Input label={t("dashboard.filters.toShort", "To")} name="date_to" value={filters.date_to} onChange={onField} type="date" />
               </Row>
             </div>
 
@@ -319,20 +322,20 @@ export default function DashBoardSectionMobile() {
                 onClick={() => mutate()}
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 text-white text-sm px-4 py-2 hover:bg-blue-700 active:scale-95"
               >
-                Apply
+                {t("dashboard.filters.apply", "Apply")}
               </button>
               <button
                 type="button"
                 onClick={onClear}
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
-                Reset
+                {t("dashboard.filters.reset", "Reset")}
               </button>
               <Link
                 href="/dashboard/inventory"
                 className="ml-auto inline-flex items-center gap-2 rounded-lg bg-blue-600 text-white px-4 py-2 text-sm hover:bg-blue-700"
               >
-                Inventory <ArrowRight className="size-4" />
+                {t("nav.inventory", "在庫")} <ArrowRight className="size-4" />
               </Link>
             </div>
           </>
@@ -340,7 +343,7 @@ export default function DashBoardSectionMobile() {
       </Card>
 
       {/* RECENTS (compact) */}
-      <Card title="Recent Records">
+      <Card title={t("dashboard.recents.title", "Recent Records")}>
         {isLoading ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -356,24 +359,24 @@ export default function DashBoardSectionMobile() {
               <li key={r.id} className="flex items-start justify-between gap-3 py-3">
                 <div>
                   <p className="text-sm text-gray-800 dark:text-gray-200">
-                    {r.product?.product_name ?? "Unknown"} × {r.quantity}
+                    {(r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown"))} × {r.quantity}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · V#{r.voucher_id}
+                    {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · {t("dashboard.recents.voucherAbbr", "V#")}{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-[11px] text-gray-500">ID {r.id}</span>
+                <span className="shrink-0 text-[11px] text-gray-500">{t("dashboard.recents.id", "ID")} {r.id}</span>
               </li>
             ))}
           </ul>
         ) : (
           <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-600 dark:text-gray-300">
-            No records match your filters.
+            {t("dashboard.recents.empty", "No records match your filters.")}
           </div>
         )}
         {error && (
           <div className="mt-3 rounded-lg border border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200 p-3">
-            Failed to load dashboard.
+            {t("dashboard.recents.error", "Failed to load dashboard.")}
           </div>
         )}
       </Card>
