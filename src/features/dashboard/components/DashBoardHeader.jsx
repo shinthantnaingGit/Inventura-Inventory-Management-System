@@ -5,6 +5,7 @@ import { DarkThemeToggle } from "flowbite-react";
 import { Bell, Search, ChevronDown, Settings, User, Globe } from "lucide-react";
 import LogOutButton from "./LogOutButton";
 import { useI18n } from "@/i18n/I18nProvider";
+import GlobalSearch from "@/components/GlobalSearch";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -28,7 +29,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const toggleLocale = () => setLocale(locale === "en" ? "ja" : "en");
 
   return (
-    <header className="mb-5 top-0 relative z-50 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
+    <header className="mb-5 print:hidden top-0 relative z-50 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
       <div className="mx-auto px-4 sm:px-6 lg:px-10">
         {/* Stable 3-column grid prevents center from shifting */}
         <div className="h-16 grid grid-cols-[auto_1fr_auto] items-center gap-3">
@@ -45,21 +46,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
 
           {/* Center: search (stable width area) */}
           <div className="hidden md:block max-w-xl mx-auto w-full">
-            <div className="relative">
-              <input
-                type="search"
-                placeholder={t(
-                  "searchPlaceholder",
-                  "注文・商品・バウチャーを検索…"
-                )}
-                aria-label={t(
-                  "searchPlaceholder",
-                  "注文・商品・バウチャーを検索…"
-                )}
-                className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-10 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
-            </div>
+           <GlobalSearch/>
           </div>
 
           {/* Right: actions (no shrink) */}

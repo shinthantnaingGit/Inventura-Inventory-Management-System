@@ -42,7 +42,7 @@ const DashBoardBottomNav = () => {
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t-2 h-18 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 shadow-lg">
+    <nav className="md:hidden print:hidden fixed bottom-0 left-0 right-0 z-50 border-t-2 h-18 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 shadow-lg">
       <ul className="flex justify-around items-center">
         {navItems.map(({ id, label, icon: Icon, path }) => {
           const active = isActive(path);

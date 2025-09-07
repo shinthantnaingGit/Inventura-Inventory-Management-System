@@ -11,9 +11,12 @@ export const messages = {
       profile: "Profile",
       logout: "Logout",
     },
-    searchPlaceholder: "Search orders, products, vouchers…",
+    searchPlaceholder: "Search products, vouchers…",
     newItem: "New Item",
-
+    common: {
+      // ...keep existing
+      print: "Print", // ja: "印刷"
+    },
     dashboard: {
       stats: {
         totalRevenue: "Total Revenue",
@@ -373,6 +376,24 @@ export const messages = {
           genericError: "Something went wrong",
         },
       },
+      print: {
+        title: "Invoice / Receipt", // ja: "納品書 / 請求書"
+        no: "No.", // ja: "番号"
+        date: "Date", // ja: "日付"
+        customer: "Customer", // ja: "顧客名"
+        email: "Email", // ja: "メール"
+        table: {
+          item: "Item", // ja: "品目"
+          qty: "Qty", // ja: "数量"
+          unit: "Unit", // ja: "単価"
+          amount: "Amount", // ja: "金額"
+        },
+        totals: {
+          total: "Total", // ja: "合計"
+          taxWithRate: "Tax ({rate}%)", // ja: "税 ({rate}%)"
+          net: "Net Total", // ja: "税込合計"
+        },
+      },
     },
     voucherPagination: {
       total: "Total",
@@ -425,9 +446,12 @@ export const messages = {
       profile: "プロフィール",
       logout: "ログアウト",
     },
-    searchPlaceholder: "注文・商品・バウチャーを検索…",
+    searchPlaceholder: "商品・バウチャーを検索…",
     newItem: "新規作成",
-
+    common: {
+      // ...
+      print: "印刷",
+    },
     dashboard: {
       stats: {
         totalRevenue: "総売上",
@@ -785,6 +809,24 @@ export const messages = {
           success: "伝票を作成しました",
           failCreate: "伝票の作成に失敗しました",
           genericError: "エラーが発生しました",
+        },
+      },
+      print: {
+        title: "納品書 / 請求書",
+        no: "番号",
+        date: "日付",
+        customer: "顧客名",
+        email: "メール",
+        table: {
+          item: "品目",
+          qty: "数量",
+          unit: "単価",
+          amount: "金額",
+        },
+        totals: {
+          total: "合計",
+          taxWithRate: "税 ({rate}%)",
+          net: "税込合計",
         },
       },
     },

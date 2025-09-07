@@ -24,14 +24,14 @@ const DashBoardLayout = ({ children }) => {
       {/* Desktop layout: sidebar + content */}
       <div className="hidden md:flex p-5 gap-1">
         <DashBoardSideBar className="h-full" />
-        <div className="flex-1 border py-5 px-3 dark:border-gray-700 border-gray-300 rounded bg-white/80 dark:bg-gray-900/60">
+        <div className="flex-1 border print: py-5 px-3 dark:border-gray-700 border-gray-300 rounded bg-white/80 dark:bg-gray-900/60">
           {children}
         </div>
       </div>
 
       {/* Mobile layout: content only */}
       <div className="md:hidden px-5 pb-20 pt-2">
-        <div className="border mb-30 py-5 px-3 dark:border-gray-700 border-gray-300 rounded-xl bg-white/80 dark:bg-gray-900/60">
+        <div className="border print:border-0 mb-30 py-5 px-3 dark:border-gray-700 border-gray-300 rounded-xl bg-white/80 dark:bg-gray-900/60">
           {children}
         </div>
       </div>
