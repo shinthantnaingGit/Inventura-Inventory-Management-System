@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingCart, Ticket, Box, ChevronRight } from "lucide-react";
+import { Home, ShoppingCart, Ticket, Box, ChevronRight, Receipt } from "lucide-react";
 import InventuraMark from "@/components/InventuraMark";
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -12,7 +12,8 @@ const DashBoardSideBar = ({ onNavigate }) => {
 
   const menuItems = [
     { id: "dashboard", label: t("nav.dashboard", "ダッシュボード"), icon: Home, path: "/dashboard" },
-    { id: "orders", label: t("nav.orders", "注文"), icon: ShoppingCart, path: "/dashboard/orders" },
+    // 🔄 Replaced Orders → Sales (Create Voucher)
+    { id: "sales", label: t("nav.sales", "売上"), icon: Receipt, path: "/dashboard/sale" },
     { id: "vouchers", label: t("nav.vouchers", "バウチャー"), icon: Ticket, path: "/dashboard/vouchers" },
     { id: "inventory", label: t("nav.inventory", "在庫"), icon: Box, path: "/dashboard/inventory" },
   ];

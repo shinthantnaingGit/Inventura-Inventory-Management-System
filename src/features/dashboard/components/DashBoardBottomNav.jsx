@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingCart, Ticket, Box, User } from "lucide-react";
+import { Home, ShoppingCart, Ticket, Box, User, Receipt } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const DashBoardBottomNav = () => {
@@ -9,11 +9,31 @@ const DashBoardBottomNav = () => {
   const { t } = useI18n();
 
   const navItems = [
-    { id: "dashboard", label: t("nav.dashboard", "ダッシュボード"), icon: Home, path: "/dashboard" },
-    { id: "orders", label: t("nav.orders", "注文"), icon: ShoppingCart, path: "/dashboard/orders" },
-    { id: "vouchers", label: t("nav.vouchers", "バウチャー"), icon: Ticket, path: "/dashboard/vouchers" },
-    { id: "inventory", label: t("nav.inventory", "在庫"), icon: Box, path: "/dashboard/inventory" },
-    { id: "profile", label: t("nav.profile", "プロフィール"), icon: User, path: "/dashboard/profile" },
+    {
+      id: "dashboard",
+      label: t("nav.dashboard", "ダッシュボード"),
+      icon: Home,
+      path: "/dashboard",
+    },
+    // 🔄 Replaced Orders → Sales (Create Voucher)
+    {
+      id: "sales",
+      label: t("nav.sales", "売上"),
+      icon: Receipt,
+      path: "/dashboard/sale",
+    },
+    {
+      id: "vouchers",
+      label: t("nav.vouchers", "バウチャー"),
+      icon: Ticket,
+      path: "/dashboard/vouchers",
+    },
+    {
+      id: "inventory",
+      label: t("nav.inventory", "在庫"),
+      icon: Box,
+      path: "/dashboard/inventory",
+    },
   ];
 
   const isActive = (path) => {

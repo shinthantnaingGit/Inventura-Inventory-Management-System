@@ -94,7 +94,7 @@ const ProductEditForm = () => {
   }
 
   return (
-    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] h-[80vh] sm:p-5">
+    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] sm:p-5">
       {/* 🔙 Back button (mobile) */}
       <button
         type="button"

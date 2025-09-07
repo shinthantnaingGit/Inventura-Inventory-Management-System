@@ -13,7 +13,9 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
 
   useEffect(() => {
     const onClick = (e) =>
-      profileRef.current && !profileRef.current.contains(e.target) && setOpenProfile(false);
+      profileRef.current &&
+      !profileRef.current.contains(e.target) &&
+      setOpenProfile(false);
     const onKey = (e) => e.key === "Escape" && setOpenProfile(false);
     document.addEventListener("mousedown", onClick);
     document.addEventListener("keydown", onKey);
@@ -26,7 +28,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const toggleLocale = () => setLocale(locale === "en" ? "ja" : "en");
 
   return (
-    <header className="mb-5 top-0 z-40 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
+    <header className="mb-5 top-0 relative z-50 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
       <div className="mx-auto px-4 sm:px-6 lg:px-10">
         {/* Stable 3-column grid prevents center from shifting */}
         <div className="h-16 grid grid-cols-[auto_1fr_auto] items-center gap-3">
@@ -46,8 +48,14 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
             <div className="relative">
               <input
                 type="search"
-                placeholder={t("searchPlaceholder", "注文・商品・バウチャーを検索…")}
-                aria-label={t("searchPlaceholder", "注文・商品・バウチャーを検索…")}
+                placeholder={t(
+                  "searchPlaceholder",
+                  "注文・商品・バウチャーを検索…"
+                )}
+                aria-label={t(
+                  "searchPlaceholder",
+                  "注文・商品・バウチャーを検索…"
+                )}
                 className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-10 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
@@ -68,17 +76,6 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
               <span className="hidden sm:inline w-[48px]  text-center">
                 {locale === "en" ? "EN" : "日本語"}
               </span>
-            </button>
-
-            {/* Notifications */}
-            <button
-              type="button"
-              className="relative inline-flex items-center justify-center rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-2 hover:bg-gray-50 dark:hover:bg-gray-700"
-              aria-label={t("nav.orders", "注文")}
-              title={t("nav.orders", "注文")}
-            >
-              <Bell className="size-5 shrink-0" />
-              <span className="absolute -top-0.5 -right-0.5 block size-2 rounded-full bg-blue-600 ring-2 ring-white dark:ring-gray-900" />
             </button>
 
             {/* Theme toggle */}
@@ -110,8 +107,16 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                   role="menu"
                   className="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg"
                 >
-                  <MenuItem href="/dashboard/profile" icon={User} label={t("nav.profile", "プロフィール")} />
-                  <MenuItem href="/dashboard/settings" icon={Settings} label={t("nav.settings", "設定")} />
+                  <MenuItem
+                    href="/dashboard/profile"
+                    icon={User}
+                    label={t("nav.profile", "プロフィール")}
+                  />
+                  <MenuItem
+                    href="/dashboard/settings"
+                    icon={Settings}
+                    label={t("nav.settings", "設定")}
+                  />
                   <div className="my-1 h-px bg-gray-200 dark:bg-gray-800" />
                   <LogOutButton />
                 </div>
