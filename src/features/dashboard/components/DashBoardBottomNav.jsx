@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingCart, Ticket, Box, User, Receipt } from "lucide-react";
+import { Home, SquareUserRound, Ticket, Box, User, Receipt } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const DashBoardBottomNav = () => {
@@ -33,6 +33,12 @@ const DashBoardBottomNav = () => {
       label: t("nav.inventory", "在庫"),
       icon: Box,
       path: "/dashboard/inventory",
+    },
+    {
+      id: "profile",
+      label: t("nav.profile", "在庫"),
+      icon: User,
+      path: "/dashboard/profile",
     },
   ];
 

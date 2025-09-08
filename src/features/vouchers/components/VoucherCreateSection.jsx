@@ -32,6 +32,16 @@ export default function VoucherCreateSection() {
   } = getProducts(`${productApiUrl}?limit=100`);
   const products = productsResp?.data ?? [];
 
+  // put this helper above onSubmit (inside component file, outside onSubmit)
+  const makeVoucherId = () => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    return `INV-${y}${m}${day}-${rand}`;
+  };
+
   // RHF
   const {
     register,
@@ -44,7 +54,7 @@ export default function VoucherCreateSection() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      voucher_id: "",
+      voucher_id: `${makeVoucherId()}`,
       customer_name: "",
       customer_email: "",
       sale_date: new Date().toISOString().slice(0, 10),
@@ -57,11 +67,13 @@ export default function VoucherCreateSection() {
         },
       ],
       confirm: false,
-      goback: false,
     },
   });
 
-  const { fields, append, remove } = useFieldArray({ name: "records", control });
+  const { fields, append, remove } = useFieldArray({
+    name: "records",
+    control,
+  });
 
   // Live subscription to records for instant totals
   const recordsWatch = useWatch({ control, name: "records" });
@@ -71,106 +83,92 @@ export default function VoucherCreateSection() {
   // Totals recompute instantly as records change
   const totals = useMemo(() => {
     const total =
-      recordsWatch?.reduce(
-        (sum, r) => sum + Number(r?.cost ?? 0),
-        0
-      ) || 0;
+      recordsWatch?.reduce((sum, r) => sum + Number(r?.cost ?? 0), 0) || 0;
     const tax = total * taxRate;
     const net = total + tax;
     return { total, tax, net };
   }, [recordsWatch]);
 
   const confirmed = watch("confirm");
-  const goBack = watch("goback");
 
-// put this helper above onSubmit (inside component file, outside onSubmit)
-const makeVoucherId = () => {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  const rand = Math.floor(1000 + Math.random() * 9000);
-  return `INV-${y}${m}${day}-${rand}`;
-};
+  // REPLACE your existing onSubmit with this version
+  const onSubmit = async () => {
+    try {
+      // read current form values
+      const values = getValues();
 
-// REPLACE your existing onSubmit with this version
-const onSubmit = async () => {
-  try {
-    // read current form values
-    const values = getValues();
+      // build record lines to match API sample (include nested product, quantity as string)
+      const items = (values.records || [])
+        .filter((r) => r.product_id && Number(r.quantity) > 0)
+        .map((r) => {
+          const prod = products.find(
+            (p) => String(p.id) === String(r.product_id)
+          );
+          return {
+            product_id: Number(r.product_id),
+            // include minimal product object like your sample
+            product: prod
+              ? {
+                  id: prod.id,
+                  product_name: prod.product_name,
+                  price: Number(prod.price),
+                  created_at: prod.created_at ?? undefined,
+                }
+              : undefined,
+            quantity: String(r.quantity), // API sample uses string
+            cost: Number(r.cost || 0),
+            created_at: new Date().toISOString(), // optional; harmless if backend ignores
+          };
+        });
 
-    // build record lines to match API sample (include nested product, quantity as string)
-    const items = (values.records || [])
-      .filter((r) => r.product_id && Number(r.quantity) > 0)
-      .map((r) => {
-        const prod = products.find((p) => String(p.id) === String(r.product_id));
-        return {
-          product_id: Number(r.product_id),
-          // include minimal product object like your sample
-          product: prod
-            ? {
-                id: prod.id,
-                product_name: prod.product_name,
-                price: Number(prod.price),
-                created_at: prod.created_at ?? undefined,
-              }
-            : undefined,
-          quantity: String(r.quantity), // API sample uses string
-          cost: Number(r.cost || 0),
-          created_at: new Date().toISOString(), // optional; harmless if backend ignores
-        };
-      });
+      // compute totals just before submit (simple + precise)
+      const total = items.reduce((s, r) => s + (r.cost || 0), 0);
+      const tax = +(total * 0.07).toFixed(2);
+      const net_total = +(total + tax).toFixed(2);
 
-    // compute totals just before submit (simple + precise)
-    const total = items.reduce((s, r) => s + (r.cost || 0), 0);
-    const tax = +(total * 0.07).toFixed(2);
-    const net_total = +(total + tax).toFixed(2);
+      // voucher_id fallback if user left it blank
+      const voucher_id = (values.voucher_id || "").trim() || makeVoucherId();
 
-    // voucher_id fallback if user left it blank
-    const voucher_id =
-      (values.voucher_id || "").trim() || makeVoucherId();
+      const payload = {
+        voucher_id,
+        customer_name: values.customer_name,
+        customer_email: values.customer_email || undefined,
+        sale_date: values.sale_date,
+        records: items,
+        total,
+        tax,
+        net_total,
+        // DO NOT send 'id' in request; backend will generate it
+      };
 
-    const payload = {
-      voucher_id,
-      customer_name: values.customer_name,
-      customer_email: values.customer_email || undefined,
-      sale_date: values.sale_date,
-      records: items,
-      total,
-      tax,
-      net_total,
-      // DO NOT send 'id' in request; backend will generate it
-    };
+      const res = await storeVoucher(payload);
+      const result = (await res.json?.()) ?? res;
 
-    const res = await storeVoucher(payload);
-    const result = (await res.json?.()) ?? res;
+      if (!res?.ok) {
+        // bubble up API validation message so 422 is obvious
+        console.error("Voucher create 422:", result);
+        throw new Error(
+          result?.message ||
+            result?.errors?.[0] ||
+            t("vouchers.create.toast.failCreate", "伝票の作成に失敗しました")
+        );
+      }
 
-    if (!res?.ok) {
-      // bubble up API validation message so 422 is obvious
-      console.error("Voucher create 422:", result);
-      throw new Error(
-        result?.message ||
-          result?.errors?.[0] ||
-          t("vouchers.create.toast.failCreate", "伝票の作成に失敗しました")
+      toast.success(t("vouchers.create.toast.success", "伝票を作成しました"));
+
+      const newId = result?.data?.id ?? result?.id;
+      if (newId) {
+        router.push(`/dashboard/vouchers/${newId}`);
+      } else {
+        router.push("/dashboard/vouchers");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(
+        t("vouchers.create.toast.genericError", "エラーが発生しました")
       );
     }
-
-    toast.success(t("vouchers.create.toast.success", "伝票を作成しました"));
-
-    const newId = result?.data?.id ?? result?.id;
-    if (goBack) {
-      router.push("/dashboard/vouchers");
-    } else if (newId) {
-      router.push(`/dashboard/vouchers/${newId}`);
-    } else {
-      router.push("/dashboard/vouchers");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error(t("vouchers.create.toast.genericError", "エラーが発生しました"));
-  }
-};
-
+  };
 
   return (
     <section className="mx-auto max-w-full sm:max-w-[80%] lg:max-w-[60%] px-4 sm:px-5 pb-24 sm:pb-6">
@@ -326,9 +324,7 @@ const onSubmit = async () => {
                       {t("vouchers.create.lines.product", "商品")}
                     </label>
                     {(() => {
-                      const productReg = register(
-                        `records.${idx}.product_id`
-                      );
+                      const productReg = register(`records.${idx}.product_id`);
                       return (
                         <select
                           {...productReg}
@@ -338,23 +334,20 @@ const onSubmit = async () => {
 
                             // Derive unit from product and recalc cost
                             const prod = products.find(
-                              (p) =>
-                                String(p.id) === String(e.target.value)
+                              (p) => String(p.id) === String(e.target.value)
                             );
                             const unit = Number(prod?.price ?? 0);
-                            setValue(
-                              `records.${idx}.unit_price`,
-                              unit,
-                              { shouldDirty: true, shouldValidate: true }
-                            );
+                            setValue(`records.${idx}.unit_price`, unit, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
                             const qty = Number(
                               getValues(`records.${idx}.quantity`) ?? 0
                             );
-                            setValue(
-                              `records.${idx}.cost`,
-                              qty * unit,
-                              { shouldDirty: true, shouldValidate: true }
-                            );
+                            setValue(`records.${idx}.cost`, qty * unit, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
                           }}
                           className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
@@ -381,10 +374,9 @@ const onSubmit = async () => {
                       {t("vouchers.create.lines.qty", "数量")}
                     </label>
                     {(() => {
-                      const qtyReg = register(
-                        `records.${idx}.quantity`,
-                        { valueAsNumber: true }
-                      );
+                      const qtyReg = register(`records.${idx}.quantity`, {
+                        valueAsNumber: true,
+                      });
                       return (
                         <input
                           type="number"
@@ -397,11 +389,10 @@ const onSubmit = async () => {
                             const unit = Number(
                               getValues(`records.${idx}.unit_price`) ?? 0
                             );
-                            setValue(
-                              `records.${idx}.cost`,
-                              qty * unit,
-                              { shouldDirty: true, shouldValidate: true }
-                            );
+                            setValue(`records.${idx}.cost`, qty * unit, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
                           }}
                           className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
@@ -416,10 +407,9 @@ const onSubmit = async () => {
                       {t("vouchers.create.lines.unitPrice", "単価")}
                     </label>
                     {(() => {
-                      const unitReg = register(
-                        `records.${idx}.unit_price`,
-                        { valueAsNumber: true }
-                      );
+                      const unitReg = register(`records.${idx}.unit_price`, {
+                        valueAsNumber: true,
+                      });
                       return (
                         <input
                           type="number"
@@ -431,11 +421,10 @@ const onSubmit = async () => {
                             const qty = Number(
                               getValues(`records.${idx}.quantity`) ?? 0
                             );
-                            setValue(
-                              `records.${idx}.cost`,
-                              qty * unit,
-                              { shouldDirty: true, shouldValidate: true }
-                            );
+                            setValue(`records.${idx}.cost`, qty * unit, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
                           }}
                           className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
@@ -533,20 +522,6 @@ const onSubmit = async () => {
             {errors.confirm && (
               <p className="text-sm text-red-500">{errors.confirm.message}</p>
             )}
-
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                {...register("goback")}
-                className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
-              />
-              <span className="text-sm text-gray-700 dark:text-gray-300">
-                {t(
-                  "vouchers.create.labels.goBackAfterSave",
-                  "保存後に伝票一覧へ戻る"
-                )}
-              </span>
-            </label>
           </div>
 
           {/* Actions */}
@@ -563,7 +538,6 @@ const onSubmit = async () => {
                     { product_id: "", quantity: 1, unit_price: "", cost: 0 },
                   ],
                   confirm: false,
-                  goback: false,
                 })
               }
               className="w-full sm:w-auto rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 

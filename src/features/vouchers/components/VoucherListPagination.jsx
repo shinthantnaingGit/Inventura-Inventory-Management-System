@@ -22,6 +22,7 @@ export default function VoucherListPagination({
   handleMaxNetTotal,
   handleStartDate,
   handleEndDate,
+  handleResetFilters,
   sortBy,
   sortDirection,
   minNetTotal,
@@ -39,12 +40,10 @@ export default function VoucherListPagination({
   // Close on outside click / Esc
   useEffect(() => {
     const onClick = (e) => {
-      const clickedOutsideFilter = filterRef.current && !filterRef.current.contains(e.target);
-      const clickedOutsideSort = sortRef.current && !sortRef.current.contains(e.target);
-      if (clickedOutsideFilter && clickedOutsideSort) {
-        setOpenFilter(false);
-        setOpenSort(false);
-      }
+      const outFilter = filterRef.current && !filterRef.current.contains(e.target);
+      const outSort = sortRef.current && !sortRef.current.contains(e.target);
+      if (outFilter) setOpenFilter(false);
+      if (outSort) setOpenSort(false);
     };
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -59,6 +58,10 @@ export default function VoucherListPagination({
       document.removeEventListener("keydown", onKey);
     };
   }, []);
+
+  // Helpers to coerce values safely (avoid controlled/uncontrolled warnings)
+  const numToInput = (v) => (v ?? v === 0 ? String(v) : "");
+  const strOrEmpty = (v) => (v ?? "");
 
   return (
     <div className="hidden md:flex flex-wrap items-center gap-4 mt-6 relative">
@@ -91,7 +94,7 @@ export default function VoucherListPagination({
         {openFilter && (
           <div
             role="dialog"
-            className="absolute bottom-0 -translate-y-10 z-40 mt-2 w-[320px] rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-3"
+            className="absolute bottom-0 z-40 mt-2 w-[320px] rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl p-3"
           >
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -107,7 +110,7 @@ export default function VoucherListPagination({
               </button>
             </div>
 
-            {/* Fields */}
+            {/* Fields (controlled) */}
             <div className="space-y-3">
               <label className="block">
                 <span className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
@@ -115,8 +118,12 @@ export default function VoucherListPagination({
                 </span>
                 <input
                   type="number"
-                  defaultValue={minNetTotal}
-                  onBlur={(e) => handleMinNetTotal(e.target.value)}
+                  inputMode="numeric"
+                  value={numToInput(minNetTotal)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    handleMinNetTotal(v === "" ? "" : Number(v));
+                  }}
                   className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
                   placeholder={t("vouchers.filters.minNet", "最小税込合計")}
                 />
@@ -128,8 +135,12 @@ export default function VoucherListPagination({
                 </span>
                 <input
                   type="number"
-                  defaultValue={maxNetTotal}
-                  onBlur={(e) => handleMaxNetTotal(e.target.value)}
+                  inputMode="numeric"
+                  value={numToInput(maxNetTotal)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    handleMaxNetTotal(v === "" ? "" : Number(v));
+                  }}
                   className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
                   placeholder={t("vouchers.filters.maxNet", "最大税込合計")}
                 />
@@ -142,7 +153,7 @@ export default function VoucherListPagination({
                   </span>
                   <input
                     type="date"
-                    defaultValue={startDate}
+                    value={strOrEmpty(startDate)}
                     onChange={(e) => handleStartDate(e.target.value)}
                     className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
                   />
@@ -153,28 +164,18 @@ export default function VoucherListPagination({
                   </span>
                   <input
                     type="date"
-                    defaultValue={endDate}
+                    value={strOrEmpty(endDate)}
                     onChange={(e) => handleEndDate(e.target.value)}
                     className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
                   />
                 </label>
               </div>
 
-              <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                {t(
-                  "vouchers.filters.dateBetweenHint",
-                  "開始日と終了日を指定すると範囲で絞り込めます（date_between も使用可）。"
-                )}
-              </p>
-
               <div className="flex justify-end gap-2 pt-1">
                 <button
                   type="button"
                   onClick={() => {
-                    handleMinNetTotal("");
-                    handleMaxNetTotal("");
-                    handleStartDate("");
-                    handleEndDate("");
+                    handleResetFilters();
                     setOpenFilter(false);
                   }}
                   className="rounded-md border border-gray-300 dark:border-gray-700 px-3 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -233,7 +234,7 @@ export default function VoucherListPagination({
                 {t("vouchers.sort.by", "項目")}
               </label>
               <select
-                value={sortBy}
+                value={strOrEmpty(sortBy)}
                 onChange={(e) => handleSortBy(e.target.value)}
                 className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
               >
@@ -248,7 +249,7 @@ export default function VoucherListPagination({
                 {t("vouchers.sort.direction", "順序")}
               </label>
               <select
-                value={sortDirection}
+                value={strOrEmpty(sortDirection) || "asc"}
                 onChange={(e) => handleSortDirection(e.target.value)}
                 className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm"
               >
@@ -322,8 +323,8 @@ export default function VoucherListPagination({
           {t("voucherPagination.show", "表示")}
         </label>
         <select
-          defaultValue={String(perPage ?? "5")}
-          onChange={(e) => handleChangeLimit(e.target.value)}
+          value={String(perPage ?? "5")}
+          onChange={(e) => handleChangeLimit(Number(e.target.value))}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1"
         >
           {[5, 10, 20, 50].map((n) => (

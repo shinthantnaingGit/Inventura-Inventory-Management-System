@@ -72,7 +72,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
 
             {/* Profile menu — fix label width to avoid EN/JA shift */}
             <div className="relative" ref={profileRef}>
-              <button
+              <Link
+              href={`/dashboard/profile`}
                 type="button"
                 onClick={() => setOpenProfile((s) => !s)}
                 className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-2 pr-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -87,7 +88,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                   {t("nav.profile", "プロフィール")}
                 </span>
                 <ChevronDown className="size-4 text-gray-500 shrink-0" />
-              </button>
+              </Link>
 
               {openProfile && (
                 <div

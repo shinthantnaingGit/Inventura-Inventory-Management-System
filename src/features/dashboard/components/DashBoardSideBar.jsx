@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingCart, Ticket, Box, ChevronRight, Receipt } from "lucide-react";
+import { Home, SquareUserRound, User, Ticket, Box, ChevronRight, Receipt } from "lucide-react";
 import InventuraMark from "@/components/InventuraMark";
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -16,6 +16,8 @@ const DashBoardSideBar = ({ onNavigate }) => {
     { id: "sales", label: t("nav.sales", "売上"), icon: Receipt, path: "/dashboard/sale" },
     { id: "vouchers", label: t("nav.vouchers", "バウチャー"), icon: Ticket, path: "/dashboard/vouchers" },
     { id: "inventory", label: t("nav.inventory", "在庫"), icon: Box, path: "/dashboard/inventory" },
+    { id: "profile", label: t("nav.profile", "在庫"), icon: User, path: "/dashboard/profile" },
+
   ];
 
   const isActive = (path) => {

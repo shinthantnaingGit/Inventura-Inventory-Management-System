@@ -29,6 +29,7 @@ const VoucherListSection = () => {
     handleMaxNetTotal,
     handleStartDate,
     handleEndDate,
+    handleResetFilters,
     total,
     currentPage,
     lastPage,
@@ -121,6 +122,7 @@ const VoucherListSection = () => {
           handleMaxNetTotal={handleMaxNetTotal}
           handleStartDate={handleStartDate}
           handleEndDate={handleEndDate}
+          handleResetFilters={handleResetFilters}
           sortBy={sortBy}
           sortDirection={sortDirection}
           minNetTotal={minNetTotal}
@@ -151,6 +153,7 @@ const VoucherListSection = () => {
           handleMaxNetTotal={handleMaxNetTotal}
           handleStartDate={handleStartDate}
           handleEndDate={handleEndDate}
+          handleResetFilters={handleResetFilters}
           sortBy={sortBy}
           sortDirection={sortDirection}
         />

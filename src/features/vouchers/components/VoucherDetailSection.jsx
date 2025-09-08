@@ -235,16 +235,17 @@ export default VoucherDetailSection;
 
 function InvoiceA4({ title, voucher }) {
   const nf = (n) => (isNaN(n) ? "-" : new Intl.NumberFormat().format(n));
+    const { t } = useI18n();
   return (
     <div className="">
       <h1 style={{ fontSize: "18pt", fontWeight: 700, marginBottom: "8pt" }}>{title}</h1>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10pt" }}>
         <div>
-          <div><strong>No:</strong> {voucher.voucher_id}</div>
-          <div><strong>Date:</strong> {voucher.sale_date}</div>
+          <div><strong>{t("vouchers.print.no", "番号")}:</strong> {voucher.voucher_id}</div>
+          <div><strong>{t("vouchers.print.date", "日付")}:</strong> {voucher.sale_date}</div>
         </div>
         <div>
-          <div><strong>Customer:</strong> {voucher.customer_name}</div>
+          <div><strong>{t("vouchers.print.customer", "顧客名")}:</strong> {voucher.customer_name}</div>
           <div><strong>Email:</strong> {voucher.customer_email || "-"}</div>
         </div>
       </div>
@@ -252,10 +253,10 @@ function InvoiceA4({ title, voucher }) {
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10pt" }}>
         <thead>
           <tr>
-            <th style={{ borderBottom: "1px solid #888", textAlign: "left", padding: "6pt" }}>Item</th>
-            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>Qty</th>
-            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>Unit</th>
-            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>Amount</th>
+            <th style={{ borderBottom: "1px solid #888", textAlign: "left", padding: "6pt" }}>{t("vouchers.print.table.item", "品目")}</th>
+            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>{t("vouchers.print.table.qty", "数量")}</th>
+            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>{t("vouchers.print.table.unit", "単価")}</th>
+            <th style={{ borderBottom: "1px solid #888", textAlign: "right", padding: "6pt" }}>{t("vouchers.print.table.amount", "金額")}</th>
           </tr>
         </thead>
         <tbody>
@@ -270,17 +271,17 @@ function InvoiceA4({ title, voucher }) {
         </tbody>
       </table>
 
-      <div style={{ marginTop: "10pt", display: "grid", gridTemplateColumns: "1fr 200pt", gap: "8pt" }}>
+      <div style={{ marginTop: "10pt", display: "grid", gridTemplateColumns: "1fr ", gap: "8pt" }}>
         <div />
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "4pt 0" }}>
-            <span>Total</span><strong>¥{nf(voucher.total)}</strong>
+            <span>{t("vouchers.print.totals.total", "合計")}</span><strong>¥{nf(voucher.total)}</strong>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "4pt 0" }}>
-            <span>Tax (7%)</span><strong>¥{nf(voucher.tax)}</strong>
+            <span>{t("vouchers.print.totals.taxWithRate", "数量")}</span><strong>¥{nf(voucher.tax)}</strong>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "6pt 0", borderTop: "1px solid #888", marginTop: "4pt" }}>
-            <span>Net Total</span><strong>¥{nf(voucher.net_total)}</strong>
+            <span>{t("vouchers.print.totals.net", "税込合計")}</span><strong>¥{nf(voucher.net_total)}</strong>
           </div>
         </div>
       </div>

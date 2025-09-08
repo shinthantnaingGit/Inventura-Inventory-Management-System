@@ -102,21 +102,23 @@ export default function DashBoardSection() {
     const sumQty = records.reduce((a, r) => a + Number(r.quantity || 0), 0);
     const uniq = new Set(records.map((r) => r.product?.id)).size;
     const avg = sumCost / records.length;
+const dtLabel = (iso) =>
+  new Intl.DateTimeFormat(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    // second: "2-digit",   // uncomment if you want more granularity
+  }).format(new Date(iso));
 
-    // time series
-    const overTime = [...records]
-      .filter((r) => r.created_at)
-      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-      .map((r) => ({
-        // label string for x-axis
-        label: new Date(r.created_at).toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-        }),
-        cost: Number(r.cost || 0),
-        date: new Date(r.created_at),
-      }));
-
+const overTime = [...records]
+  .filter((r) => r.created_at)
+  .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+  .map((r) => ({
+    label: dtLabel(r.created_at),        // <-- date + time
+    cost: Number(r.cost || 0),
+    date: new Date(r.created_at),
+  }));
     // by month
     const monthMap = new Map();
     overTime.forEach(({ date, cost }) => {
@@ -197,6 +199,7 @@ export default function DashBoardSection() {
       },
     ],
   };
+  
 
   const monthData = {
     labels: revenueByMonth.map((m) => m.label),
@@ -259,11 +262,13 @@ export default function DashBoardSection() {
 
       {/* CHARTS */}
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}>
+       <div className="col-span-2">
+         <Card title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}>
           <div className="h-64">
             <Line data={lineData} options={baseOptions} />
           </div>
         </Card>
+       </div>
 
         <Card title={t("dashboard.charts.revenueByMonth", "Revenue by Month")}>
           <div className="h-64">

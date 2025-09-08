@@ -3,7 +3,7 @@
 import { getVouchers, voucherApiUrl } from "@/services/voucher";
 import debounce from "lodash/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useCallback } from "react";
 
 const useVoucher = () => {
   //<-----HOOKS----->
@@ -14,17 +14,24 @@ const useVoucher = () => {
   const searchRef = useRef(null);
 
   //<----UPDATE PARAMS HELPER----->
-  const updateParams = (patch) => {
-    const params = new URLSearchParams(searchParams.toString());
-    Object.entries(patch).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    });
-    router.push(`?${params.toString()}`);
-  };
+  const updateParams = useCallback(
+    (patch) => {
+      const base =
+        typeof window !== "undefined"
+          ? window.location.search
+          : searchParams.toString();
+      const params = new URLSearchParams(base);
+      Object.entries(patch).forEach(([key, value]) => {
+        if (value === "" || value == null) {
+          params.delete(key);
+        } else {
+          params.set(key, String(value));
+        }
+      });
+      router.replace(`?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams]
+  );
 
   //<-----MAIN FETCH WITH SWR----->
   const url = `${voucherApiUrl}?${searchParams.toString()}`;
@@ -60,8 +67,8 @@ const useVoucher = () => {
   const handlePagination = (absoluteLink) => {
     if (!absoluteLink) return;
     const u = new URL(absoluteLink);
-    const pageParams = Object.fromEntries(u.searchParams.entries());
-    updateParams(pageParams);
+    const page = u.searchParams.get("page") || "1";
+    updateParams({ page });
   };
 
   //<-----PAGINATION SYSTEM (PER PAGE)----->
@@ -115,6 +122,19 @@ const useVoucher = () => {
     updateParams({ date_between: `${start},${end}`, page: "1" });
   };
 
+  // single-call reset to avoid stale snapshot issues
+  const handleResetFilters = () => {
+    updateParams({
+      min_net_total: "",
+      max_net_total: "",
+      net_total_between: "",
+      start_date: "",
+      end_date: "",
+      date_between: "",
+      page: "1",
+    });
+  };
+
   // SYNC: whenever URL params change, or mount unmount
   //<-----HYDRATING SEARCH INPUT and PER PAGE----->
   useEffect(() => {
@@ -159,6 +179,7 @@ const useVoucher = () => {
     handleMaxNetTotal,
     handleStartDate,
     handleEndDate,
+    handleResetFilters,
 
     // derived values
     total,

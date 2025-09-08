@@ -1,6 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, SlidersHorizontal, Filter, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontal,
+  Filter,
+  X,
+} from "lucide-react";
 import { Spiral } from "ldrs/react";
 import "ldrs/react/Spiral.css";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -22,6 +28,7 @@ export default function VoucherListPaginationMobile({
   handleMaxNetTotal,
   handleStartDate,
   handleEndDate,
+  handleResetFilters,
   sortBy,
   sortDirection,
   minNetTotal,
@@ -39,8 +46,14 @@ export default function VoucherListPaginationMobile({
   // Close on outside / Esc
   useEffect(() => {
     const onDown = (e) => {
-      if (openFilter && filterRef.current && !filterRef.current.contains(e.target)) setOpenFilter(false);
-      if (openSort && sortRef.current && !sortRef.current.contains(e.target)) setOpenSort(false);
+      if (
+        openFilter &&
+        filterRef.current &&
+        !filterRef.current.contains(e.target)
+      )
+        setOpenFilter(false);
+      if (openSort && sortRef.current && !sortRef.current.contains(e.target))
+        setOpenSort(false);
     };
     const onKey = (e) => {
       if (e.key === "Escape") {
@@ -77,7 +90,10 @@ export default function VoucherListPaginationMobile({
 
         {/* Per-page */}
         <div className="flex items-center gap-2">
-          <label htmlFor="voucher-limit-mobile" className="text-xs text-gray-600 dark:text-gray-400">
+          <label
+            htmlFor="voucher-limit-mobile"
+            className="text-xs text-gray-600 dark:text-gray-400"
+          >
             {t("pagination.show", "表示")}
           </label>
           <select
@@ -88,7 +104,10 @@ export default function VoucherListPaginationMobile({
           >
             {[5, 10, 20, 50, 100].map((n) => (
               <option key={n} value={n}>
-                {t("pagination.perPage", "{n}件/ページ").replace("{n}", String(n))}
+                {t("pagination.perPage", "{n}件/ページ").replace(
+                  "{n}",
+                  String(n)
+                )}
               </option>
             ))}
           </select>
@@ -244,10 +263,7 @@ export default function VoucherListPaginationMobile({
             <button
               type="button"
               onClick={() => {
-                handleMinNetTotal?.("");
-                handleMaxNetTotal?.("");
-                handleStartDate?.("");
-                handleEndDate?.("");
+                handleResetFilters();
                 setOpenFilter(false);
               }}
               className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -295,11 +311,21 @@ export default function VoucherListPaginationMobile({
                 onChange={(e) => handleSortBy?.(e.target.value)}
                 className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">{t("vouchers.sort.default", "デフォルト")}</option>
-                <option value="total">{t("vouchers.sort.total", "合計")}</option>
-                <option value="net_total">{t("vouchers.sort.netTotal", "税込合計")}</option>
-                <option value="sale_date">{t("vouchers.sort.saleDate", "販売日")}</option>
-                <option value="customer_name">{t("vouchers.sort.customer", "顧客名")}</option>
+                <option value="">
+                  {t("vouchers.sort.default", "デフォルト")}
+                </option>
+                <option value="total">
+                  {t("vouchers.sort.total", "合計")}
+                </option>
+                <option value="net_total">
+                  {t("vouchers.sort.netTotal", "税込合計")}
+                </option>
+                <option value="sale_date">
+                  {t("vouchers.sort.saleDate", "販売日")}
+                </option>
+                <option value="customer_name">
+                  {t("vouchers.sort.customer", "顧客名")}
+                </option>
               </select>
             </label>
 
