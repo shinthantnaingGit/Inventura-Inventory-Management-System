@@ -15,11 +15,12 @@ import LogOutButton from "./LogOutButton";
 import { useI18n } from "@/i18n/I18nProvider";
 import GlobalSearch from "@/components/GlobalSearch";
 import { getProfile } from "@/services/profile";
+import LangToggle from "@/components/LangToggle";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const [openProfile, setOpenProfile] = useState(false);
   const profileRef = useRef(null);
-  const { t, locale, setLocale } = useI18n();
+  const { t } = useI18n();
 
   useEffect(() => {
     const onClick = (e) =>
@@ -35,12 +36,11 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
     };
   }, []);
   const { data: profile, isLoading, error } = getProfile();
-  const profileData = profile?.data
-  const toggleLocale = () => setLocale(locale === "en" ? "ja" : "en");
+  const profileData = profile?.data;
 
   return (
     <header className="mb-5 print:hidden top-0 relative z-50 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
-      <div className="mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Stable 3-column grid prevents center from shifting */}
         <div className="h-16 grid grid-cols-[auto_1fr_auto] items-center gap-3">
           {/* Left: brand (don’t shrink) */}
@@ -62,18 +62,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
           {/* Right: actions (no shrink) */}
           <div className="flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
             {/* Language toggle — reserve width for longest label */}
-            <button
-              type="button"
-              onClick={toggleLocale}
-              className="inline-flex items-center w-fit gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 justify-center"
-              aria-label={t("nav.settings", "設定")}
-            >
-              <Globe className="size-4 shrink-0" />
-              {/* Reserve label width so EN/日本語 doesn’t reflow neighbors */}
-              <span className="hidden sm:inline w-[48px]  text-center">
-                {locale === "en" ? "EN" : "日本語"}
-              </span>
-            </button>
+
+            <LangToggle className="rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
 
             {/* Theme toggle */}
             <div className="block">
@@ -89,8 +79,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 aria-haspopup="menu"
                 aria-expanded={openProfile}
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-                  {!isLoading ? (
+                <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
+                  {profileData ? (
                     <img
                       src={profileData.profile_image}
                       alt="Profile"
@@ -102,7 +92,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 </div>
                 {/* Reserve space for 'プロフィール' vs 'Profile' */}
                 <span className="hidden sm:block text-sm text-gray-800 dark:text-gray-100 w-[5.75rem] text-center truncate">
-                  {t("nav.profile", "プロフィール")}
+                  {/* {t("nav.profile", "プロフィール")} */}
+                  {profileData?.name}
                 </span>
                 <ChevronDown className="size-4 text-gray-500 shrink-0" />
               </div>

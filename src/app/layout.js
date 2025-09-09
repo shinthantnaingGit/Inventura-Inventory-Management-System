@@ -10,7 +10,7 @@ import { I18nProvider } from "@/i18n/I18nProvider"; // 🔸 add this
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <ThemeModeScript />
       </head>

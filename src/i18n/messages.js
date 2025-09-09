@@ -433,6 +433,36 @@ export const messages = {
       errorBody: "Please check your connection and try again.",
       retry: "Retry",
     },
+    common: {
+      save: "Save",
+      cancel: "Cancel",
+      loading: "Loading…",
+      error: "Something went wrong",
+    },
+    profile: {
+      title: "User Profile",
+      subtitle: "Manage your account information and preferences",
+      badges: { active: "Active Profile" },
+      alt: { avatar: "Profile image" },
+      labels: {
+        userId: "User ID",
+        email: "Email Address",
+        memberSince: "Member Since",
+        lastUpdated: "Last Updated",
+      },
+      actions: {
+        back: "Back to Dashboard",
+        uploadImage: "Upload Image",
+        editName: "Edit name",
+        changePassword: "Change Password",
+      },
+      placeholders: { name: "Your display name" },
+      toasts: {
+        nameSaved: "Name updated.",
+        imageSaved: "Profile photo updated.",
+        errorGeneric: "Request failed. Please try again.",
+      },
+    },
   },
 
   ja: {

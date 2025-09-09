@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { getProfile } from "@/services/profile";
-import MobileProfileSection from "./MobileProfileSection";
-import DesktopProfileSection from "./DesktopProfileSection";
+import MobileProfileSection from "./ProfileMobile";
+import DesktopProfileSection from "./ProfleDesktop";
 import PasswordChangeModal from "./PasswordChangeModal";
+import ProfileMobile from "./ProfileMobile";
+import ProfileDesktop from "./ProfleDesktop";
 
 const ProfileSection = () => {
   const { data: profileData, isLoading, error } = getProfile();
@@ -21,14 +23,14 @@ const ProfileSection = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-4 md:py-8 transition-colors duration-300">
       <div className="md:hidden">
-        <MobileProfileSection
+        <ProfileMobile
           profileData={profileData?.data}
           onOpenPasswordModal={() => setShowPasswordModal(true)}
         />
       </div>
 
       <div className="hidden md:block">
-        <DesktopProfileSection
+        <ProfileDesktop
           profileData={profileData?.data}
           onOpenPasswordModal={() => setShowPasswordModal(true)}
         />
