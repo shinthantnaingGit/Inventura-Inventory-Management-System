@@ -16,7 +16,6 @@ const DashBoardSideBar = ({ onNavigate }) => {
     { id: "sales", label: t("nav.sales", "売上"), icon: Receipt, path: "/dashboard/sale" },
     { id: "vouchers", label: t("nav.vouchers", "バウチャー"), icon: Ticket, path: "/dashboard/vouchers" },
     { id: "inventory", label: t("nav.inventory", "在庫"), icon: Box, path: "/dashboard/inventory" },
-    { id: "profile", label: t("nav.profile", "在庫"), icon: User, path: "/dashboard/profile" },
 
   ];
 

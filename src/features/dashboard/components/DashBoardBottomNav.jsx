@@ -34,12 +34,6 @@ const DashBoardBottomNav = () => {
       icon: Box,
       path: "/dashboard/inventory",
     },
-    {
-      id: "profile",
-      label: t("nav.profile", "在庫"),
-      icon: User,
-      path: "/dashboard/profile",
-    },
   ];
 
   const isActive = (path) => {

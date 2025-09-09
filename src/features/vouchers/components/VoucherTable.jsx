@@ -66,12 +66,6 @@ const VoucherTable = ({ vouchers }) => {
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
                     {t("vouchers.empty.title", "伝票がありません")}
                   </h3>
-                  <p className="mt-2 max-w-md text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                    {t(
-                      "vouchers.empty.body",
-                      "最初の伝票を作成するか、CSV をインポートしてください。"
-                    )}
-                  </p>
 
                   {/* Actions */}
                   <div className="mt-6 w-full flex flex-col sm:flex-row gap-3 sm:justify-center">
@@ -82,23 +76,6 @@ const VoucherTable = ({ vouchers }) => {
                     >
                       ＋ {t("vouchers.empty.createCta", "伝票を作成")}
                     </a>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        alert(
-                          t(
-                            "vouchers.empty.importAlert",
-                            "CSV インポートのハンドラーを接続してください"
-                          )
-                        )
-                      }
-                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-                        bg-gray-100 hover:bg-gray-200 text-gray-800
-                        dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 transition-colors"
-                    >
-                      {t("vouchers.empty.importCta", "CSV をインポート")}
-                    </button>
                   </div>
                 </div>
               </td>

@@ -50,12 +50,7 @@ export default function VoucherListMobile({ vouchers }) {
         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
           {t("vouchers.empty.title", "伝票がありません")}
         </h3>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          {t(
-            "vouchers.empty.body",
-            "まずは伝票を作成するか、CSV をインポートしてください。"
-          )}
-        </p>
+
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Link
             href="/dashboard/vouchers/create"
@@ -63,13 +58,6 @@ export default function VoucherListMobile({ vouchers }) {
           >
             {t("vouchers.empty.createCta", "＋ 伝票を作成")}
           </Link>
-          <button
-            type="button"
-            onClick={() => alert("CSVインポートのハンドラーを接続してください")}
-            className="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {t("vouchers.empty.importCsv", "CSVをインポート")}
-          </button>
         </div>
       </div>
     );
@@ -131,7 +119,7 @@ export default function VoucherListMobile({ vouchers }) {
               <Info className="size-4 text-blue-600 dark:text-blue-400" />
               {t("vouchers.actions.view", "表示")}
             </Link>
-            
+
             <button
               onClick={() => handleDelete(v.id, v.voucher_id)}
               className="inline-flex items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"

@@ -1,12 +1,12 @@
-import DashBoardLayout from '@/features/dashboard/components/DashBoardLayout'
 import React from 'react'
 import ProfileSection from '../components/ProfileSection'
+import ProfileLayout from '../components/ProfileLayout'
 
 const ProfilePage = () => {
   return (
-    <DashBoardLayout>
+    <ProfileLayout>
       <ProfileSection/>
-    </DashBoardLayout>
+    </ProfileLayout>
   )
 }
 

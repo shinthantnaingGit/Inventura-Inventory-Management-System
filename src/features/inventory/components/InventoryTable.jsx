@@ -51,9 +51,7 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
                     {t("inventoryTable.emptyTitle", "商品がありません")}
                   </h3>
-                  <p className="mt-2 max-w-md text-sm sm:text-base text-gray-500 dark:text-gray-400">
-                    {t("inventoryTable.emptyBody", "まずは商品を作成するか、CSV をインポートしてください。")}
-                  </p>
+                 
 
                   {/* Actions */}
                   <div className="mt-6 w-full flex flex-col sm:flex-row gap-3 sm:justify-center">
@@ -65,7 +63,7 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                         aria-label={t("inventoryTable.createCta", "＋ 商品を作成")}
                         title={t("inventoryTable.createCta", "＋ 商品を作成")}
                       >
-                        <span className="inline-block">＋</span>
+                        <span className="inline-block"></span>
                         {t("inventoryTable.createCta", "＋ 商品を作成")}
                       </button>
                     ) : (
@@ -76,41 +74,18 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                         aria-label={t("inventoryTable.createCta", "＋ 商品を作成")}
                         title={t("inventoryTable.createCta", "＋ 商品を作成")}
                       >
-                        <span className="inline-block">＋</span>
+                        <span className="inline-block"></span>
                         {t("inventoryTable.createCta", "＋ 商品を作成")}
                       </a>
                     )}
 
-                    {typeof onImportProducts === "function" ? (
-                      <button
-                        onClick={onImportProducts}
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-                         bg-gray-100 hover:bg-gray-200 text-gray-800
-                         dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 transition-colors"
-                        aria-label={t("inventoryTable.importCsv", "CSVをインポート")}
-                        title={t("inventoryTable.importCsv", "CSVをインポート")}
-                      >
-                        {t("inventoryTable.importCsv", "CSVをインポート")}
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => alert("CSVインポートのハンドラーを接続してください")}
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-                         bg-gray-100 hover:bg-gray-200 text-gray-800
-                         dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 transition-colors"
-                        aria-label={t("inventoryTable.importCsv", "CSVをインポート")}
-                        title={t("inventoryTable.importCsv", "CSVをインポート")}
-                      >
-                        {t("inventoryTable.importCsv", "CSVをインポート")}
-                      </button>
-                    )}
+                   
                   </div>
 
                   {/* Tips */}
                   <ul className="mt-6 space-y-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <li>{t("inventoryTable.tips.tip1", "・商品の作成時は名前・価格・SKUを入力してください。")}</li>
-                    <li>{t("inventoryTable.tips.tip2", "・後からCSVで一括インポートも可能です。")}</li>
+                    <li>{t("inventoryTable.tips.tip1", "・商品の作成時は名前・価格を入力してください。")}</li>
+                    
                   </ul>
                 </div>
               </td>

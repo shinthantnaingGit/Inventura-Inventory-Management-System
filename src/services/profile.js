@@ -1,60 +1,58 @@
+// services/profile.js
 import useAccountStore from "@/store/useAccountStore";
-
-export const token = useAccountStore.getState().token;
-
 import useSWR from "swr";
 
-export const profileApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile/profile`;
+export const profileApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile`;
+export const token = useAccountStore.getState().token;
 export const fetcher = (url) =>
   fetch(url, {
     method: "GET",
     headers: {
-      // Authorization : `Bearer ${token}`,
-      //FIX CACHING ISSUE
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-  }).then((res) => res.json()); // Reusable fetcher
+  }).then((res) => res.json());
 
-// 1) GET (READ) profiles
-export const getProfiles = (url) => {
-  return useSWR(url, fetcher); // Use SWR for fetching
+// 1) GET PROFILE
+export const getProfile = () => {
+  return useSWR(`${profileApiUrl}/profile`, fetcher);
 };
 
-// 2) POST (CREATE) profile
-export const storeProfile = (payLoad) => {
-  return fetch(profileApiUrl, {
+// 2) POST (CREATE) ADD PROFILE IMAGE  <-- use FormData
+export const storeProfileImage = (file) => {
+  const fd = new FormData();
+  // 👇 match your backend’s field name (commonly "profile_image" or "image")
+  fd.append("profile_image", file);
+
+  return fetch(`${profileApiUrl}/change-profile-image`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      // ❌ don't set Content-Type for FormData; browser will set boundary
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-    body: JSON.stringify(payLoad),
+    body: fd,
   });
 };
 
-// 3) GET (READ) One profile
-export const getProfile = (id) => {
-  return useSWR(`${profileApiUrl}/${id}`, fetcher);
-};
-
-// 4) DELETE (DELETE) One profile
-export const destroyProfile = (id) => {
-  return fetch(`${profileApiUrl}/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${useAccountStore.getState().token}`,
-    },
-  });
-};
-
-// 5) PUT (UPDATE) One profile
-export const updateProfile = (id, payLoad) => {
-  return fetch(`${profileApiUrl}/${id}`, {
-    method: "PUT", // or PATCH if your backend supports partial updates
+// 3) PATCH (UPDATE) CHANGE NAME  <-- remove trailing space + send JSON object
+export const updateProfileName = (payload) => {
+  return fetch(`${profileApiUrl}/change-name`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-    body: JSON.stringify(payLoad),
+    body: JSON.stringify(payload), // e.g. { name: "New Name" }
+  });
+};
+
+// 4) PATCH (UPDATE) CHANGE PASSWORD (unchanged)
+export const updatePassword = (payload) => {
+  return fetch(`${profileApiUrl}/change-password`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${useAccountStore.getState().token}`,
+    },
+    body: JSON.stringify(payload),
   });
 };

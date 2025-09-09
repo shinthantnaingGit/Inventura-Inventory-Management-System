@@ -26,6 +26,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 
@@ -37,7 +38,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 /* ----------------------------- data ----------------------------- */
@@ -102,27 +104,30 @@ export default function DashBoardSection() {
     const sumQty = records.reduce((a, r) => a + Number(r.quantity || 0), 0);
     const uniq = new Set(records.map((r) => r.product?.id)).size;
     const avg = sumCost / records.length;
-const dtLabel = (iso) =>
-  new Intl.DateTimeFormat(undefined, {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    // second: "2-digit",   // uncomment if you want more granularity
-  }).format(new Date(iso));
+    const dtLabel = (iso) =>
+      new Intl.DateTimeFormat(undefined, {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        // second: "2-digit",   // uncomment if you want more granularity
+      }).format(new Date(iso));
 
-const overTime = [...records]
-  .filter((r) => r.created_at)
-  .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-  .map((r) => ({
-    label: dtLabel(r.created_at),        // <-- date + time
-    cost: Number(r.cost || 0),
-    date: new Date(r.created_at),
-  }));
+    const overTime = [...records]
+      .filter((r) => r.created_at)
+      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+      .map((r) => ({
+        label: dtLabel(r.created_at), // <-- date + time
+        cost: Number(r.cost || 0),
+        date: new Date(r.created_at),
+      }));
     // by month
     const monthMap = new Map();
     overTime.forEach(({ date, cost }) => {
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}`;
       monthMap.set(key, (monthMap.get(key) ?? 0) + cost);
     });
     const byMonth = [...monthMap.entries()]
@@ -135,7 +140,8 @@ const overTime = [...records]
     // top products by qty
     const qtyMap = new Map();
     for (const r of records) {
-      const name = r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
+      const name =
+        r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
       qtyMap.set(name, (qtyMap.get(name) ?? 0) + Number(r.quantity || 0));
     }
     const top = [...qtyMap.entries()]
@@ -191,7 +197,7 @@ const overTime = [...records]
       {
         label: t("dashboard.charts.revenue", "Revenue"),
         data: revenueOverTime.map((p) => p.cost),
-        borderColor: "rgba(59,130,246,1)",        // blue-500
+        borderColor: "rgba(59,130,246,1)", // blue-500
         backgroundColor: "rgba(59,130,246,0.25)", // blue-500/25
         tension: 0.3,
         fill: true,
@@ -199,7 +205,6 @@ const overTime = [...records]
       },
     ],
   };
-  
 
   const monthData = {
     labels: revenueByMonth.map((m) => m.label),
@@ -262,13 +267,15 @@ const overTime = [...records]
 
       {/* CHARTS */}
       <div className="grid gap-6 lg:grid-cols-2">
-       <div className="col-span-2">
-         <Card title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}>
-          <div className="h-64">
-            <Line data={lineData} options={baseOptions} />
-          </div>
-        </Card>
-       </div>
+        <div className="col-span-2">
+          <Card
+            title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}
+          >
+            <div className="h-64">
+              <Line data={lineData} options={baseOptions} />
+            </div>
+          </Card>
+        </div>
 
         <Card title={t("dashboard.charts.revenueByMonth", "Revenue by Month")}>
           <div className="h-64">
@@ -276,12 +283,14 @@ const overTime = [...records]
           </div>
         </Card>
 
-        <Card title={t("dashboard.charts.topProductsByQty", "Top Products by Quantity")}>
+        <Card
+          title={t(
+            "dashboard.charts.topProductsByQty",
+            "Top Products by Quantity"
+          )}
+        >
           <div className="h-64">
-            <Bar
-              data={topData}
-              options={{ ...baseOptions, indexAxis: "y" }}
-            />
+            <Bar data={topData} options={{ ...baseOptions, indexAxis: "y" }} />
           </div>
         </Card>
       </div>
@@ -294,7 +303,10 @@ const overTime = [...records]
             <span>{t("dashboard.filters.title", "Filters")}</span>
           </div>
         }
-        subtitle={t("dashboard.filters.subtitle", "Refine result set, then Apply")}
+        subtitle={t(
+          "dashboard.filters.subtitle",
+          "Refine result set, then Apply"
+        )}
         rightSlot={
           <button
             onClick={() => mutate()}
@@ -312,24 +324,80 @@ const overTime = [...records]
             <CalendarDays className="size-4" />
             {t("dashboard.filters.quickRanges", "Quick ranges:")}
           </span>
-          <PresetBtn onClick={() => setRange(7)}>{t("dashboard.filters.last7", "Last 7 days")}</PresetBtn>
-          <PresetBtn onClick={() => setRange(30)}>{t("dashboard.filters.last30", "Last 30 days")}</PresetBtn>
-          <PresetBtn onClick={() => setRange(90)}>{t("dashboard.filters.last90", "Last 90 days")}</PresetBtn>
-          <PresetBtn onClick={() => setFilters((s) => ({ ...s, date_from: "", date_to: "" }))}>
+          <PresetBtn onClick={() => setRange(7)}>
+            {t("dashboard.filters.last7", "Last 7 days")}
+          </PresetBtn>
+          <PresetBtn onClick={() => setRange(30)}>
+            {t("dashboard.filters.last30", "Last 30 days")}
+          </PresetBtn>
+          <PresetBtn onClick={() => setRange(90)}>
+            {t("dashboard.filters.last90", "Last 90 days")}
+          </PresetBtn>
+          <PresetBtn
+            onClick={() =>
+              setFilters((s) => ({ ...s, date_from: "", date_to: "" }))
+            }
+          >
             {t("dashboard.filters.clearRange", "Clear range")}
           </PresetBtn>
         </div>
 
         {/* Form grid */}
         <div className="grid gap-3 md:grid-cols-4">
-          <Input label={t("dashboard.filters.voucherId", "Voucher ID")} name="voucher_id" value={filters.voucher_id} onChange={onField} />
-          <Input label={t("dashboard.filters.productId", "Product ID")} name="product_id" value={filters.product_id} onChange={onField} />
-          <Input label={t("dashboard.filters.minQty", "Min Quantity")} name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
-          <Input label={t("dashboard.filters.maxQty", "Max Quantity")} name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
-          <Input label={t("dashboard.filters.minCost", "Min Cost")} name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
-          <Input label={t("dashboard.filters.maxCost", "Max Cost")} name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
-          <Input label={t("dashboard.filters.dateFrom", "Date From")} name="date_from" value={filters.date_from} onChange={onField} type="date" />
-          <Input label={t("dashboard.filters.dateTo", "Date To")} name="date_to" value={filters.date_to} onChange={onField} type="date" />
+          <Input
+            label={t("dashboard.filters.voucherId", "Voucher ID")}
+            name="voucher_id"
+            value={filters.voucher_id}
+            onChange={onField}
+          />
+          <Input
+            label={t("dashboard.filters.productId", "Product ID")}
+            name="product_id"
+            value={filters.product_id}
+            onChange={onField}
+          />
+          <Input
+            label={t("dashboard.filters.minQty", "Min Quantity")}
+            name="min_quantity"
+            value={filters.min_quantity}
+            onChange={onField}
+            type="number"
+          />
+          <Input
+            label={t("dashboard.filters.maxQty", "Max Quantity")}
+            name="max_quantity"
+            value={filters.max_quantity}
+            onChange={onField}
+            type="number"
+          />
+          <Input
+            label={t("dashboard.filters.minCost", "Min Cost")}
+            name="min_cost"
+            value={filters.min_cost}
+            onChange={onField}
+            type="number"
+          />
+          <Input
+            label={t("dashboard.filters.maxCost", "Max Cost")}
+            name="max_cost"
+            value={filters.max_cost}
+            onChange={onField}
+            type="number"
+          />
+          <Input
+            label={t("dashboard.filters.dateFrom", "Date From")}
+            name="date_from"
+            value={filters.date_from}
+            onChange={onField}
+            type="date"
+          />
+          <Input
+            label={t("dashboard.filters.dateTo", "Date To")}
+            name="date_to"
+            value={filters.date_to}
+            onChange={onField}
+            type="date"
+          />
         </div>
 
         <div className="mt-4 flex items-center gap-2">
@@ -370,16 +438,25 @@ const overTime = [...records]
         ) : records.length ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
             {records.slice(0, 12).map((r) => (
-              <li key={r.id} className="flex items-start justify-between gap-4 py-3">
+              <li
+                key={r.id}
+                className="flex items-start justify-between gap-4 py-3"
+              >
                 <div>
                   <p className="text-sm text-gray-800 dark:text-gray-200">
-                    {(r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown"))} × {r.quantity}
+                    {r.product?.product_name ??
+                      t("dashboard.recents.unknown", "Unknown")}{" "}
+                    × {r.quantity}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
+                    {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)}{" "}
+                    · {fmtDate(r.created_at)} ·{" "}
+                    {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs text-gray-500">{t("dashboard.recents.id", "ID")} {r.id}</span>
+                <span className="shrink-0 text-xs text-gray-500">
+                  {t("dashboard.recents.id", "ID")} {r.id}
+                </span>
               </li>
             ))}
           </ul>

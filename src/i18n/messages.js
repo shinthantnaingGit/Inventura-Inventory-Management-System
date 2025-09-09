@@ -223,7 +223,7 @@ export const messages = {
       createCta: "＋ Create Product",
       importCsv: "Import CSV",
       tips: {
-        tip1: "• Add name, price, and SKU when creating products.",
+        tip1: "• Add name and price when creating products.",
         tip2: "• You can bulk import via CSV later.",
       },
     },
@@ -658,7 +658,7 @@ export const messages = {
       createCta: "＋ 商品を作成",
       importCsv: "CSVをインポート",
       tips: {
-        tip1: "・商品の作成時は名前・価格・SKUを入力してください。",
+        tip1: "・商品の作成時は名前・価格を入力してください。",
         tip2: "・後からCSVで一括インポートも可能です。",
       },
     },

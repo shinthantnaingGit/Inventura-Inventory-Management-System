@@ -2,10 +2,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DarkThemeToggle } from "flowbite-react";
-import { Bell, Search, ChevronDown, Settings, User, Globe } from "lucide-react";
+import {
+  Bell,
+  Search,
+  ChevronDown,
+  Settings,
+  User,
+  Globe,
+  UserCheck,
+} from "lucide-react";
 import LogOutButton from "./LogOutButton";
 import { useI18n } from "@/i18n/I18nProvider";
 import GlobalSearch from "@/components/GlobalSearch";
+import { getProfile } from "@/services/profile";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -25,7 +34,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
       document.removeEventListener("keydown", onKey);
     };
   }, []);
-
+  const { data: profile, isLoading, error } = getProfile();
+  const profileData = profile?.data
   const toggleLocale = () => setLocale(locale === "en" ? "ja" : "en");
 
   return (
@@ -46,7 +56,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
 
           {/* Center: search (stable width area) */}
           <div className="hidden md:block max-w-xl mx-auto w-full">
-           <GlobalSearch/>
+            <GlobalSearch />
           </div>
 
           {/* Right: actions (no shrink) */}
@@ -71,24 +81,31 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
             </div>
 
             {/* Profile menu — fix label width to avoid EN/JA shift */}
-            <div className="relative" ref={profileRef}>
-              <Link
-              href={`/dashboard/profile`}
+            <div className="relative " ref={profileRef}>
+              <div
                 type="button"
                 onClick={() => setOpenProfile((s) => !s)}
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-2 pr-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="inline-flex justify-center items-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-2 pr-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-700"
                 aria-haspopup="menu"
                 aria-expanded={openProfile}
               >
-                <span className="grid place-items-center size-7 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-white text-xs font-semibold">
-                  SB
-                </span>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
+                  {!isLoading ? (
+                    <img
+                      src={profileData.profile_image}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User size={32} className="text-white" />
+                  )}
+                </div>
                 {/* Reserve space for 'プロフィール' vs 'Profile' */}
-                <span className="hidden sm:block text-sm text-gray-800 dark:text-gray-100 w-[5.75rem] text-left truncate">
+                <span className="hidden sm:block text-sm text-gray-800 dark:text-gray-100 w-[5.75rem] text-center truncate">
                   {t("nav.profile", "プロフィール")}
                 </span>
                 <ChevronDown className="size-4 text-gray-500 shrink-0" />
-              </Link>
+              </div>
 
               {openProfile && (
                 <div
@@ -100,11 +117,11 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                     icon={User}
                     label={t("nav.profile", "プロフィール")}
                   />
-                  <MenuItem
+                  {/* <MenuItem
                     href="/dashboard/settings"
                     icon={Settings}
                     label={t("nav.settings", "設定")}
-                  />
+                  /> */}
                   <div className="my-1 h-px bg-gray-200 dark:bg-gray-800" />
                   <LogOutButton />
                 </div>
