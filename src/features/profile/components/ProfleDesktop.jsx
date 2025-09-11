@@ -81,7 +81,12 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
       toast.success(
         t("profile.toasts.imageSaved", "プロフィール画像を更新しました。")
       );
-      await mutate(profileApiUrl);
+      // await mutate(
+      //   (key) => typeof key === "string" && key.startsWith(profileApiUrl),
+      //   undefined,
+      //   { revalidate: true }
+      // );
+      mutate((key) => typeof key === "string" && key.startsWith(profileApiUrl));
     } catch (e) {
       console.error(e);
       toast.error(

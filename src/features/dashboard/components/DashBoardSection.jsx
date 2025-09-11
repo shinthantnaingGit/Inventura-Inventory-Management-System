@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   BarChart3,
   ShoppingCart,
@@ -44,7 +45,7 @@ ChartJS.register(
 
 /* ----------------------------- data ----------------------------- */
 
-const BASE = `${process.env.NEXT_PUBLIC_API_URL}/records`;
+const recordApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/records`;
 
 const fetcher = (url) =>
   fetch(url, {
@@ -55,24 +56,27 @@ const fetcher = (url) =>
 
 export default function DashBoardSection() {
   const { t } = useI18n();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // filters map 1:1 to backend
-  const [filters, setFilters] = useState({
-    voucher_id: "",
-    product_id: "",
-    min_quantity: "",
-    max_quantity: "",
-    min_cost: "",
-    max_cost: "",
-    date_from: "",
-    date_to: "",
-  });
+  // Initialize filters from URL params
+  const [filters, setFilters] = useState(() => ({
+    voucher_id: searchParams.get("voucher_id") || "",
+    product_id: searchParams.get("product_id") || "",
+    min_quantity: searchParams.get("min_quantity") || "",
+    max_quantity: searchParams.get("max_quantity") || "",
+    min_cost: searchParams.get("min_cost") || "",
+    max_cost: searchParams.get("max_cost") || "",
+    date_from: searchParams.get("date_from") || "",
+    date_to: searchParams.get("date_to") || "",
+  }));
 
+  // Build URL from current filters
   const qs = new URLSearchParams();
   Object.entries(filters).forEach(([k, v]) => {
     if (v !== "" && v != null) qs.set(k, v);
   });
-  const url = qs.toString() ? `${BASE}?${qs.toString()}` : BASE;
+  const url = qs.toString() ? `${recordApiUrl}?${qs.toString()}` : recordApiUrl;
 
   const { data, error, isLoading, mutate } = useSWR(url, fetcher);
   const records = data?.data ?? [];
@@ -162,11 +166,26 @@ export default function DashBoardSection() {
 
   /* --------------------------- handlers -------------------------- */
 
-  const onField = (e) =>
-    setFilters((s) => ({ ...s, [e.target.name]: e.target.value }));
+  // Helper function to update URL
+  const updateURL = (newFilters) => {
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value !== "" && value != null) {
+        params.set(key, value);
+      }
+    });
+    const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    router.push(newURL, { scroll: false });
+  };
 
-  const onClear = () =>
-    setFilters({
+  const onField = (e) => {
+    const newFilters = { ...filters, [e.target.name]: e.target.value };
+    setFilters(newFilters);
+    updateURL(newFilters);
+  };
+
+  const onClear = () => {
+    const clearedFilters = {
       voucher_id: "",
       product_id: "",
       min_quantity: "",
@@ -175,18 +194,23 @@ export default function DashBoardSection() {
       max_cost: "",
       date_from: "",
       date_to: "",
-    });
+    };
+    setFilters(clearedFilters);
+    updateURL(clearedFilters);
+  };
 
   // quick date range helpers
   const setRange = (days) => {
     const to = new Date();
     const from = new Date();
     from.setDate(to.getDate() - (days - 1));
-    setFilters((s) => ({
-      ...s,
+    const newFilters = {
+      ...filters,
       date_from: toISO(from),
       date_to: toISO(to),
-    }));
+    };
+    setFilters(newFilters);
+    updateURL(newFilters);
   };
 
   /* --------------------------- chart data ------------------------ */
@@ -334,9 +358,11 @@ export default function DashBoardSection() {
             {t("dashboard.filters.last90", "Last 90 days")}
           </PresetBtn>
           <PresetBtn
-            onClick={() =>
-              setFilters((s) => ({ ...s, date_from: "", date_to: "" }))
-            }
+            onClick={() => {
+              const newFilters = { ...filters, date_from: "", date_to: "" };
+              setFilters(newFilters);
+              updateURL(newFilters);
+            }}
           >
             {t("dashboard.filters.clearRange", "Clear range")}
           </PresetBtn>

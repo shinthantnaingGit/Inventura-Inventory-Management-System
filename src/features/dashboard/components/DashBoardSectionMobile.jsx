@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   BarChart3,
   ShoppingCart,
@@ -43,7 +44,7 @@ ChartJS.register(
 );
 
 /* ----------------------------- data ----------------------------- */
-const BASE = `${process.env.NEXT_PUBLIC_API_URL}/records`;
+const recordApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/records`;
 
 const fetcher = (url) =>
   fetch(url, {
@@ -53,29 +54,44 @@ const fetcher = (url) =>
 /* ------------------------------ UI ------------------------------ */
 export default function DashBoardSectionMobile() {
   const { t } = useI18n();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // filters map 1:1 to backend
-  const [filters, setFilters] = useState({
-    voucher_id: "",
-    product_id: "",
-    min_quantity: "",
-    max_quantity: "",
-    min_cost: "",
-    max_cost: "",
-    date_from: "",
-    date_to: "",
-  });
+  // Initialize filters from URL params
+  const [filters, setFilters] = useState(() => ({
+    voucher_id: searchParams.get("voucher_id") || "",
+    product_id: searchParams.get("product_id") || "",
+    min_quantity: searchParams.get("min_quantity") || "",
+    max_quantity: searchParams.get("max_quantity") || "",
+    min_cost: searchParams.get("min_cost") || "",
+    max_cost: searchParams.get("max_cost") || "",
+    date_from: searchParams.get("date_from") || "",
+    date_to: searchParams.get("date_to") || "",
+  }));
 
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  // Build API URL
   const qs = new URLSearchParams();
   Object.entries(filters).forEach(([k, v]) => {
-    if (v !== "" && v != null) qs.set(k, v);
+    if (v) qs.set(k, v);
   });
-  const url = qs.toString() ? `${BASE}?${qs.toString()}` : BASE;
+  const url = qs.toString() ? `${recordApiUrl}?${qs.toString()}` : recordApiUrl;
 
   const { data, error, isLoading, mutate } = useSWR(url, fetcher);
   const records = data?.data ?? [];
+
+  /* --------------------------- updateURL ------------------------- */
+  const updateURL = (newFilters) => {
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+    });
+    const newURL = params.toString()
+      ? `?${params.toString()}`
+      : window.location.pathname;
+    router.push(newURL, { scroll: false });
+  };
 
   /* ------------------------- aggregations ------------------------ */
   const {
@@ -118,7 +134,10 @@ export default function DashBoardSectionMobile() {
 
     const monthMap = new Map();
     overTime.forEach(({ date, cost }) => {
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}`;
       monthMap.set(key, (monthMap.get(key) ?? 0) + cost);
     });
     const byMonth = [...monthMap.entries()]
@@ -127,7 +146,8 @@ export default function DashBoardSectionMobile() {
 
     const qtyMap = new Map();
     for (const r of records) {
-      const name = r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
+      const name =
+        r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
       qtyMap.set(name, (qtyMap.get(name) ?? 0) + Number(r.quantity || 0));
     }
     const top = [...qtyMap.entries()]
@@ -147,11 +167,14 @@ export default function DashBoardSectionMobile() {
   }, [records, t]);
 
   /* --------------------------- handlers -------------------------- */
-  const onField = (e) =>
-    setFilters((s) => ({ ...s, [e.target.name]: e.target.value }));
+  const onField = (e) => {
+    const newFilters = { ...filters, [e.target.name]: e.target.value };
+    setFilters(newFilters);
+    updateURL(newFilters);
+  };
 
-  const onClear = () =>
-    setFilters({
+  const onClear = () => {
+    const clearedFilters = {
       voucher_id: "",
       product_id: "",
       min_quantity: "",
@@ -160,17 +183,22 @@ export default function DashBoardSectionMobile() {
       max_cost: "",
       date_from: "",
       date_to: "",
-    });
+    };
+    setFilters(clearedFilters);
+    updateURL(clearedFilters);
+  };
 
   const setRange = (days) => {
     const to = new Date();
     const from = new Date();
     from.setDate(to.getDate() - (days - 1));
-    setFilters((s) => ({
-      ...s,
+    const newFilters = {
+      ...filters,
       date_from: toISO(from),
       date_to: toISO(to),
-    }));
+    };
+    setFilters(newFilters);
+    updateURL(newFilters);
   };
 
   /* --------------------------- chart data ------------------------ */
@@ -223,15 +251,31 @@ export default function DashBoardSectionMobile() {
   /* ------------------------------ render ------------------------- */
   return (
     <section className="px-4 py-4 space-y-5">
-      {/* INSIGHTS (single column cards) */}
+      {/* INSIGHTS */}
       <div className="grid gap-3">
-        <StatsCard title={t("dashboard.stats.totalRevenue", "Total Revenue")} value={fmtCurrency(totalRevenue)} icon={BarChart3} />
-        <StatsCard title={t("dashboard.stats.totalQuantity", "Total Quantity")} value={fmtNumber(totalQuantity)} icon={ShoppingCart} />
-        <StatsCard title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")} value={fmtCurrency(avgCostPerRecord)} icon={Package} />
-        <StatsCard title={t("dashboard.stats.topProduct", "Top Product")} value={topProducts[0]?.name ?? "—"} icon={Trophy} />
+        <StatsCard
+          title={t("dashboard.stats.totalRevenue", "Total Revenue")}
+          value={fmtCurrency(totalRevenue)}
+          icon={BarChart3}
+        />
+        <StatsCard
+          title={t("dashboard.stats.totalQuantity", "Total Quantity")}
+          value={fmtNumber(totalQuantity)}
+          icon={ShoppingCart}
+        />
+        <StatsCard
+          title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")}
+          value={fmtCurrency(avgCostPerRecord)}
+          icon={Package}
+        />
+        <StatsCard
+          title={t("dashboard.stats.topProduct", "Top Product")}
+          value={topProducts[0]?.name ?? "—"}
+          icon={Trophy}
+        />
       </div>
 
-      {/* CHARTS (stacked, shorter height for phones) */}
+      {/* CHARTS */}
       <Card title={t("dashboard.cards.revenueOverTime", "Revenue Over Time")}>
         <div className="h-52">
           <Line data={lineData} options={baseOptions} />
@@ -244,13 +288,15 @@ export default function DashBoardSectionMobile() {
         </div>
       </Card>
 
-      <Card title={t("dashboard.cards.topProductsByQty", "Top Products by Quantity")}>
+      <Card
+        title={t("dashboard.cards.topProductsByQty", "Top Products by Quantity")}
+      >
         <div className="h-56">
           <Bar data={topData} options={{ ...baseOptions, indexAxis: "y" }} />
         </div>
       </Card>
 
-      {/* FILTERS (collapsible for mobile) */}
+      {/* FILTERS */}
       <Card
         title={
           <button
@@ -263,7 +309,9 @@ export default function DashBoardSectionMobile() {
               {t("dashboard.filters.title", "Filters")}
             </span>
             <ChevronDown
-              className={`size-4 text-gray-500 transition-transform ${filtersOpen ? "rotate-180" : ""}`}
+              className={`size-4 text-gray-500 transition-transform ${
+                filtersOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
         }
@@ -287,31 +335,87 @@ export default function DashBoardSectionMobile() {
                 <CalendarDays className="size-4" />
                 {t("dashboard.filters.quickRanges", "Quick ranges:")}
               </span>
-              <PresetBtn onClick={() => setRange(7)}>{t("dashboard.filters.last7Short", "7d")}</PresetBtn>
-              <PresetBtn onClick={() => setRange(30)}>{t("dashboard.filters.last30Short", "30d")}</PresetBtn>
-              <PresetBtn onClick={() => setRange(90)}>{t("dashboard.filters.last90Short", "90d")}</PresetBtn>
-              <PresetBtn onClick={() => setFilters((s) => ({ ...s, date_from: "", date_to: "" }))}>
+              <PresetBtn onClick={() => setRange(7)}>
+                {t("dashboard.filters.last7Short", "7d")}
+              </PresetBtn>
+              <PresetBtn onClick={() => setRange(30)}>
+                {t("dashboard.filters.last30Short", "30d")}
+              </PresetBtn>
+              <PresetBtn onClick={() => setRange(90)}>
+                {t("dashboard.filters.last90Short", "90d")}
+              </PresetBtn>
+              <PresetBtn
+                onClick={() =>
+                  setFilters((s) => ({ ...s, date_from: "", date_to: "" }))
+                }
+              >
                 {t("dashboard.filters.clearRangeShort", "Clear")}
               </PresetBtn>
             </div>
 
-            {/* Compact grid inputs */}
+            {/* Inputs */}
             <div className="grid gap-3">
               <Row>
-                <Input label={t("dashboard.filters.voucherIdShort", "Voucher")} name="voucher_id" value={filters.voucher_id} onChange={onField} />
-                <Input label={t("dashboard.filters.productIdShort", "Product")} name="product_id" value={filters.product_id} onChange={onField} />
+                <Input
+                  label={t("dashboard.filters.voucherIdShort", "Voucher")}
+                  name="voucher_id"
+                  value={filters.voucher_id}
+                  onChange={onField}
+                />
+                <Input
+                  label={t("dashboard.filters.productIdShort", "Product")}
+                  name="product_id"
+                  value={filters.product_id}
+                  onChange={onField}
+                />
               </Row>
               <Row>
-                <Input label={t("dashboard.filters.minQtyShort", "Min Qty")} name="min_quantity" value={filters.min_quantity} onChange={onField} type="number" />
-                <Input label={t("dashboard.filters.maxQtyShort", "Max Qty")} name="max_quantity" value={filters.max_quantity} onChange={onField} type="number" />
+                <Input
+                  label={t("dashboard.filters.minQtyShort", "Min Qty")}
+                  name="min_quantity"
+                  value={filters.min_quantity}
+                  onChange={onField}
+                  type="number"
+                />
+                <Input
+                  label={t("dashboard.filters.maxQtyShort", "Max Qty")}
+                  name="max_quantity"
+                  value={filters.max_quantity}
+                  onChange={onField}
+                  type="number"
+                />
               </Row>
               <Row>
-                <Input label={t("dashboard.filters.minCostShort", "Min Cost")} name="min_cost" value={filters.min_cost} onChange={onField} type="number" />
-                <Input label={t("dashboard.filters.maxCostShort", "Max Cost")} name="max_cost" value={filters.max_cost} onChange={onField} type="number" />
+                <Input
+                  label={t("dashboard.filters.minCostShort", "Min Cost")}
+                  name="min_cost"
+                  value={filters.min_cost}
+                  onChange={onField}
+                  type="number"
+                />
+                <Input
+                  label={t("dashboard.filters.maxCostShort", "Max Cost")}
+                  name="max_cost"
+                  value={filters.max_cost}
+                  onChange={onField}
+                  type="number"
+                />
               </Row>
               <Row>
-                <Input label={t("dashboard.filters.fromShort", "From")} name="date_from" value={filters.date_from} onChange={onField} type="date" />
-                <Input label={t("dashboard.filters.toShort", "To")} name="date_to" value={filters.date_to} onChange={onField} type="date" />
+                <Input
+                  label={t("dashboard.filters.fromShort", "From")}
+                  name="date_from"
+                  value={filters.date_from}
+                  onChange={onField}
+                  type="date"
+                />
+                <Input
+                  label={t("dashboard.filters.toShort", "To")}
+                  name="date_to"
+                  value={filters.date_to}
+                  onChange={onField}
+                  type="date"
+                />
               </Row>
             </div>
 
@@ -342,7 +446,7 @@ export default function DashBoardSectionMobile() {
         )}
       </Card>
 
-      {/* RECENTS (compact) */}
+      {/* RECENTS */}
       <Card title={t("dashboard.recents.title", "Recent Records")}>
         {isLoading ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
@@ -356,16 +460,25 @@ export default function DashBoardSectionMobile() {
         ) : records.length ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
             {records.slice(0, 10).map((r) => (
-              <li key={r.id} className="flex items-start justify-between gap-3 py-3">
+              <li
+                key={r.id}
+                className="flex items-start justify-between gap-3 py-3"
+              >
                 <div>
                   <p className="text-sm text-gray-800 dark:text-gray-200">
-                    {(r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown"))} × {r.quantity}
+                    {r.product?.product_name ??
+                      t("dashboard.recents.unknown", "Unknown")}{" "}
+                    × {r.quantity}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} · {t("dashboard.recents.voucherAbbr", "V#")}{r.voucher_id}
+                    {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} ·{" "}
+                    {t("dashboard.recents.voucherAbbr", "V#")}
+                    {r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-[11px] text-gray-500">{t("dashboard.recents.id", "ID")} {r.id}</span>
+                <span className="shrink-0 text-[11px] text-gray-500">
+                  {t("dashboard.recents.id", "ID")} {r.id}
+                </span>
               </li>
             ))}
           </ul>
@@ -419,7 +532,9 @@ function Card({ title, subtitle, rightSlot, children }) {
               </h3>
             )}
             {subtitle && (
-              <p className="text-xs text-gray-600 dark:text-gray-400">{subtitle}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {subtitle}
+              </p>
             )}
           </div>
           {rightSlot}

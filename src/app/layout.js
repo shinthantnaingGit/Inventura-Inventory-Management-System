@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
           <PrimeReactThemeBridge />
           {children}
           <ConfirmDialog />
-          <Toaster />
+          <Toaster position="top-center" richColors />
           <NextTopLoader />
         </I18nProvider>
       </body>

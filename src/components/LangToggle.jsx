@@ -37,7 +37,7 @@ export default function LangToggle({ className = "", size = "sm" }) {
       <Languages className={`${S.icon} shrink-0`} />
       {/* Reserve label width so EN/日本語 doesn’t push neighbors */}
       <span className={`hidden sm:block w-15 text-center`}>
-        {locale === "en" ? "ENGLISH" : "日本語"}
+        {locale === "en" ? "日本語" : "ENGLISH"}
       </span>
     </button>
   );

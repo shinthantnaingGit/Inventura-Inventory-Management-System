@@ -6,6 +6,8 @@ import DesktopProfileSection from "./ProfleDesktop";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ProfileMobile from "./ProfileMobile";
 import ProfileDesktop from "./ProfleDesktop";
+import ProfileDesktopSkeleton from "./ProfileDesktopSkeleton";
+import ProfileMobileSkeleton from "./ProfileMobileSkeleton";
 
 const ProfileSection = () => {
   const { data: profileData, isLoading, error } = getProfile();
@@ -13,27 +15,31 @@ const ProfileSection = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   console.log(profileData);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Fail to fetch</div>;
   }
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 py-4 md:py-8 transition-colors duration-300">
       <div className="md:hidden">
-        <ProfileMobile
-          profileData={profileData?.data}
-          onOpenPasswordModal={() => setShowPasswordModal(true)}
-        />
+        {isLoading ? (
+          <ProfileMobileSkeleton />
+        ) : (
+          <ProfileMobile
+            profileData={profileData?.data}
+            onOpenPasswordModal={() => setShowPasswordModal(true)}
+          />
+        )}
       </div>
 
       <div className="hidden md:block">
-        <ProfileDesktop
-          profileData={profileData?.data}
-          onOpenPasswordModal={() => setShowPasswordModal(true)}
-        />
+        {isLoading ? (
+          <ProfileDesktopSkeleton />
+        ) : (
+          <ProfileDesktop
+            profileData={profileData?.data}
+            onOpenPasswordModal={() => setShowPasswordModal(true)}
+          />
+        )}
       </div>
 
       {showPasswordModal && (

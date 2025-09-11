@@ -1,16 +1,18 @@
-// app/register/page.jsx
-import React from 'react';
-import AuthHeader from '../components/AuthHeader';
-import RegisterForm from '../components/RegisterForm';
-
+"use client";
+import React from "react";
+import AuthHeader from "../components/AuthHeader";
+import RegisterForm from "../components/RegisterForm";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const RegisterPage = () => {
+  const { t } = useI18n();
+
   return (
     <section className="relative flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 py-20">
       <AuthHeader />
       <div className="w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
-          Create a new account
+          {t("auth.register.page.title", "新規アカウントを作成")}
         </h2>
         <RegisterForm />
       </div>

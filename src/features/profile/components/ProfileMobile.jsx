@@ -25,6 +25,7 @@ import LangToggle from "@/components/LangToggle";
 
 const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
   const { t } = useI18n();
+
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ name: profileData.name });
   const [isUpdating, setIsUpdating] = useState(false);
@@ -49,6 +50,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
         throw new Error(err || "Failed to update name");
       }
       toast.success(t("profile.toasts.nameSaved", "氏名を更新しました。"));
+      // refresh profile data (FIX: target the actual profile endpoint)
       await mutate(profileApiUrl);
       setIsEditing(false);
     } catch (e) {
@@ -71,7 +73,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
     if (!file) return;
     try {
       setIsUpdating(true);
-      const res = await storeProfileImage(file);
+      const res = await storeProfileImage(file); // FormData handled in service
       if (!res.ok) {
         const err = await res.text();
         throw new Error(err || "Failed to upload image");
@@ -79,7 +81,12 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
       toast.success(
         t("profile.toasts.imageSaved", "プロフィール画像を更新しました。")
       );
-      await mutate(profileApiUrl);
+      // await mutate(
+      //   (key) => typeof key === "string" && key.startsWith(profileApiUrl),
+      //   undefined,
+      //   { revalidate: true }
+      // );
+      mutate((key) => typeof key === "string" && key.startsWith(profileApiUrl));
     } catch (e) {
       console.error(e);
       toast.error(
@@ -92,7 +99,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
   };
 
   return (
-    <div className="w-full  bg-white dark:bg-gray-900 shadow-lg transition-colors duration-300">
+    <div className="w-full bg-white dark:bg-gray-900 shadow-lg transition-colors duration-300">
       {/* Mobile Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-6 rounded-xl">
         <div className="flex justify-between items-center mb-4">
@@ -101,7 +108,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
           </h1>
           <div className="flex items-center gap-2">
             <DarkThemeToggle className="border text-white dark:text-white" />
-            <LangToggle className="px-2 py-3 rounded-lg text-white dark:text-white"/>
+            <LangToggle className="px-2 py-3 rounded-lg text-white dark:text-white" />
           </div>
         </div>
 
@@ -109,7 +116,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
         <div className="flex flex-col items-center">
           <div className="relative mb-4">
             <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-              {profileData? (
+              {profileData.profile_image ? (
                 <img
                   src={profileData.profile_image}
                   alt={t("profile.alt.avatar", "プロフィール画像")}
@@ -121,7 +128,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
             </div>
             <label
               htmlFor="mobile-profile-image"
-              className="absolute -bottom-1 -right-1 bg-white text-blue-600 p-2 rounded-full shadow-lg"
+              className="absolute -bottom-1 -right-1 bg-white text-blue-600 p-2 rounded-full shadow-lg cursor-pointer"
               title={t("profile.actions.uploadImage", "画像をアップロード")}
             >
               <Camera size={14} />
@@ -239,10 +246,11 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
             {t("profile.badges.active", "アクティブ")}
           </span>
         </div>
+
         {/* Back to Dashboard */}
         <Link
           href="/dashboard"
-          className="flex text-sm w-fit border dark:border-gray-700 dark:bg-blue-600 dark:text-white border-gray-300 justify-center items-center gap-1 rounded-lg  text-blue-600 hover:bg-white px-2 py-2  font-medium transition"
+          className="flex text-sm w-fit border dark:border-gray-700 dark:bg-blue-600 dark:text-white border-gray-300 justify-center items-center gap-1 rounded-lg text-blue-600 hover:bg-white px-2 py-2 font-medium transition"
           aria-label={t("profile.actions.back", "ダッシュボードへ戻る")}
         >
           <ArrowLeft className="size-4" />

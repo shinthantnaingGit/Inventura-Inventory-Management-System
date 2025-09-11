@@ -84,6 +84,9 @@ export const messages = {
     auth: {
       // you may already have auth.login/register elsewhere—merge carefully
       login: {
+        page: {
+          title: "Sign in to your account",
+        },
         labels: {
           email: "Email",
           password: "Password",
@@ -118,6 +121,9 @@ export const messages = {
         },
       },
       register: {
+        page: {
+          title: "Create a new account",
+        },
         labels: {
           name: "Name",
           email: "Email",
@@ -723,6 +729,9 @@ export const messages = {
     newItem: "新規作成",
     auth: {
       login: {
+        page: {
+          title: "アカウントにサインイン",
+        },
         labels: {
           email: "メールアドレス",
           password: "パスワード",
@@ -757,6 +766,9 @@ export const messages = {
         },
       },
       register: {
+        page: {
+          title: "新規アカウントを作成",
+        },
         labels: {
           name: "氏名",
           email: "メールアドレス",

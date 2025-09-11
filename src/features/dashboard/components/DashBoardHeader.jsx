@@ -16,6 +16,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import GlobalSearch from "@/components/GlobalSearch";
 import { getProfile } from "@/services/profile";
 import LangToggle from "@/components/LangToggle";
+import InventuraMark from "@/components/InventuraMark";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -47,10 +48,10 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
           <div className="min-w-0">
             <Link
               href="/dashboard"
-              className="font-bold text-lg sm:text-xl tracking-tight text-gray-900 dark:text-gray-100 whitespace-nowrap"
+              className="font-bold text-lg flex gap-2 sm:text-xl tracking-tight text-gray-900 dark:text-gray-100 whitespace-nowrap"
               title={t("brand", brand)}
             >
-              {t("brand", "インベンチュラ")}
+             <InventuraMark/> {t("brand", "インベンチュラ")}
             </Link>
           </div>
 
@@ -85,6 +86,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                       src={profileData.profile_image}
                       alt="Profile"
                       className="w-full h-full object-cover"
+                      
                     />
                   ) : (
                     <User size={32} className="text-white" />
