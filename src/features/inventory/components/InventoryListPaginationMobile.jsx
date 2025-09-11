@@ -27,6 +27,7 @@ export default function InventoryListPaginationMobile({
   sortDirection,
 }) {
   const { t } = useI18n();
+  const strOrEmpty = (v) => v ?? "";
 
   return (
     <div className="md:hidden fixed left-0 right-0 bottom-18 z-40 backdrop-blur bg-white/85 dark:bg-gray-950/80 border-t border-gray-200/70 dark:border-gray-800/70 px-3 pt-2 pb-3  shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.25)]">
@@ -64,7 +65,7 @@ export default function InventoryListPaginationMobile({
             {t("inventoryPagination.sortBy", "並び替え")} {/* ADDED */}
           </label>{" "}
           <select
-            value={sortBy}
+            value={strOrEmpty(sortBy)}
             onChange={(e) => handleSortBy(e.target.value)}
             className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >

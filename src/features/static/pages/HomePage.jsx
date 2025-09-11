@@ -1,19 +1,10 @@
 import React from "react";
-import Header from "../components/Header";
-import HeroSection from "../components/HeroSection";
-import IntroSection from "../components/IntroSection";
-import Footer from "../components/Footer";
+import StaticSection from "../components/StaticSection";
 
 const HomePage = () => {
   return (
     <>
-      <Header />
-      <section>
-        <HeroSection />
-        <IntroSection />
-      </section>
-
-      <Footer />
+      <StaticSection />
     </>
   );
 };

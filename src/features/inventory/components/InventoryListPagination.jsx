@@ -25,7 +25,7 @@ const InventoryListPagination = ({
   sortDirection,
 }) => {
   const { t } = useI18n();
-
+  const strOrEmpty = (v) => v ?? "";
   return (
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
       {/* Total */}
@@ -45,7 +45,7 @@ const InventoryListPagination = ({
           {t("inventoryPagination.sortBy", "並び替え")} {/* ADDED */}
         </label>{" "}
         <select
-          value={sortBy}
+          value={strOrEmpty(sortBy)}
           onChange={(e) => handleSortBy(e.target.value)}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
@@ -64,7 +64,7 @@ const InventoryListPagination = ({
           {t("inventoryPagination.sortDirection", "順序")} {/* ADDED */}
         </label>{" "}
         <select
-          value={sortDirection}
+          value={strOrEmpty(sortDirection) || "asc"}
           onChange={(e) => handleSortDirection(e.target.value)}
           className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >

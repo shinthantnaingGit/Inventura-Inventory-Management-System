@@ -109,7 +109,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
         <div className="flex flex-col items-center">
           <div className="relative mb-4">
             <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-              {profileData.profile_image ? (
+              {profileData? (
                 <img
                   src={profileData.profile_image}
                   alt={t("profile.alt.avatar", "プロフィール画像")}

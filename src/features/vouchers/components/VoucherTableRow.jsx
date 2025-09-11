@@ -34,11 +34,12 @@ voucher,  voucher: { id, voucher_id, customer_name, customer_email, sale_date, t
             );
           }
           toast.success(t("vouchers.toast.deleted", "伝票を削除しました"));
-          await mutate(
-            (key) => typeof key === "string" && key.startsWith(voucherApiUrl),
-            undefined,
-            { revalidate: true }
-          ); // refresh list
+          // await mutate(
+          //   (key) => typeof key === "string" && key.startsWith(voucherApiUrl),
+          //   undefined,
+          //   { revalidate: true }
+          // ); // refresh list
+          mutate((key) => typeof key === "string" && key.startsWith(voucherApiUrl));
         } catch (err) {
           toast.error(t("vouchers.toast.error", "エラーが発生しました"));
         }
@@ -49,7 +50,7 @@ voucher,  voucher: { id, voucher_id, customer_name, customer_email, sale_date, t
   return (
     <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
       <td className="px-6 py-4 text-center">{id}</td>
-      <td className="px-6 py-4 text-center">{voucher_id}</td>
+      <td className="px-6 py-4  grow text-center">{voucher_id}</td>
       <td className="px-6 py-4 text-center">{customer_name}</td>
       <td className="px-6 py-4 text-center">{customer_email}</td>
       <td className="px-6 py-4 text-center">{sale_date}</td>
@@ -66,7 +67,7 @@ voucher,  voucher: { id, voucher_id, customer_name, customer_email, sale_date, t
             }`}
             title={t("vouchers.actions.view", "表示")}
           >
-            <Info className="size-6 p-1 border rounded text-blue-600 dark:text-blue-400 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90 duration-200" />
+            <Info className="size-8 p-1 border rounded text-blue-600 dark:text-blue-400 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90 duration-200" />
           </Link>
 
         
@@ -78,7 +79,7 @@ voucher,  voucher: { id, voucher_id, customer_name, customer_email, sale_date, t
               voucher.voucher_id
             }`}
           >
-            <Trash className="size-6 p-1 border rounded text-red-600 dark:text-red-400 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90 duration-200" />
+            <Trash className="size-8 p-1 border rounded text-red-600 dark:text-red-400 border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90 duration-200" />
           </button>
         </div>
       </td>

@@ -1,45 +1,51 @@
+// src/features/vouchers/components/VoucherListMobileSkeleton.jsx
 "use client";
 import React from "react";
 
-/**
- * VoucherListMobileSkeleton
- * - Loading skeleton for mobile voucher list
- * - Pass `rows` to control number of skeleton cards
- */
-export default function VoucherListMobileSkeleton({ rows = 5 }) {
+export default function VoucherListMobileSkeleton({ count = 4 }) {
   return (
-    <ul role="list" className="space-y-3 animate-pulse">
-      {Array.from({ length: rows }).map((_, i) => (
+    <ul role="list" className="space-y-3" aria-busy="true" aria-live="polite">
+      {Array.from({ length: count }).map((_, i) => (
         <li
           key={i}
-          className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-4 space-y-3"
+          className="relative rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm p-4 overflow-hidden"
         >
-          {/* ID + header */}
-          <div className="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded" />
+          {/* shimmer sweep */}
+          <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-gray-200/60 dark:via-gray-700/40 to-transparent animate-[shimmer_1.6s_infinite] [mask-image:linear-gradient(90deg,transparent,black,transparent)]" />
 
-          {/* Voucher ID */}
-          <div className="h-5 w-40 bg-gray-200 dark:bg-gray-700 rounded" />
+          {/* tag pill */}
+          <div className="h-6 w-40 rounded-full bg-gray-200/80 dark:bg-gray-700/60" />
 
-          {/* Customer name */}
-          <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
+          {/* customer info */}
+          <div className="mt-3 space-y-2">
+            <div className="h-4 w-56 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+            <div className="h-4 w-64 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+            <div className="h-4 w-40 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+          </div>
 
-          {/* Email */}
-          <div className="h-4 w-48 bg-gray-200 dark:bg-gray-700 rounded" />
+          {/* totals */}
+          <div className="mt-3 space-y-2">
+            <div className="h-4 w-36 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+            <div className="h-4 w-28 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+            <div className="h-4 w-40 rounded bg-gray-200/80 dark:bg-gray-700/60" />
+          </div>
 
-          {/* Sale date */}
-          <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
-
-          {/* Totals */}
-          <div className="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
-
-          {/* Actions */}
-          <div className="grid grid-cols-3 gap-2 mt-3">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded" />
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded" />
+          {/* actions */}
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="h-9 w-24 rounded-lg bg-gray-200/80 dark:bg-gray-700/60" />
+            <div className="h-9 w-24 rounded-lg bg-gray-200/80 dark:bg-gray-700/60" />
           </div>
         </li>
       ))}
+
+      {/* shimmer keyframes */}
+      <style jsx global>{`
+        @keyframes shimmer {
+          100% {
+            transform: translateX(100%);
+          }
+        }
+      `}</style>
     </ul>
   );
 }

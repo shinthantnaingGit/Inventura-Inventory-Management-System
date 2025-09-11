@@ -31,11 +31,14 @@ const InventoryTableRow = ({ product: { id, product_name, price } }) => {
           }
           toast.success(t("inventoryRow.toast.deleted", "削除しました"));
           // FIX: revalidate any SWR cache keys that start with productApiUrl
-          await mutate(
-            (key) => typeof key === "string" && key.startsWith(productApiUrl),
-            undefined,
-            { revalidate: true }
-          ); // FIX
+          // await mutate(
+          //   (key) => typeof key === "string" && key.startsWith(productApiUrl),
+          //   undefined,
+          //   { revalidate: true }
+          // ); // FIX
+          mutate(
+            (key) => typeof key === "string" && key.startsWith(productApiUrl)
+          );
         } catch (err) {
           toast.error(t("inventoryRow.toast.error", "エラーが発生しました"));
         }

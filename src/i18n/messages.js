@@ -11,8 +11,186 @@ export const messages = {
       profile: "Profile",
       logout: "Logout",
     },
+    landing: {
+      nav: {
+        home: "Home",
+        about: "About",
+        features: "Features",
+        contact: "Contact",
+      },
+      hero: {
+        heading: "Simplify Your Business Operations",
+        subheading:
+          "Track inventory, generate invoices, and analyze sales with a single, powerful tool.",
+        cta: "Get Started",
+      },
+      about: {
+        heading: "About Inventura",
+        subheading: "Your Partner in Streamlining Business Operations",
+        description:
+          "Inventura was founded on a simple principle: to empower small and medium-sized businesses with powerful, yet easy-to-use, tools. We understand the challenges of managing inventory and invoicing, and our mission is to simplify these tasks so you can focus on what you do best—growing your business. We believe in building reliable software that acts as a true partner, not just a tool.",
+        cta: "Get in Touch",
+      },
+      intro: {
+        heading: "Key Features Built for Efficiency",
+        features: {
+          inventory: {
+            title: "Inventory Management",
+            desc: "Effortlessly manage your products by adding, editing, and deleting them, all with real-time stock tracking.",
+          },
+          invoiceGen: {
+            title: "Invoice Generation",
+            desc: "Quickly create professional, printable invoices with automated calculations. Saved to the Invoice Management System.",
+          },
+          invoiceMgmt: {
+            title: "Invoice Management",
+            desc: "Track invoices, manage payment statuses, and organize billing history with ease.",
+          },
+          analytics: {
+            title: "Dashboard & Analytics",
+            desc: "Gain insights with interactive charts on revenue, sales, and top-selling products.",
+          },
+        },
+      },
+      contact: {
+        heading: "Contact Us",
+        subheading:
+          "Feel free to get in touch with our team for support or inquiries.",
+        info: {
+          location: {
+            label: "Location",
+            value:
+              "Inventura Kanda Bldg., 2-4-8 Kanda-Ogawamachi, Chiyoda-ku, Tokyo 101-0052, Japan",
+            href: "https://maps.app.goo.gl/YourLocationLink",
+          },
+          email: { label: "Email", value: "support@inventura.jp" },
+          phone: { label: "Phone", value: "+81-3-1234-5678" },
+          hours: {
+            label: "Business Hours",
+            value: "Mon - Fri: 9:00 AM - 6:00 PM (JST)",
+          },
+          social: {
+            label: "Social",
+            value: "inventura.jp/social",
+            href: "https://twitter.com/inventura_jp",
+          },
+        },
+      },
+      auth: { login: "Login", register: "Register" },
+      footer: { copyright: "© 2025 Inventura. All Rights Reserved." },
+    },
     searchPlaceholder: "Search products, vouchers…",
     newItem: "New Item",
+    auth: {
+      // you may already have auth.login/register elsewhere—merge carefully
+      login: {
+        labels: {
+          email: "Email",
+          password: "Password",
+          remember: "Remember me",
+          noAccount: "Don't have an account?",
+        },
+        placeholders: {
+          email: "you@example.com",
+          password: "••••••••",
+        },
+        actions: {
+          forgot: "Forgot password?",
+          signIn: "Sign In",
+          signingIn: "Signing in...",
+          signUp: "Sign up",
+        },
+        toasts: {
+          success: "Login Successfully",
+        },
+        errors: {
+          failed: "Login Failed",
+        },
+        validation: {
+          email: {
+            required: "Email is required",
+            invalid: "Invalid email address",
+          },
+          password: {
+            required: "Password is required",
+            min: "Password must be at least 6 characters",
+          },
+        },
+      },
+      register: {
+        labels: {
+          name: "Name",
+          email: "Email",
+          password: "Password",
+          passwordConfirm: "Confirm Password",
+          agreePrefix: "I agree to the",
+          termsLink: "Terms & Conditions",
+          haveAccount: "Already have an account?",
+        },
+        placeholders: {
+          name: "Your Name",
+          email: "you@example.com",
+          password: "••••••••",
+          passwordConfirm: "••••••••",
+        },
+        actions: {
+          create: "Create Account",
+          creating: "Creating Account...",
+          signIn: "Sign in",
+        },
+        toasts: {
+          success: "Registration successful! Please login.",
+        },
+        errors: {
+          failed: "Registration failed",
+          generic: "Something went wrong",
+        },
+        validation: {
+          name: {
+            required: "Name is required",
+            min: "Name must be at least 2 characters",
+          },
+          email: {
+            required: "Email is required",
+            invalid: "Invalid email address",
+          },
+          password: {
+            required: "Password is required",
+            min: "Password must be at least 6 characters",
+          },
+          passwordConfirm: {
+            required: "Please confirm your password",
+            match: "Passwords do not match",
+          },
+          terms: {
+            required: "You must agree to terms and conditions",
+          },
+        },
+        terms: {
+          title: "Terms & Conditions",
+          intro:
+            "These terms govern your use of Inventura's services. Please read them carefully before using the service.",
+          section1: {
+            title: "1. Accounts",
+            body: "You must provide accurate information and keep your login credentials secure.",
+          },
+          section2: {
+            title: "2. Data & Privacy",
+            body: "We process data according to our Privacy Policy to provide and improve the service.",
+          },
+          section3: {
+            title: "3. Prohibited Activities",
+            body: "Unauthorized access, service disruption, and illegal activities are strictly prohibited.",
+          },
+          footer:
+            "These terms may be updated without prior notice. Please check the latest version on our website.",
+          actions: {
+            close: "Close",
+            accept: "Accept & Close",
+          },
+        },
+      },
+    },
     common: {
       // ...keep existing
       print: "Print", // ja: "印刷"
@@ -467,6 +645,71 @@ export const messages = {
 
   ja: {
     brand: "インベンチュラ",
+    landing: {
+      nav: {
+        home: "ホーム",
+        about: "我々について",
+        features: "機能",
+        contact: "お問い合わせ",
+      },
+      hero: {
+        heading: "ビジネス運営をシンプルに",
+        subheading:
+          "在庫管理、請求書発行、売上分析を一つの強力なツールで実現します。",
+        cta: "始める",
+      },
+      about: {
+        heading: "Inventuraについて",
+        subheading: "ビジネス業務を効率化するあなたのパートナー",
+        description:
+          "Inventuraは、中小企業に強力で使いやすいツールを提供するというシンプルな理念のもとに設立されました。私たちは在庫管理や請求書作成の課題を理解しており、お客様が最も得意なこと、つまりビジネスの成長に集中できるよう、これらのタスクを簡素化することを使命としています。私たちは、単なるツールではなく真のパートナーとして機能する信頼性の高いソフトウェアを目指しています。",
+        cta: "お問い合わせ",
+      },
+      intro: {
+        heading: "効率性を追求した主要機能",
+        features: {
+          inventory: {
+            title: "在庫管理",
+            desc: "製品の追加・編集・削除をリアルタイムの在庫追跡とともに行えます。",
+          },
+          invoiceGen: {
+            title: "請求書生成",
+            desc: "自動計算でプロフェッショナルな印刷用請求書を素早く作成。作成内容はシステムに保存されます。",
+          },
+          invoiceMgmt: {
+            title: "請求書管理",
+            desc: "全ての請求書を追跡し、支払い状況を管理し、履歴を簡単に整理できます。",
+          },
+          analytics: {
+            title: "ダッシュボードと分析",
+            desc: "収益・売上・トップ商品のインタラクティブなチャートで洞察を得られます。",
+          },
+        },
+      },
+      contact: {
+        heading: "お問い合わせ",
+        subheading:
+          "サポートやご質問がある場合は、お気軽にお問い合わせください。",
+        info: {
+          location: {
+            label: "場所",
+            value:
+              "インベンチュラ神田ビル 東京都千代田区神田小川町2-4-8 〒101-0052",
+            href: "https://maps.app.goo.gl/YourLocationLink",
+          },
+          email: { label: "メール", value: "support@inventura.jp" },
+          phone: { label: "電話", value: "+81-3-1234-5678" },
+          hours: { label: "営業時間", value: "月〜金 9:00–18:00（JST）" },
+          social: {
+            label: "ソーシャル",
+            value: "inventura.jp/social",
+            href: "https://twitter.com/inventura_jp",
+          },
+        },
+      },
+      auth: { login: "ログイン", register: "登録" },
+      footer: { copyright: "© 2025 インベンチュラ。無断転載を禁じます。" },
+    },
     nav: {
       dashboard: "ダッシュボード",
       inventory: "在庫",
@@ -478,6 +721,115 @@ export const messages = {
     },
     searchPlaceholder: "商品・バウチャーを検索…",
     newItem: "新規作成",
+    auth: {
+      login: {
+        labels: {
+          email: "メールアドレス",
+          password: "パスワード",
+          remember: "ログイン状態を保持",
+          noAccount: "アカウントをお持ちではありませんか？",
+        },
+        placeholders: {
+          email: "you@example.com",
+          password: "••••••••",
+        },
+        actions: {
+          forgot: "パスワードをお忘れですか？",
+          signIn: "サインイン",
+          signingIn: "サインイン中…",
+          signUp: "登録する",
+        },
+        toasts: {
+          success: "ログインしました",
+        },
+        errors: {
+          failed: "ログインに失敗しました",
+        },
+        validation: {
+          email: {
+            required: "メールアドレスは必須です",
+            invalid: "メールアドレスの形式が正しくありません",
+          },
+          password: {
+            required: "パスワードは必須です",
+            min: "パスワードは6文字以上で入力してください",
+          },
+        },
+      },
+      register: {
+        labels: {
+          name: "氏名",
+          email: "メールアドレス",
+          password: "パスワード",
+          passwordConfirm: "パスワード（確認）",
+          agreePrefix: "以下に同意します:",
+          termsLink: "利用規約",
+          haveAccount: "すでにアカウントをお持ちですか？",
+        },
+        placeholders: {
+          name: "お名前",
+          email: "you@example.com",
+          password: "••••••••",
+          passwordConfirm: "••••••••",
+        },
+        actions: {
+          create: "アカウントを作成",
+          creating: "アカウント作成中…",
+          signIn: "サインイン",
+        },
+        toasts: {
+          success: "登録が完了しました。ログインしてください。",
+        },
+        errors: {
+          failed: "登録に失敗しました",
+          generic: "エラーが発生しました",
+        },
+        validation: {
+          name: {
+            required: "氏名は必須です",
+            min: "2文字以上で入力してください",
+          },
+          email: {
+            required: "メールアドレスは必須です",
+            invalid: "メールアドレスの形式が正しくありません",
+          },
+          password: {
+            required: "パスワードは必須です",
+            min: "6文字以上で入力してください",
+          },
+          passwordConfirm: {
+            required: "確認用パスワードは必須です",
+            match: "パスワードが一致しません",
+          },
+          terms: {
+            required: "利用規約に同意してください",
+          },
+        },
+        terms: {
+          title: "利用規約",
+          intro:
+            "本規約は、インベンチュラのサービスをご利用いただく際の条件を定めるものです。ご利用前に必ずお読みください。",
+          section1: {
+            title: "1. アカウント",
+            body: "ユーザーは正確な情報を提供し、ログイン情報の機密性を保持する責任があります。",
+          },
+          section2: {
+            title: "2. データとプライバシー",
+            body: "当社はサービス提供および改善のために、プライバシーポリシーに基づきデータを取り扱います。",
+          },
+          section3: {
+            title: "3. 禁止事項",
+            body: "不正アクセス、サービスの妨害、法令違反行為は固く禁止します。",
+          },
+          footer:
+            "本規約は予告なく変更される場合があります。最新の規約は当社サイトでご確認ください。",
+          actions: {
+            close: "閉じる",
+            accept: "同意して閉じる",
+          },
+        },
+      },
+    },
     common: {
       // ...
       print: "印刷",

@@ -32,11 +32,14 @@ export default function VoucherListMobile({ vouchers }) {
             );
           }
           toast.success(t("vouchers.toast.deleted", "伝票を削除しました"));
-          await mutate(
-            (key) => typeof key === "string" && key.startsWith(voucherApiUrl),
-            undefined,
-            { revalidate: true }
-          ); // refresh list
+          // await mutate(
+          //   (key) => typeof key === "string" && key.startsWith(voucherApiUrl),
+          //   undefined,
+          //   { revalidate: true }
+          // ); // refresh list
+          mutate(
+            (key) => typeof key === "string" && key.startsWith(voucherApiUrl)
+          );
         } catch (err) {
           toast.error(t("vouchers.toast.error", "エラーが発生しました"));
         }

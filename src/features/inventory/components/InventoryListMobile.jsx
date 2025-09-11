@@ -40,11 +40,14 @@ export default function InventoryListMobile({ products }) {
             );
           toast.success(t("inventoryMobile.toast.deleted", "削除しました"));
           // FIX: revalidate any SWR cache keys that start with productApiUrl
-          await mutate(
-            (key) => typeof key === "string" && key.startsWith(productApiUrl),
-            undefined,
-            { revalidate: true }
-          ); // FIX
+          // await mutate(
+          //   (key) => typeof key === "string" && key.startsWith(productApiUrl),
+          //   undefined,
+          //   { revalidate: true }
+          // ); // FIX
+          mutate(
+            (key) => typeof key === "string" && key.startsWith(productApiUrl)
+          );
         } catch (err) {
           toast.error(t("inventoryMobile.toast.error", "エラーが発生しました"));
         }
@@ -59,7 +62,7 @@ export default function InventoryListMobile({ products }) {
         <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
           {t("inventoryMobile.emptyTitle", "商品がありません")}
         </h3>
-        
+
         <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Link
             href="/dashboard/inventory/create"
@@ -69,7 +72,6 @@ export default function InventoryListMobile({ products }) {
           >
             {t("inventoryMobile.createCta", "＋ 商品を作成")}
           </Link>
-          
         </div>
       </div>
     );

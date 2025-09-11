@@ -27,6 +27,7 @@ const ProductEditForm = () => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -49,6 +50,7 @@ const ProductEditForm = () => {
       });
     }
   }, [productResp, reset]);
+  //Alternative Way setValue("product_name",p.product_name)
 
   const confirmed = watch("confirm");
   const goBack = watch("goback");
