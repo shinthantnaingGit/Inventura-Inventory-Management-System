@@ -51,7 +51,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
               className="font-bold text-lg flex gap-2 sm:text-xl tracking-tight text-gray-900 dark:text-gray-100 whitespace-nowrap"
               title={t("brand", brand)}
             >
-             <InventuraMark/> {t("brand", "インベンチュラ")}
+              <InventuraMark /> {t("brand", "インベンチュラ")}
             </Link>
           </div>
 
@@ -81,12 +81,14 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 aria-expanded={openProfile}
               >
                 <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-                  {profileData ? (
+                  {!isLoading && profileData.profile_image ? (
                     <img
                       src={profileData.profile_image}
                       alt="Profile"
                       className="w-full h-full object-cover"
-                      
+                      onError={(e) => {
+                        e.currentTarget.src = "/pf.png"; // fallback image
+                      }}
                     />
                   ) : (
                     <User size={32} className="text-white" />
