@@ -1,6 +1,6 @@
 // hooks/useProduct.jsx
 "use client";
-import { getProducts, productApiUrl } from "@/services/product";
+import { useProducts, productApiUrl } from "@/services/product";
 import debounce from "lodash/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef } from "react";
@@ -33,7 +33,7 @@ const useProduct = () => {
     error: productsError,
     isLoading: productsLoading,
     mutate,
-  } = getProducts(url);
+  } = useProducts(url);
 
   //<-----SEARCH SYSTEM----->
   // Debounced search

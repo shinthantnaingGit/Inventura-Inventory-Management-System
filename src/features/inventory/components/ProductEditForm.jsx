@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
-import { getProduct, updateProduct } from "@/services/product";
+import { useProductById, updateProduct } from "@/services/product";
 import { ArrowLeft } from "lucide-react";
 import ProductEditSkeleton from "./ProductEditSkeleton";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -19,7 +19,7 @@ const ProductEditForm = () => {
     error,
     isLoading,
     mutate, // optional retry hook if you add a button later
-  } = getProduct(id);
+  } = useProductById(id);
 
   // RHF setup
   const {
@@ -64,7 +64,10 @@ const ProductEditForm = () => {
       const res = await updateProduct(id, payload);
       const result = (await res.json?.()) ?? res; // support Response or direct object
       if (res.ok === false) {
-        throw new Error(result?.message || t("productEdit.toast.failUpdate", "商品の更新に失敗しました"));
+        throw new Error(
+          result?.message ||
+            t("productEdit.toast.failUpdate", "商品の更新に失敗しました")
+        );
       }
       toast.success(t("productEdit.toast.success", "商品を更新しました"));
 
@@ -88,7 +91,10 @@ const ProductEditForm = () => {
       <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%]">
         <div className="bg-white border dark:border-gray-700 border-gray-300 dark:bg-gray-800 rounded-xl p-6">
           <p className="text-sm text-red-500">
-            {t("productEdit.loadError", "商品情報の取得に失敗しました。もう一度お試しください。")}
+            {t(
+              "productEdit.loadError",
+              "商品情報の取得に失敗しました。もう一度お試しください。"
+            )}
           </p>
         </div>
       </div>
@@ -122,16 +128,35 @@ const ProductEditForm = () => {
               htmlFor="product"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              {t("productEdit.labels.product", "商品")} <span className="text-red-500">*</span>
+              {t("productEdit.labels.product", "商品")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               id="product"
               type="text"
-              placeholder={t("productEdit.placeholders.product", "例：データ分析サービス")}
+              placeholder={t(
+                "productEdit.placeholders.product",
+                "例：データ分析サービス"
+              )}
               {...register("product_name", {
-                required: t("productEdit.errors.productRequired", "商品名は必須です"),
-                minLength: { value: 2, message: t("productEdit.errors.productMin", "2文字以上で入力してください") },
-                maxLength: { value: 80, message: t("productEdit.errors.productMax", "80文字以内で入力してください") },
+                required: t(
+                  "productEdit.errors.productRequired",
+                  "商品名は必須です"
+                ),
+                minLength: {
+                  value: 2,
+                  message: t(
+                    "productEdit.errors.productMin",
+                    "2文字以上で入力してください"
+                  ),
+                },
+                maxLength: {
+                  value: 80,
+                  message: t(
+                    "productEdit.errors.productMax",
+                    "80文字以内で入力してください"
+                  ),
+                },
               })}
               aria-invalid={!!errors.product_name}
               className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg白 dark:bg-gray-900 
@@ -150,16 +175,26 @@ const ProductEditForm = () => {
               htmlFor="price"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              {t("productEdit.labels.price", "価格")} <span className="text-red-500">*</span>
+              {t("productEdit.labels.price", "価格")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               id="price"
               type="number"
               placeholder={t("productEdit.placeholders.price", "例：1100")}
               {...register("price", {
-                required: t("productEdit.errors.priceRequired", "価格は必須です"),
+                required: t(
+                  "productEdit.errors.priceRequired",
+                  "価格は必須です"
+                ),
                 valueAsNumber: true,
-                min: { value: 0, message: t("productEdit.errors.priceMin", "0未満にはできません") },
+                min: {
+                  value: 0,
+                  message: t(
+                    "productEdit.errors.priceMin",
+                    "0未満にはできません"
+                  ),
+                },
               })}
               aria-invalid={!!errors.price}
               className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
@@ -177,12 +212,18 @@ const ProductEditForm = () => {
             <input
               type="checkbox"
               {...register("confirm", {
-                required: t("productEdit.errors.confirmRequired", "更新前に確認にチェックしてください"),
+                required: t(
+                  "productEdit.errors.confirmRequired",
+                  "更新前に確認にチェックしてください"
+                ),
               })}
               className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
-              {t("productEdit.labels.confirm", "この商品を更新することを確認します")}
+              {t(
+                "productEdit.labels.confirm",
+                "この商品を更新することを確認します"
+              )}
             </span>
           </div>
           {errors.confirm && (
@@ -197,7 +238,10 @@ const ProductEditForm = () => {
               className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
-              {t("productEdit.labels.goBackAfterSave", "保存後に商品一覧へ戻る")}
+              {t(
+                "productEdit.labels.goBackAfterSave",
+                "保存後に商品一覧へ戻る"
+              )}
             </span>
           </div>
 

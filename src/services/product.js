@@ -14,7 +14,7 @@ export const fetcher = (url) =>
   }).then((res) => res.json()); // Reusable fetcher
 
 // 1) GET (READ) Products
-export const getProducts = (url) => {
+export const useProducts = (url) => {
   return useSWR(url, fetcher); // Use SWR for fetching
 };
 
@@ -31,7 +31,7 @@ export const storeProduct = (payLoad) => {
 };
 
 // 3) GET (READ) One Product
-export const getProduct = (id) => {
+export const useProductById = (id) => {
   return useSWR(`${productApiUrl}/${id}`, fetcher);
 };
 

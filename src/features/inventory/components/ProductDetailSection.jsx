@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { getProduct } from "@/services/product";
+import { useProductById } from "@/services/product";
 import {
   AlertTriangle,
   RotateCcw,
@@ -21,7 +21,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 const ProductDetailSection = () => {
   const { id } = useParams();
   const router = useRouter();
-  const { data: product, error, isLoading, mutate } = getProduct(id);
+  const { data: product, error, isLoading, mutate } = useProductById(id);
   const { t } = useI18n();
 
   if (isLoading) return <ProductDetailSkeleton />;
@@ -31,13 +31,20 @@ const ProductDetailSection = () => {
       <section className="mx-auto max-w-full sm:max-w-[70%] lg:max-w-[60%] px-4 sm:px-5 pb-24 sm:pb-6">
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 sm:p-6">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="size-5 text-red-500 mt-0.5" aria-hidden="true" />
+            <AlertTriangle
+              className="size-5 text-red-500 mt-0.5"
+              aria-hidden="true"
+            />
             <div className="flex-1">
               <h3 className="text-gray-900 dark:text-gray-100 text-lg font-semibold">
                 {t("productDetail.errorTitle", "商品の読み込みに失敗しました")}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {error?.message || t("productDetail.errorBody", "接続を確認して、もう一度お試しください。")}
+                {error?.message ||
+                  t(
+                    "productDetail.errorBody",
+                    "接続を確認して、もう一度お試しください。"
+                  )}
               </p>
               <div className="mt-4">
                 <button
@@ -121,16 +128,24 @@ const ProductDetailSection = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
             <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.createdAt", "作成日時")}</p>
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{createdAt}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("productDetail.createdAt", "作成日時")}
+              </p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {createdAt}
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
             <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.updatedAt", "更新日時")}</p>
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{updatedAt}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("productDetail.updatedAt", "更新日時")}
+              </p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {updatedAt}
+              </p>
             </div>
           </div>
 
@@ -138,8 +153,12 @@ const ProductDetailSection = () => {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 md:hidden">
             <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{t("productDetail.price", "価格")}</p>
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{price}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("productDetail.price", "価格")}
+              </p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                {price}
+              </p>
             </div>
           </div>
         </div>
