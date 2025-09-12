@@ -33,7 +33,7 @@ export const metadata = {
     title: "Inventura | 在庫・請求書管理システム",
     description:
       "製品・バウチャー・請求書を効率的に管理。英語/日本語対応。Next.js + TailwindCSS + PrimeReact で開発。",
-    url: "https://inventura.vercel.app", // <-- replace with your domain
+    url: "https://inventura-inventory-management-syst.vercel.app/", // <-- replace with your domain
     siteName: "Inventura",
     images: [
       {
@@ -57,17 +57,15 @@ export const metadata = {
 
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
   },
 
   manifest: "/site.webmanifest",
 
   alternates: {
-    canonical: "https://inventura.vercel.app",
+    canonical: "https://inventura-inventory-management-syst.vercel.app",
     languages: {
-      en: "https://inventura.vercel.app/en",
-      ja: "https://inventura.vercel.app/ja",
+      en: "https://inventura-inventory-management-syst.vercel.app/en",
+      ja: "https://inventura-inventory-management-syst.vercel.app/ja",
     },
   },
 };
