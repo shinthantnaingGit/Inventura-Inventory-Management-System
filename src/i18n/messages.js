@@ -280,7 +280,7 @@ export const messages = {
       backToInventory: "Back to Inventory",
       labels: {
         product: "Product",
-        price: "Price",
+        price: "Price (¥)",
         confirm: "I confirm to create this product",
         goBackAfterSave: "Go Back To Product List After Saving",
       },
@@ -313,7 +313,7 @@ export const messages = {
       loadError: "Failed to load product. Please try again.",
       labels: {
         product: "Product",
-        price: "Price",
+        price: "Price (¥)",
         confirm: "I confirm to update this product",
         goBackAfterSave: "Go Back To Product List After Saving",
       },
@@ -665,7 +665,7 @@ export const messages = {
         cta: "始める",
       },
       about: {
-        heading: "Inventuraについて",
+        heading: "インベンチュラについて",
         subheading: "ビジネス業務を効率化するあなたのパートナー",
         description:
           "Inventuraは、中小企業に強力で使いやすいツールを提供するというシンプルな理念のもとに設立されました。私たちは在庫管理や請求書作成の課題を理解しており、お客様が最も得意なこと、つまりビジネスの成長に集中できるよう、これらのタスクを簡素化することを使命としています。私たちは、単なるツールではなく真のパートナーとして機能する信頼性の高いソフトウェアを目指しています。",
@@ -925,7 +925,7 @@ export const messages = {
       backToInventory: "在庫に戻る",
       labels: {
         product: "商品",
-        price: "価格",
+        price: "価格 (¥)",
         confirm: "この商品を作成することを確認します",
         goBackAfterSave: "保存後に商品一覧へ戻る",
       },
@@ -958,7 +958,7 @@ export const messages = {
       loadError: "商品情報の取得に失敗しました。もう一度お試しください。",
       labels: {
         product: "商品",
-        price: "価格",
+        price: "価格 (¥)",
         confirm: "この商品を更新することを確認します",
         goBackAfterSave: "保存後に商品一覧へ戻る",
       },

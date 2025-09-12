@@ -25,7 +25,7 @@ export default function Header() {
         {/* Left: logo */}
         <div className="flex items-center space-x-2">
           <InventuraMark className="size-7" />
-          <h1 className="text-2xl font-bold">Inventura</h1>
+          <h1 className="text-2xl font-bold">{t("brand", "インベンチュラ")}</h1>
         </div>
 
         {/* Center: desktop nav */}
