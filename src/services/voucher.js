@@ -27,12 +27,7 @@ export const storeVoucher = (payLoad) => {
   });
 };
 
-// 3) GET (READ) One Voucher
-export const getVoucher = (id) => {
-  return useSWR(`${voucherApiUrl}/${id}`, fetcher);
-};
-
-// 4) DELETE (DELETE) One Voucher
+// 3) DELETE (DELETE) One Voucher
 export const destroyVoucher = (id) => {
   return fetch(`${voucherApiUrl}/${id}`, {
     method: "DELETE",
@@ -42,7 +37,7 @@ export const destroyVoucher = (id) => {
   });
 };
 
-// 5) PUT (UPDATE) One Voucher
+// 4) PUT (UPDATE) One Voucher
 export const updateVoucher = (id, payLoad) => {
   return fetch(`${voucherApiUrl}/${id}`, {
     method: "PUT", // or PATCH if your backend supports partial updates

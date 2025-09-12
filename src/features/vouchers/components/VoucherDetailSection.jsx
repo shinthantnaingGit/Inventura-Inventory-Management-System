@@ -4,7 +4,7 @@
 import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { getVoucher } from "@/services/voucher";
+import { fetchVouchers, voucherApiUrl } from "@/services/voucher";
 import {
   AlertTriangle,
   RotateCcw,
@@ -19,11 +19,12 @@ import {
 } from "lucide-react";
 import VoucherDetailSkeleton from "./VoucherDetailSkeleton";
 import { useI18n } from "@/i18n/I18nProvider";
+import useSWR from "swr";
 
 const VoucherDetailSection = () => {
   const { id } = useParams();
   const router = useRouter();
-  const { data: voucher, error, isLoading, mutate } = getVoucher(id);
+  const { data: voucher, error, isLoading, mutate } = useSWR(`${voucherApiUrl}/${id}`, fetchVouchers);
   const { t } = useI18n();
 
   if (isLoading) return <VoucherDetailSkeleton />;
