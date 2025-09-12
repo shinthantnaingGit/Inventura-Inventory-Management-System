@@ -13,8 +13,9 @@ import {
   Calendar,
 } from "lucide-react";
 import { storeVoucher } from "@/services/voucher";
-import { useProducts, productApiUrl } from "@/services/product";
+import {  fetchProducts, productApiUrl } from "@/services/product";
 import { useI18n } from "@/i18n/I18nProvider";
+import useSWR from "swr";
 
 // Small helper for currency-ish display
 const fmt = (n) =>
@@ -29,7 +30,7 @@ export default function VoucherCreateSection() {
     data: productsResp,
     isLoading: productsLoading,
     error: productsError,
-  } = useProducts(`${productApiUrl}?limit=100`);
+  } = useSWR(`${productApiUrl}?limit=100`, fetchProducts);
   const products = productsResp?.data ?? [];
 
   // put this helper above onSubmit (inside component file, outside onSubmit)

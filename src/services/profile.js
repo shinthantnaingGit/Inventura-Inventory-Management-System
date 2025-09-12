@@ -4,7 +4,9 @@ import useSWR from "swr";
 
 export const profileApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile`;
 export const token = useAccountStore.getState().token;
-export const fetcher = (url) =>
+
+// 1) GET PROFILE
+export const fetchProfile = (url) =>
   fetch(url, {
     method: "GET",
     headers: {
@@ -12,10 +14,6 @@ export const fetcher = (url) =>
     },
   }).then((res) => res.json());
 
-// 1) GET PROFILE
-export const getProfile = () => {
-  return useSWR(`${profileApiUrl}/profile`, fetcher);
-};
 
 // 2) POST (CREATE) ADD PROFILE IMAGE  <-- use FormData
 export const storeProfileImage = (file) => {

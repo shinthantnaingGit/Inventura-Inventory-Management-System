@@ -1,9 +1,10 @@
 // hooks/useProduct.jsx
 "use client";
-import { useProducts, productApiUrl } from "@/services/product";
+import { productApiUrl, fetchProducts } from "@/services/product";
 import debounce from "lodash/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef } from "react";
+import useSWR from "swr";
 
 const useProduct = () => {
   //<-----HOOKS----->
@@ -33,7 +34,7 @@ const useProduct = () => {
     error: productsError,
     isLoading: productsLoading,
     mutate,
-  } = useProducts(url);
+  } = useSWR(url, fetchProducts);
 
   //<-----SEARCH SYSTEM----->
   // Debounced search

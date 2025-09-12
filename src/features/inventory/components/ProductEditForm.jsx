@@ -3,10 +3,15 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
-import { useProductById, updateProduct } from "@/services/product";
+import {
+  updateProduct,
+  fetchProducts,
+  productApiUrl,
+} from "@/services/product";
 import { ArrowLeft } from "lucide-react";
 import ProductEditSkeleton from "./ProductEditSkeleton";
 import { useI18n } from "@/i18n/I18nProvider";
+import useSWR from "swr";
 
 const ProductEditForm = () => {
   const router = useRouter();
@@ -19,7 +24,7 @@ const ProductEditForm = () => {
     error,
     isLoading,
     mutate, // optional retry hook if you add a button later
-  } = useProductById(id);
+  } = useSWR(`${productApiUrl}/${id}`, fetchProducts);
 
   // RHF setup
   const {

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useProductById } from "@/services/product";
+import { fetchProducts, productApiUrl} from "@/services/product";
 import {
   AlertTriangle,
   RotateCcw,
@@ -17,11 +17,12 @@ import {
 } from "lucide-react";
 import ProductDetailSkeleton from "./ProductDetailSkeleton";
 import { useI18n } from "@/i18n/I18nProvider";
+import useSWR from "swr";
 
 const ProductDetailSection = () => {
   const { id } = useParams();
   const router = useRouter();
-  const { data: product, error, isLoading, mutate } = useProductById(id);
+  const { data: product, error, isLoading, mutate } = useSWR(`${productApiUrl}/${id}`, fetchProducts);
   const { t } = useI18n();
 
   if (isLoading) return <ProductDetailSkeleton />;

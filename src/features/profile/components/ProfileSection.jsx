@@ -1,16 +1,19 @@
 "use client";
 import React, { useState } from "react";
-import { getProfile } from "@/services/profile";
-import MobileProfileSection from "./ProfileMobile";
-import DesktopProfileSection from "./ProfleDesktop";
+import { fetchProfile, profileApiUrl } from "@/services/profile";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ProfileMobile from "./ProfileMobile";
 import ProfileDesktop from "./ProfleDesktop";
 import ProfileDesktopSkeleton from "./ProfileDesktopSkeleton";
 import ProfileMobileSkeleton from "./ProfileMobileSkeleton";
+import useSWR from "swr";
 
 const ProfileSection = () => {
-  const { data: profileData, isLoading, error } = getProfile();
+  const {
+    data: profileData,
+    isLoading,
+    error,
+  } = useSWR(`${profileApiUrl}/profile`, fetchProfile);
   const [isDark, setIsDark] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   console.log(profileData);

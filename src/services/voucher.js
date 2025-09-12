@@ -3,7 +3,9 @@ import { token } from "./profile";
 import useAccountStore from "@/store/useAccountStore";
 
 export const voucherApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/vouchers`;
-export const fetcher = (url) =>
+
+// 1) GET (READ) Vouchers
+export const fetchVouchers = (url) =>
   fetch(url, {
     method: "GET",
     headers: {
@@ -12,11 +14,6 @@ export const fetcher = (url) =>
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
   }).then((res) => res.json()); // Reusable fetcher
-
-// 1) GET (READ) Vouchers
-export const getVouchers = (url) => {
-  return useSWR(url, fetcher); // Use SWR for fetching
-};
 
 // 2) POST (CREATE) Voucher
 export const storeVoucher = (payLoad) => {

@@ -1,9 +1,10 @@
 // hooks/useVoucher.jsx
 "use client";
-import { getVouchers, voucherApiUrl } from "@/services/voucher";
+import { fetchVouchers, voucherApiUrl } from "@/services/voucher";
 import debounce from "lodash/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useCallback } from "react";
+import useSWR from "swr";
 
 const useVoucher = () => {
   //<-----HOOKS----->
@@ -40,7 +41,7 @@ const useVoucher = () => {
     error: VouchersError,
     isLoading: VouchersLoading,
     mutate,
-  } = getVouchers(url);
+  } = useSWR(url,fetchVouchers)
 
   //<-----SEARCH SYSTEM----->
   // Debounced search

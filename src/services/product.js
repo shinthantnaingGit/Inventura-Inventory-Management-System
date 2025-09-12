@@ -3,7 +3,9 @@ import { token } from "./profile";
 import useAccountStore from "@/store/useAccountStore";
 
 export const productApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
-export const fetcher = (url) =>
+
+// 1) GET (READ) Products
+export const fetchProducts = (url) =>
   fetch(url, {
     method: "GET",
     headers: {
@@ -12,11 +14,6 @@ export const fetcher = (url) =>
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
   }).then((res) => res.json()); // Reusable fetcher
-
-// 1) GET (READ) Products
-export const useProducts = (url) => {
-  return useSWR(url, fetcher); // Use SWR for fetching
-};
 
 // 2) POST (CREATE) Product
 export const storeProduct = (payLoad) => {
@@ -30,12 +27,7 @@ export const storeProduct = (payLoad) => {
   });
 };
 
-// 3) GET (READ) One Product
-export const useProductById = (id) => {
-  return useSWR(`${productApiUrl}/${id}`, fetcher);
-};
-
-// 4) DELETE (DELETE) One Product
+// 3) DELETE (DELETE) One Product
 export const destroyProduct = (id) => {
   return fetch(`${productApiUrl}/${id}`, {
     method: "DELETE",
@@ -45,7 +37,7 @@ export const destroyProduct = (id) => {
   });
 };
 
-// 5) PUT (UPDATE) One Product
+// 4) PUT (UPDATE) One Product
 export const updateProduct = (id, payLoad) => {
   return fetch(`${productApiUrl}/${id}`, {
     method: "PUT", // or PATCH if your backend supports partial updates

@@ -14,9 +14,10 @@ import {
 import LogOutButton from "./LogOutButton";
 import { useI18n } from "@/i18n/I18nProvider";
 import GlobalSearch from "@/components/GlobalSearch";
-import { getProfile } from "@/services/profile";
+import { fetchProfile, profileApiUrl } from "@/services/profile";
 import LangToggle from "@/components/LangToggle";
 import InventuraMark from "@/components/InventuraMark";
+import useSWR from "swr";
 
 const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
   const [openProfile, setOpenProfile] = useState(false);
@@ -36,7 +37,11 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
       document.removeEventListener("keydown", onKey);
     };
   }, []);
-  const { data: profile, isLoading, error } = getProfile();
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useSWR(`${profileApiUrl}/profile`, fetchProfile);
   const profileData = profile?.data;
 
   return (
