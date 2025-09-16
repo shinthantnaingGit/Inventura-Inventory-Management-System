@@ -58,7 +58,7 @@ Inventura（インベンチュラ）は、在庫管理と請求書（伝票）�
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/<your-username>/inventura.git
+git clone https://github.com/shinthantnaingGit/inventura.git
 
 # ディレクトリに移動
 cd inventura
@@ -127,7 +127,7 @@ With a modern UI and responsive design, it enables efficient management from any
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/inventura.git
+git clone https://github.com/shinthantnaingGit/inventura.git
 
 # Move into project directory
 cd inventura
