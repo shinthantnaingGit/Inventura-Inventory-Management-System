@@ -24,7 +24,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import LangToggle from "@/components/LangToggle";
 
 const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ name: profileData.name });
@@ -32,7 +32,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
   const { mutate } = useSWRConfig();
 
   const formatDate = (dateString) =>
-    new Date(dateString).toLocaleString("ja-JP", {
+    new Date(dateString).toLocaleString(locale === "ja" ? "ja-JP" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
