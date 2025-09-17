@@ -3,8 +3,14 @@ import { updatePassword } from "@/services/profile";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useI18n } from "@/i18n/I18nProvider";
+import { useRouter } from "next/navigation";
+import useAccountStore from "@/store/useAccountStore";
 // Password Change Modal Component
 const PasswordChangeModal = ({ onClose }) => {
+  const { t } = useI18n();
+  const router = useRouter();
+  const { logOut } = useAccountStore();
   const [passwords, setPasswords] = useState({
     old_password: "",
     new_password: "",
@@ -22,7 +28,7 @@ const PasswordChangeModal = ({ onClose }) => {
     setMessage("");
     setIsSubmitting(true);
     if (passwords.new_password !== passwords.new_password_confirmation) {
-      setMessage("New passwords don't match.");
+      setMessage(t("profile.passwordModal.messages.passwordMismatch"));
       setIsSubmitting(false);
       return;
     }
@@ -36,15 +42,22 @@ const PasswordChangeModal = ({ onClose }) => {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data?.message || "Failed to change password");
+        throw new Error(
+          data?.message || t("profile.passwordModal.toasts.failedToChange")
+        );
       }
-      toast.success("Password changed successfully");
+      toast.success(t("profile.passwordModal.toasts.success"));
 
-      setMessage("Password changed successfully!");
-      onClose();
+      setMessage(t("profile.passwordModal.messages.success"));
+
+      // Log out user and redirect to login page after password change
+      setTimeout(() => {
+        logOut();
+        router.push("/login");
+      }, 1500); // Give user time to see success message
     } catch (e) {
-    //   console.error(e);
-      toast.error(e.message || "Something went wrong");
+      //   console.error(e);
+      toast.error(e.message || t("profile.passwordModal.toasts.error"));
     } finally {
       setIsSubmitting(false);
     }
@@ -54,7 +67,7 @@ const PasswordChangeModal = ({ onClose }) => {
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-sm w-full shadow-2xl">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          Change Password
+          {t("profile.passwordModal.title")}
         </h3>
         {message && <p className="text-sm text-red-500 mb-4">{message}</p>}
         <div className="space-y-4">
@@ -63,7 +76,7 @@ const PasswordChangeModal = ({ onClose }) => {
             name="old_password"
             value={passwords.old_password}
             onChange={handleInputChange}
-            placeholder="Old Password"
+            placeholder={t("profile.passwordModal.placeholders.oldPassword")}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
@@ -71,7 +84,7 @@ const PasswordChangeModal = ({ onClose }) => {
             name="new_password"
             value={passwords.new_password}
             onChange={handleInputChange}
-            placeholder="New Password"
+            placeholder={t("profile.passwordModal.placeholders.newPassword")}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
@@ -79,7 +92,9 @@ const PasswordChangeModal = ({ onClose }) => {
             name="new_password_confirmation"
             value={passwords.new_password_confirmation}
             onChange={handleInputChange}
-            placeholder="Confirm New Password"
+            placeholder={t(
+              "profile.passwordModal.placeholders.confirmPassword"
+            )}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -96,7 +111,7 @@ const PasswordChangeModal = ({ onClose }) => {
             {isSubmitting ? (
               <Loader2 size={20} className="animate-spin" />
             ) : (
-              "Save Password"
+              t("profile.passwordModal.actions.save")
             )}
           </button>
           <button
@@ -104,7 +119,7 @@ const PasswordChangeModal = ({ onClose }) => {
             disabled={isSubmitting}
             className="flex-1 flex items-center justify-center py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
-            Cancel
+            {t("profile.passwordModal.actions.cancel")}
           </button>
         </div>
       </div>

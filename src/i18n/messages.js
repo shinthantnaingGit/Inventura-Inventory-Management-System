@@ -668,6 +668,34 @@ export const messages = {
         imageSaved: "Profile photo updated.",
         errorGeneric: "Request failed. Please try again.",
       },
+      passwordModal: {
+        title: "Change Password",
+        labels: {
+          oldPassword: "Old Password",
+          newPassword: "New Password",
+          confirmPassword: "Confirm New Password",
+        },
+        placeholders: {
+          oldPassword: "Old Password",
+          newPassword: "New Password",
+          confirmPassword: "Confirm New Password",
+        },
+        actions: {
+          save: "Save Password",
+          cancel: "Cancel",
+          saving: "Saving...",
+        },
+        messages: {
+          passwordMismatch: "New passwords don't match.",
+          success:
+            "Password changed successfully! You will be logged out and redirected to login.",
+        },
+        toasts: {
+          success: "Password changed successfully",
+          error: "Something went wrong",
+          failedToChange: "Failed to change password",
+        },
+      },
     },
   },
 
@@ -1317,6 +1345,34 @@ export const messages = {
         nameSaved: "名前を更新しました。",
         imageSaved: "プロフィール写真を更新しました。",
         errorGeneric: "リクエストに失敗しました。もう一度お試しください。",
+      },
+      passwordModal: {
+        title: "パスワードを変更",
+        labels: {
+          oldPassword: "現在のパスワード",
+          newPassword: "新しいパスワード",
+          confirmPassword: "新しいパスワード（確認）",
+        },
+        placeholders: {
+          oldPassword: "現在のパスワード",
+          newPassword: "新しいパスワード",
+          confirmPassword: "新しいパスワード（確認）",
+        },
+        actions: {
+          save: "パスワードを保存",
+          cancel: "キャンセル",
+          saving: "保存中...",
+        },
+        messages: {
+          passwordMismatch: "新しいパスワードが一致しません。",
+          success:
+            "パスワードを変更しました！ログアウトしてログインページにリダイレクトします。",
+        },
+        toasts: {
+          success: "パスワードを変更しました",
+          error: "エラーが発生しました",
+          failedToChange: "パスワードの変更に失敗しました",
+        },
       },
     },
     voucherDetail: {

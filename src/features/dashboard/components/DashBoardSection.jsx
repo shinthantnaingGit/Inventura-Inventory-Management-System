@@ -456,7 +456,7 @@ export default function DashBoardSection() {
       <Card title={t("dashboard.recents.title", "Recent Records")}>
         {isLoading ? (
           <ul className="divide-y divide-gray-200 dark:divide-gray-800">
-            {Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: 4 }).map((_, i) => (
               <li key={i} className="py-3">
                 <div className="h-4 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                 <div className="mt-2 h-3 w-28 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
