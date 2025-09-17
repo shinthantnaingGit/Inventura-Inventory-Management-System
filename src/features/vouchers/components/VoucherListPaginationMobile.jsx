@@ -309,7 +309,7 @@ export default function VoucherListPaginationMobile({
               <select
                 value={sortBy ?? ""}
                 onChange={(e) => handleSortBy?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-600 dark:text-gray-300  px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm  px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">
                   {t("vouchers.sort.default", "デフォルト")}
@@ -336,7 +336,7 @@ export default function VoucherListPaginationMobile({
               <select
                 value={sortDirection ?? "desc"}
                 onChange={(e) => handleSortDirection?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-600 dark:text-gray-300px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-600 dark:text-gray-300 dark:text-gray-300px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="asc">{t("vouchers.sort.asc", "昇順")}</option>
                 <option value="desc">{t("vouchers.sort.desc", "降順")}</option>
