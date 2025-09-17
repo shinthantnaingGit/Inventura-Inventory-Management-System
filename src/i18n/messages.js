@@ -197,10 +197,6 @@ export const messages = {
         },
       },
     },
-    common: {
-      // ...keep existing
-      print: "Print", // ja: "印刷"
-    },
     dashboard: {
       stats: {
         totalRevenue: "Total Revenue",
@@ -577,6 +573,31 @@ export const messages = {
           taxWithRate: "Tax ({rate}%)", // ja: "税 ({rate}%)"
           net: "Net Total", // ja: "税込合計"
         },
+        // Print layout specific messages
+        company: {
+          name: "INVENTURA",
+          tagline: "Inventory Management System",
+          address: "123 Business Street",
+          city: "Tokyo, Japan 100-0001",
+          phone: "Tel: +81-3-1234-5678",
+          email: "Email: info@inventura.com",
+        },
+        documentInfo: "Document Information",
+        invoiceNo: "Invoice No.",
+        saleDate: "Sale Date",
+        issueDate: "Issue Date",
+        billTo: "Bill To",
+        item: "Description",
+        qty: "Qty",
+        unitPrice: "Unit Price",
+        amount: "Amount",
+        subtotal: "Subtotal",
+        tax: "Tax (10%)",
+        total: "Total Amount",
+        thankYou: "Thank you for your business!",
+        paymentTerms: "Payment terms: Net 30 days",
+        contact: "For questions, contact us at info@inventura.com",
+        generated: "This document was generated on {date}",
       },
     },
     voucherPagination: {
@@ -622,6 +643,7 @@ export const messages = {
       cancel: "Cancel",
       loading: "Loading…",
       error: "Something went wrong",
+      print: "Print",
     },
     profile: {
       title: "User Profile",
@@ -843,7 +865,10 @@ export const messages = {
       },
     },
     common: {
-      // ...
+      save: "保存",
+      cancel: "キャンセル",
+      loading: "読み込み中…",
+      error: "エラーが発生しました",
       print: "印刷",
     },
     dashboard: {
@@ -1222,6 +1247,32 @@ export const messages = {
           taxWithRate: "税 ({rate}%)",
           net: "税込合計",
         },
+        // Print layout specific messages
+        company: {
+          name: "インベンチュラ",
+          tagline: "在庫管理システム",
+          address: "東京都渋谷区恵比寿1-2-3",
+          city: "〒150-0013 日本",
+          phone: "TEL: 03-1234-5678",
+          email: "Email: info@inventura.com",
+        },
+        documentInfo: "書類情報",
+        invoiceNo: "請求書番号",
+        saleDate: "販売日",
+        issueDate: "発行日",
+        billTo: "請求先",
+        item: "商品名",
+        qty: "数量",
+        unitPrice: "単価",
+        amount: "金額",
+        subtotal: "小計",
+        tax: "消費税 (10%)",
+        total: "合計金額",
+        thankYou: "ご利用いただき、ありがとうございます",
+        paymentTerms: "お支払い条件: 30日以内",
+        contact:
+          "ご質問がございましたら、info@inventura.com までお問い合わせください",
+        generated: "この書類は {date} に生成されました",
       },
     },
     voucherPagination: {
@@ -1243,6 +1294,30 @@ export const messages = {
       perPage: "{n}件/ページ",
       prev: "前へ",
       next: "次へ",
+    },
+    profile: {
+      title: "ユーザープロフィール",
+      subtitle: "アカウント情報と設定を管理",
+      badges: { active: "アクティブプロフィール" },
+      alt: { avatar: "プロフィール画像" },
+      labels: {
+        userId: "ユーザーID",
+        email: "メールアドレス",
+        memberSince: "登録日",
+        lastUpdated: "最終更新",
+      },
+      actions: {
+        back: "ダッシュボードに戻る",
+        uploadImage: "画像をアップロード",
+        editName: "名前を編集",
+        changePassword: "パスワードを変更",
+      },
+      placeholders: { name: "表示名" },
+      toasts: {
+        nameSaved: "名前を更新しました。",
+        imageSaved: "プロフィール写真を更新しました。",
+        errorGeneric: "リクエストに失敗しました。もう一度お試しください。",
+      },
     },
     voucherDetail: {
       backToVouchers: "バウチャーに戻る",
