@@ -8,8 +8,8 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
 
   return (
     <div className="relative  mx-auto overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-100">
           <tr>
             <th scope="col" className="px-6 py-3 text-center">
               {t("inventoryTable.headers.index", "#")}
@@ -51,7 +51,6 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
                     {t("inventoryTable.emptyTitle", "商品がありません")}
                   </h3>
-                 
 
                   {/* Actions */}
                   <div className="mt-6 w-full flex flex-col sm:flex-row gap-3 sm:justify-center">
@@ -60,7 +59,10 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                         onClick={onCreateProduct}
                         className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
                          bg-blue-600 hover:bg-blue-700 text-white transition-colors"
-                        aria-label={t("inventoryTable.createCta", "＋ 商品を作成")}
+                        aria-label={t(
+                          "inventoryTable.createCta",
+                          "＋ 商品を作成"
+                        )}
                         title={t("inventoryTable.createCta", "＋ 商品を作成")}
                       >
                         <span className="inline-block"></span>
@@ -71,21 +73,26 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                         href="/dashboard/inventory/create"
                         className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
                          bg-blue-600 hover:bg-blue-700 text-white transition-colors"
-                        aria-label={t("inventoryTable.createCta", "＋ 商品を作成")}
+                        aria-label={t(
+                          "inventoryTable.createCta",
+                          "＋ 商品を作成"
+                        )}
                         title={t("inventoryTable.createCta", "＋ 商品を作成")}
                       >
                         <span className="inline-block"></span>
                         {t("inventoryTable.createCta", "＋ 商品を作成")}
                       </a>
                     )}
-
-                   
                   </div>
 
                   {/* Tips */}
-                  <ul className="mt-6 space-y-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <li>{t("inventoryTable.tips.tip1", "・商品の作成時は名前・価格を入力してください。")}</li>
-                    
+                  <ul className="mt-6 space-y-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                    <li>
+                      {t(
+                        "inventoryTable.tips.tip1",
+                        "・商品の作成時は名前・価格を入力してください。"
+                      )}
+                    </li>
                   </ul>
                 </div>
               </td>

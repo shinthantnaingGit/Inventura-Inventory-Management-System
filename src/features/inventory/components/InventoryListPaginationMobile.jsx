@@ -37,7 +37,7 @@ export default function InventoryListPaginationMobile({
         <div className="flex items-center gap-2">
           <label
             htmlFor="limit"
-            className="text-sm text-gray-600 dark:text-gray-400"
+            className="text-sm text-gray-600 dark:text-gray-300"
           >
             {t("inventoryPagination.show", "表示")}
           </label>
@@ -45,7 +45,7 @@ export default function InventoryListPaginationMobile({
             id="limit"
             onChange={(e) => handleChangeLimit(e.target.value)}
             defaultValue={String(perPage ?? "5")}
-            className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-gray-600 dark:text-gray-300  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {[5, 10, 20, 50].map((n) => (
               <option key={n} value={n}>
@@ -67,7 +67,7 @@ export default function InventoryListPaginationMobile({
           <select
             value={strOrEmpty(sortBy)}
             onChange={(e) => handleSortBy(e.target.value)}
-            className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-md border text-gray-600 dark:text-gray-300  border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">
               {t("inventoryPagination.sortOptionNone", "デフォルト")}
@@ -89,7 +89,7 @@ export default function InventoryListPaginationMobile({
       <div className="mt-2 flex items-center justify-between gap-3">
         {/* Total pill */}
         <div className="inline-flex items-center gap-1 rounded-md border border-gray-200/70 dark:border-gray-800/70 bg-white/90 dark:bg-gray-900/70 px-5 py-1 ">
-          <span className="text-[11px] text-gray-500 dark:text-gray-400">
+          <span className="text-[11px] text-gray-500 dark:text-gray-300">
             {t("inventoryPaginationMobile.total", "合計")}
           </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -101,7 +101,7 @@ export default function InventoryListPaginationMobile({
         <div className="flex justify-center items-center gap-3">
           <button
             type="button"
-            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasPrev}
             onClick={() => handlePagination(prevLink)}
             aria-label={t("inventoryPagination.prev", "前へ")}
@@ -110,14 +110,14 @@ export default function InventoryListPaginationMobile({
             <ChevronLeft className="size-4 " />
           </button>
 
-          <span className="text-[11px] text-gray-600 dark:text-gray-400">
+          <span className="text-[11px] text-gray-600 dark:text-gray-300">
             {currentPage ?? <Spiral size="20" speed="0.9" color="gray" />} /{" "}
             {lastPage ?? <Spiral size="20" speed="0.9" color="gray" />}
           </span>
 
           <button
             type="button"
-            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasNext}
             onClick={() => handlePagination(nextLink)}
             aria-label={t("inventoryPagination.next", "次へ")}

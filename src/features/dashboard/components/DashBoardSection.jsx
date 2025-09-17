@@ -174,7 +174,9 @@ export default function DashBoardSection() {
         params.set(key, value);
       }
     });
-    const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    const newURL = params.toString()
+      ? `?${params.toString()}`
+      : window.location.pathname;
     router.push(newURL, { scroll: false });
   };
 
@@ -323,7 +325,7 @@ export default function DashBoardSection() {
       <Card
         title={
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-gray-500" />
+            <SlidersHorizontal className="size-4 text-gray-500 dark:text-gray-300" />
             <span>{t("dashboard.filters.title", "Filters")}</span>
           </div>
         }
@@ -344,7 +346,7 @@ export default function DashBoardSection() {
       >
         {/* Quick Date Presets */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+          <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
             <CalendarDays className="size-4" />
             {t("dashboard.filters.quickRanges", "Quick ranges:")}
           </span>
@@ -474,13 +476,13 @@ export default function DashBoardSection() {
                       t("dashboard.recents.unknown", "Unknown")}{" "}
                     × {r.quantity}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)}{" "}
                     · {fmtDate(r.created_at)} ·{" "}
                     {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs text-gray-500">
+                <span className="shrink-0 text-xs text-gray-500 dark:text-gray-400">
                   {t("dashboard.recents.id", "ID")} {r.id}
                 </span>
               </li>

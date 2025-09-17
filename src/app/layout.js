@@ -1,18 +1,13 @@
 import { Toaster } from "sonner";
 import "../styles/globals.css";
-import "primereact/resources/themes/lara-dark-blue/theme.css";
-import "primereact/resources/primereact.min.css";
 import { ThemeModeScript } from "flowbite-react";
 import NextTopLoader from "nextjs-toploader";
-import { ConfirmDialog } from "primereact/confirmdialog";
-import PrimeReactThemeBridge from "@/components/PrimeReactThemeBridge";
-import { I18nProvider } from "@/i18n/I18nProvider"; // 🔸 add this
-
+import { I18nProvider } from "@/i18n/I18nProvider";
 
 export const metadata = {
   title: "インベンチュラ",
   description:
-    "在庫・請求書・バウチャーを管理できるモダンなWebアプリ。英語/日本語対応。Next.js・TailwindCSS・PrimeReactで構築し、Laravel API (MMS IT) を利用。",
+    "在庫・請求書・バウチャーを管理できるモダンなWebアプリ。英語/日本語対応。Next.js・TailwindCSS・shadcn/uiで構築し、Laravel API (MMS IT) を利用。",
 
   keywords: [
     "在庫管理",
@@ -21,7 +16,7 @@ export const metadata = {
     "Next.js",
     "React",
     "TailwindCSS",
-    "PrimeReact",
+    "shadcn/ui",
     "MMS IT",
     "Laravel API",
     "日本語 英語",
@@ -32,7 +27,7 @@ export const metadata = {
   openGraph: {
     title: "Inventura | 在庫・請求書管理システム",
     description:
-      "製品・バウチャー・請求書を効率的に管理。英語/日本語対応。Next.js + TailwindCSS + PrimeReact で開発。",
+      "製品・バウチャー・請求書を効率的に管理。英語/日本語対応。Next.js + TailwindCSS + shadcn/ui で開発。",
     url: "https://inventura-inventory-management-syst.vercel.app/", // <-- replace with your domain
     siteName: "Inventura",
     images: [
@@ -51,7 +46,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Inventura: 在庫・請求書管理システム",
     description:
-      "英語/日本語対応の在庫・請求書管理アプリ。Laravel API (MMS IT) を利用。",
+      "英語/日本語対応の在庫・請求書管理アプリ。shadcn/ui + Laravel API (MMS IT) を利用。",
     images: ["/og-image.png"],
   },
 
@@ -79,9 +74,7 @@ export default function RootLayout({ children }) {
       <body>
         {/* i18n provider wraps everything */}
         <I18nProvider>
-          <PrimeReactThemeBridge />
           {children}
-          <ConfirmDialog />
           <Toaster position="top-center" richColors />
           <NextTopLoader />
         </I18nProvider>

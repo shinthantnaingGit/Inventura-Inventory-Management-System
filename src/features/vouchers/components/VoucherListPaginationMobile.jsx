@@ -80,7 +80,7 @@ export default function VoucherListPaginationMobile({
       <div className="flex items-center justify-between gap-3">
         {/* Total */}
         <div className="inline-flex items-center gap-1 rounded-md border border-gray-200/70 dark:border-gray-800/70 bg-white/90 dark:bg-gray-900/70 px-3 py-1">
-          <span className="text-[11px] text-gray-500 dark:text-gray-400">
+          <span className="text-[11px] text-gray-500 dark:text-gray-300">
             {t("pagination.total", "合計")}
           </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -92,7 +92,7 @@ export default function VoucherListPaginationMobile({
         <div className="flex items-center gap-2">
           <label
             htmlFor="voucher-limit-mobile"
-            className="text-xs text-gray-600 dark:text-gray-400"
+            className="text-xs text-gray-600 dark:text-gray-300"
           >
             {t("pagination.show", "表示")}
           </label>
@@ -100,7 +100,7 @@ export default function VoucherListPaginationMobile({
             id="voucher-limit-mobile"
             onChange={(e) => handleChangeLimit?.(e.target.value)}
             defaultValue={String(perPage ?? "5")}
-            className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {[5, 10, 20, 50, 100].map((n) => (
               <option key={n} value={n}>
@@ -114,23 +114,23 @@ export default function VoucherListPaginationMobile({
         </div>
 
         {/* Prev / Next (icon only) */}
-        <div className="flex items-center">
+        <div className="flex items-center w-[32%]">
           <button
             type="button"
-            className="h-9 w-9 grid place-items-center rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="h-9 w-11 grid place-items-center rounded-md border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasPrev}
             onClick={() => handlePagination?.(prevLink)}
             aria-label={t("pagination.prev", "前へ")}
           >
             <ChevronLeft className="size-5" />
           </button>
-          <span className="min-w-[70px] text-center text-xs text-gray-700 dark:text-gray-300">
+          <span className="min-w-[70px] text-center text-xs text-gray-700 dark:text-gray-200">
             {currentPage ?? <Spiral size="16" speed="0.9" color="gray" />} /{" "}
             {lastPage ?? <Spiral size="16" speed="0.9" color="gray" />}
           </span>
           <button
             type="button"
-            className="h-9 w-9 grid place-items-center rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="h-9 w-9 grid place-items-center rounded-md border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasNext}
             onClick={() => handlePagination?.(nextLink)}
             aria-label={t("pagination.next", "次へ")}
@@ -151,7 +151,7 @@ export default function VoucherListPaginationMobile({
             setOpenFilter((s) => !s);
             setOpenSort(false);
           }}
-          className="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+          className="text-gray-600 dark:text-gray-300 inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
           aria-expanded={openFilter}
           aria-controls="voucher-filter-panel-mobile"
           title={t("vouchers.filters.title", "フィルター")}
@@ -165,7 +165,7 @@ export default function VoucherListPaginationMobile({
             setOpenSort((s) => !s);
             setOpenFilter(false);
           }}
-          className="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+          className="text-gray-600 dark:text-gray-300 inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
           aria-expanded={openSort}
           aria-controls="voucher-sort-panel-mobile"
           title={t("vouchers.sort.title", "並び替え")}
@@ -187,7 +187,7 @@ export default function VoucherListPaginationMobile({
               {t("vouchers.filters.heading", "フィルター条件")}
             </h4>
             <button
-              className="rounded-md p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="text-gray-600 dark:text-gray-300  rounded-md p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={() => setOpenFilter(false)}
               aria-label={t("vouchers.filters.title", "フィルター")}
             >
@@ -198,7 +198,7 @@ export default function VoucherListPaginationMobile({
           {/* Net total (min/max) */}
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300 mb-1">
                 {t("vouchers.filters.minNet", "最小税込合計")}
               </span>
               <input
@@ -206,12 +206,12 @@ export default function VoucherListPaginationMobile({
                 defaultValue={minNetTotal}
                 placeholder="0"
                 onChange={(e) => handleMinNetTotal?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
 
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300  mb-1">
                 {t("vouchers.filters.maxNet", "最大税込合計")}
               </span>
               <input
@@ -219,7 +219,7 @@ export default function VoucherListPaginationMobile({
                 defaultValue={maxNetTotal}
                 placeholder="100000"
                 onChange={(e) => handleMaxNetTotal?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
           </div>
@@ -227,19 +227,19 @@ export default function VoucherListPaginationMobile({
           {/* Date range */}
           <div className="mt-2 grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300  mb-1">
                 {t("dashboard.filters.dateFrom", "開始日")}
               </span>
               <input
                 type="date"
                 defaultValue={startDate}
                 onChange={(e) => handleStartDate?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </label>
 
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300  mb-1">
                 {t("dashboard.filters.dateTo", "終了日")}
               </span>
               <input
@@ -251,7 +251,7 @@ export default function VoucherListPaginationMobile({
             </label>
           </div>
 
-          <p className="mt-1 text-[11px] text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-[11px] text-gray-600 dark:text-gray-300 ">
             {t(
               "vouchers.filters.dateBetweenHint",
               "開始日と終了日を指定すると範囲で絞り込めます（date_between も使用可）。"
@@ -266,7 +266,7 @@ export default function VoucherListPaginationMobile({
                 handleResetFilters();
                 setOpenFilter(false);
               }}
-              className="inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+              className="text-gray-600 dark:text-gray-300 inline-flex items-center gap-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               {t("dashboard.filters.reset", "リセット")}
             </button>
@@ -286,14 +286,14 @@ export default function VoucherListPaginationMobile({
         <div
           id="voucher-sort-panel-mobile"
           ref={sortRef}
-          className="mt-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-3"
+          className="mt-2 rounded-xl border  border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-3"
         >
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {t("vouchers.sort.title", "並び替え")}
             </h4>
             <button
-              className="rounded-md p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="text-gray-600 dark:text-gray-300 rounded-md p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={() => setOpenSort(false)}
               aria-label={t("vouchers.sort.title", "並び替え")}
             >
@@ -303,13 +303,13 @@ export default function VoucherListPaginationMobile({
 
           <div className="grid grid-cols-2 gap-3">
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300 mb-1">
                 {t("vouchers.sort.by", "項目")}
               </span>
               <select
                 value={sortBy ?? ""}
                 onChange={(e) => handleSortBy?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-600 dark:text-gray-300  px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">
                   {t("vouchers.sort.default", "デフォルト")}
@@ -330,13 +330,13 @@ export default function VoucherListPaginationMobile({
             </label>
 
             <label className="block">
-              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+              <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300 mb-1">
                 {t("vouchers.sort.direction", "順序")}
               </span>
               <select
                 value={sortDirection ?? "desc"}
                 onChange={(e) => handleSortDirection?.(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-600 dark:text-gray-300px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="asc">{t("vouchers.sort.asc", "昇順")}</option>
                 <option value="desc">{t("vouchers.sort.desc", "降順")}</option>

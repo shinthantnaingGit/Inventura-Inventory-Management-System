@@ -86,7 +86,14 @@ export default function GlobalSearch() {
   const vouchers = vouResp?.data ?? [];
 
   const showResults =
-    open && term.length >= 2 && (prodLoading || vouLoading || products.length || vouchers.length || prodErr || vouErr);
+    open &&
+    term.length >= 2 &&
+    (prodLoading ||
+      vouLoading ||
+      products.length ||
+      vouchers.length ||
+      prodErr ||
+      vouErr);
 
   return (
     <div className="relative" ref={boxRef}>
@@ -102,9 +109,9 @@ export default function GlobalSearch() {
           onFocus={() => setOpen(true)}
           placeholder={t("searchPlaceholder", "商品・バウチャーを検索…")}
           aria-label={t("searchPlaceholder", "商品・バウチャーを検索…")}
-          className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-10 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 pl-10 pr-3 py-2 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-300 outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
+        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500 dark:text-gray-300" />
       </div>
 
       {/* Results dropdown */}
@@ -135,14 +142,16 @@ export default function GlobalSearch() {
                     <p className="text-sm text-gray-900 dark:text-gray-100 truncate">
                       {p.product_name}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-300">
                       ID: {p.id} • ¥{new Intl.NumberFormat().format(p.price)}
                     </p>
                   </div>
                 </Link>
               ))
             ) : (
-              <RowEmpty text={t("inventoryTable.emptyTitle", "商品がありません")} />
+              <RowEmpty
+                text={t("inventoryTable.emptyTitle", "商品がありません")}
+              />
             )}
           </div>
 
@@ -170,15 +179,21 @@ export default function GlobalSearch() {
                     <p className="text-sm text-gray-900 dark:text-gray-100 truncate">
                       {v.voucher_id} — {v.customer_name}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                    <p className="text-xs text-gray-500 dark:text-gray-300 flex items-center gap-2">
                       <Calendar className="size-3.5" />
-                      {v.sale_date} • ¥{new Intl.NumberFormat().format(v.net_total)}
+                      {v.sale_date} • ¥
+                      {new Intl.NumberFormat().format(v.net_total)}
                     </p>
                   </div>
                 </Link>
               ))
             ) : (
-              <RowEmpty text={t("dashboard.recents.empty", "条件に合致するレコードはありません。")} />
+              <RowEmpty
+                text={t(
+                  "dashboard.recents.empty",
+                  "条件に合致するレコードはありません。"
+                )}
+              />
             )}
           </div>
         </div>
@@ -192,9 +207,13 @@ export default function GlobalSearch() {
 function SectionHeader({ icon: Icon, label, hint }) {
   return (
     <div className="flex items-center gap-2 px-3 py-2 bg-gray-50/70 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-800">
-      <Icon className="size-4 text-gray-500" />
-      <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{label}</span>
-      <span className="ml-auto text-[11px] text-gray-500 dark:text-gray-400">{hint}</span>
+      <Icon className="size-4 text-gray-500 dark:text-gray-300" />
+      <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">
+        {label}
+      </span>
+      <span className="ml-auto text-[11px] text-gray-500 dark:text-gray-300">
+        {hint}
+      </span>
     </div>
   );
 }
@@ -217,7 +236,7 @@ function RowError() {
 
 function RowEmpty({ text }) {
   return (
-    <div className="px-3 py-3 text-sm text-gray-500 dark:text-gray-400">
+    <div className="px-3 py-3 text-sm text-gray-500 dark:text-gray-300">
       {text}
     </div>
   );

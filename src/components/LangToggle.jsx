@@ -28,7 +28,9 @@ export default function LangToggle({ className = "", size = "sm" }) {
       onClick={toggle}
       aria-label={t("nav.settings", "設定")}
       className={[
-        "flex  items-center gap-2 border",
+        "flex  items-center gap-2 border border-gray-300 dark:border-gray-700",
+        "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200",
+        "hover:bg-gray-50 dark:hover:bg-gray-800",
         S.pad,
         S.text,
         className,
@@ -36,7 +38,9 @@ export default function LangToggle({ className = "", size = "sm" }) {
     >
       <Languages className={`${S.icon} shrink-0`} />
       {/* Reserve label width so EN/日本語 doesn’t push neighbors */}
-      <span className={`hidden sm:block w-15 text-center`}>
+      <span
+        className={`hidden sm:block w-15 text-center text-gray-700 dark:text-gray-200`}
+      >
         {locale === "en" ? "日本語" : "ENGLISH"}
       </span>
     </button>
@@ -51,9 +55,9 @@ export function LangToggleIcon() {
     <button
       type="button"
       onClick={toggle}
-      className="rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700"
+      className="rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200"
     >
-      <Languages/>
+      <Languages />
     </button>
   );
 }
