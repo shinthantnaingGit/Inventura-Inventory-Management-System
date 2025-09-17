@@ -106,7 +106,7 @@ export default function InventoryListMobile({ products }) {
             <div className="mt-4 grid grid-cols-3 gap-2">
               <Link
                 href={`/dashboard/inventory/${p.id}`}
-                className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="inline-flex text-gray-600 dark:text-gray-300  items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                 aria-label={`${t("inventoryMobile.view", "表示")} ${
                   p.product_name
                 }`}
@@ -118,7 +118,7 @@ export default function InventoryListMobile({ products }) {
 
               <Link
                 href={`/dashboard/inventory/${p.id}/edit`}
-                className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="text-gray-600 dark:text-gray-300 inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                 aria-label={`${t("inventoryMobile.edit", "編集")} ${
                   p.product_name
                 }`}
@@ -130,7 +130,7 @@ export default function InventoryListMobile({ products }) {
 
               <button
                 onClick={() => handleDelete(p.id, p.product_name)}
-                className="inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="text-gray-600 dark:text-gray-300 inline-flex items-center justify-center gap-1 rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                 aria-label={`${t("inventoryMobile.delete", "削除")} ${
                   p.product_name
                 }`}

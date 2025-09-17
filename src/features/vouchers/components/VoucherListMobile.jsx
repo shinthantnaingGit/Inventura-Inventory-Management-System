@@ -96,7 +96,7 @@ export default function VoucherListMobile({ vouchers }) {
             </div>
 
             {/* Totals */}
-            <div className="mt-2 text-sm">
+            <div className="mt-2 text-gray-600 dark:text-gray-300  text-sm">
               <p>
                 {t("vouchers.mobile.total", "合計")}:{" "}
                 <span className="font-medium">{v.total}</span>
@@ -112,10 +112,10 @@ export default function VoucherListMobile({ vouchers }) {
             </div>
 
             {/* Actions */}
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className="mt-4 flex items-center justify-center  gap-2">
               <Link
                 href={`/dashboard/vouchers/${v.id}`}
-                className="inline-flex items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="inline-flex text-gray-600 dark:text-gray-300  items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
               >
                 <Info className="size-4 text-blue-600 dark:text-blue-400" />
                 {t("vouchers.actions.view", "表示")}
@@ -123,7 +123,7 @@ export default function VoucherListMobile({ vouchers }) {
 
               <button
                 onClick={() => handleDelete(v.id, v.voucher_id)}
-                className="inline-flex items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="text-gray-600 dark:text-gray-300 inline-flex items-center justify-center gap-1 rounded-lg border px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
               >
                 <Trash className="size-4 text-red-600 dark:text-red-400" />
                 {t("vouchers.actions.delete", "削除")}

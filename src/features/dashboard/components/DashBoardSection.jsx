@@ -325,7 +325,7 @@ export default function DashBoardSection() {
       <Card
         title={
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-gray-500 dark:text-gray-300" />
+            <SlidersHorizontal className="size-4 text-gray-600 dark:text-gray-300 " />
             <span>{t("dashboard.filters.title", "Filters")}</span>
           </div>
         }
@@ -336,7 +336,7 @@ export default function DashBoardSection() {
         rightSlot={
           <button
             onClick={() => mutate()}
-            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300  rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             title={t("dashboard.filters.refreshNow", "Refresh now")}
           >
             <RefreshCw className="size-4" />
@@ -345,7 +345,7 @@ export default function DashBoardSection() {
         }
       >
         {/* Quick Date Presets */}
-        <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div className="mb-4 flex flex-wrap items-center text-gray-600 dark:text-gray-300  gap-2">
           <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
             <CalendarDays className="size-4" />
             {t("dashboard.filters.quickRanges", "Quick ranges:")}
@@ -371,7 +371,7 @@ export default function DashBoardSection() {
         </div>
 
         {/* Form grid */}
-        <div className="grid gap-3 md:grid-cols-4">
+        <div className="grid gap-3 text-gray-600 dark:text-gray-300  md:grid-cols-4">
           <Input
             label={t("dashboard.filters.voucherId", "Voucher ID")}
             name="voucher_id"
@@ -439,7 +439,7 @@ export default function DashBoardSection() {
           <button
             type="button"
             onClick={onClear}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="inline-flex text-gray-600 dark:text-gray-300  items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
             {t("dashboard.filters.reset", "Reset")}
           </button>

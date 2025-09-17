@@ -131,7 +131,7 @@ export default function VoucherListPagination({
                     const v = e.target.value;
                     handleMinNetTotal(v === "" ? "" : Number(v));
                   }}
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm placeholder-gray-500 dark:placeholder-gray-300"
+                  className="w-full text-gray-600 dark:text-gray-300  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm placeholder-gray-500 dark:placeholder-gray-300"
                   placeholder={t("vouchers.filters.minNet", "最小税込合計")}
                 />
               </label>
@@ -148,7 +148,7 @@ export default function VoucherListPagination({
                     const v = e.target.value;
                     handleMaxNetTotal(v === "" ? "" : Number(v));
                   }}
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm placeholder-gray-500 dark:placeholder-gray-300"
+                  className="w-full text-gray-600 dark:text-gray-300 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-2 py-2 text-sm placeholder-gray-500 dark:placeholder-gray-300"
                   placeholder={t("vouchers.filters.maxNet", "最大税込合計")}
                 />
               </label>
