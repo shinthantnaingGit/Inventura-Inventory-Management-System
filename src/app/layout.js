@@ -28,7 +28,7 @@ export const metadata = {
     title: "Inventura | 在庫・請求書管理システム",
     description:
       "製品・バウチャー・請求書を効率的に管理。英語/日本語対応。Next.js + TailwindCSS + shadcn/ui で開発。",
-    url: "https://inventura-inventory-management-syst.vercel.app/", // <-- replace with your domain
+    url: "https://inventura-inventory-management-syst.vercel.app/",
     siteName: "Inventura",
     images: [
       {
@@ -38,7 +38,7 @@ export const metadata = {
         alt: "Inventura ダッシュボード プレビュー",
       },
     ],
-    locale: "ja_JP", // ← 日本向け
+    locale: "ja_JP",
     type: "website",
   },
 
@@ -68,15 +68,39 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ja" suppressHydrationWarning>
+      <head>
+        {/* Anti-flicker script - runs before any content renders */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  
+                  if (theme === 'dark' || (theme === 'system' && systemDark) || (!theme && systemDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {
+                  // Fallback for system preference if localStorage fails
+                  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                  }
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
-        {/* Theme provider wraps everything */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {/* i18n provider wraps everything */}
           <I18nProvider>
             {children}
             <Toaster position="top-center" richColors />
