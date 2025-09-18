@@ -12,15 +12,23 @@
 html {
   scroll-behavior: smooth;
 }
-
-/* Additional flicker prevention */
-@media (prefers-color-scheme: dark) {
-  html {
-    background: rgb(17 24 39); /* dark background */
-  }
+/* In globals.css - add this at the top */
+html {
+  /* Prevent any flicker by setting immediate background */
+  transition: none !important;
 }
 
-/* Hide content briefly until theme loads */
-html:not([data-theme]):not(.dark):not(.light) {
-  background: rgb(17 24 39); /* Assume dark as default */
+html.light {
+  background-color: rgb(255, 255, 255);
+  color-scheme: light;
+}
+
+html.dark {
+  background-color: rgb(17, 24, 39);
+  color-scheme: dark;
+}
+
+/* Ensure body inherits properly */
+body {
+  transition: none !important;
 }

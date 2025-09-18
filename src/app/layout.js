@@ -77,16 +77,31 @@ export default function RootLayout({ children }) {
                 try {
                   var theme = localStorage.getItem('theme');
                   var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var html = document.documentElement;
+                  
+                  // Remove any existing theme classes first
+                  html.classList.remove('dark', 'light');
                   
                   if (theme === 'dark' || (theme === 'system' && systemDark) || (!theme && systemDark)) {
-                    document.documentElement.classList.add('dark');
+                    html.classList.add('dark');
+                    html.style.backgroundColor = 'rgb(17, 24, 39)'; // dark background
+                    html.style.colorScheme = 'dark';
                   } else {
-                    document.documentElement.classList.remove('dark');
+                    html.classList.add('light');
+                    html.style.backgroundColor = 'rgb(255, 255, 255)'; // light background
+                    html.style.colorScheme = 'light';
                   }
                 } catch (e) {
-                  // Fallback for system preference if localStorage fails
+                  // Fallback
+                  var html = document.documentElement;
                   if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.classList.add('dark');
+                    html.classList.add('dark');
+                    html.style.backgroundColor = 'rgb(17, 24, 39)';
+                    html.style.colorScheme = 'dark';
+                  } else {
+                    html.classList.add('light');
+                    html.style.backgroundColor = 'rgb(255, 255, 255)';
+                    html.style.colorScheme = 'light';
                   }
                 }
               })();
