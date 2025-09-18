@@ -2,7 +2,7 @@
 import { Languages } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 
-export default function LangToggle({ className = "", size = "sm" }) {
+export default function LangToggle({ text = "", className = "", size = "sm" }) {
   const { t, locale, setLocale } = useI18n();
   const toggle = () => setLocale(locale === "en" ? "ja" : "en");
 
@@ -27,17 +27,16 @@ export default function LangToggle({ className = "", size = "sm" }) {
       type="button"
       onClick={toggle}
       aria-label={t("nav.settings", "設定")}
-      className={[
-        "flex  items-center gap-2 ",
-        S.pad,
-        S.text,
-        className,
-      ].join(" ")}
+      className={["flex  items-center gap-2 ", S.pad, S.text, className].join(
+        " "
+      )}
     >
       <Languages className={`${S.icon} shrink-0`} />
       {/* Reserve label width so EN/日本語 doesn’t push neighbors */}
       <span
-        className={`hidden sm:block w-15 text-center text-gray-700 dark:text-gray-200`}
+        className={`hidden sm:block w-15 text-center ${
+          text ? text : "text-gray-700 dark:text-gray-200"
+        }`}
       >
         {locale === "en" ? "日本語" : "ENGLISH"}
       </span>

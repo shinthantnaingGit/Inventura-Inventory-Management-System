@@ -123,7 +123,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
               {t("profile.actions.back", "ダッシュボードへ戻る")}
             </Link>
             {/* Lang Toggle */}
-            <LangToggle className="rounded-xl bg-white/90 text-blue-600 hover:bg-white px-3 py-2 text-sm font-medium transition" />
+            <LangToggle text="text-blue-600" className="rounded-xl bg-white/90  hover:bg-white px-3 py-2 text-sm font-medium transition" />
             {/* Dark Mode Toggle */}
             <DarkThemeToggle className="border text-white dark:text-white " />
           </div>
