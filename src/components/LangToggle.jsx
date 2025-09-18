@@ -29,7 +29,7 @@ export default function LangToggle({ className = "", size = "sm" }) {
       aria-label={t("nav.settings", "設定")}
       className={[
         "flex  items-center gap-2 border border-gray-300 dark:border-gray-700",
-        "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200",
+        "text-gray-600 dark:text-gray-300",
         "hover:bg-gray-50 dark:hover:bg-gray-800",
         S.pad,
         S.text,

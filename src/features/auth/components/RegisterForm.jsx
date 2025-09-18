@@ -170,7 +170,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="name"
               />
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600" size={20} />
             </div>
             {errors.name && <p className="mt-1 text-sm text-red-500">{String(errors.name.message)}</p>}
           </div>
@@ -198,7 +198,7 @@ const RegisterForm = () => {
                 autoComplete="email"
                 inputMode="email"
               />
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600" size={20} />
             </div>
             {errors.email && <p className="mt-1 text-sm text-red-500">{String(errors.email.message)}</p>}
           </div>
@@ -222,7 +222,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="new-password"
               />
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600" size={20} />
             </div>
             {errors.password && <p className="mt-1 text-sm text-red-500">{String(errors.password.message)}</p>}
           </div>
@@ -247,7 +247,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="new-password"
               />
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600" size={20} />
             </div>
             {errors.password_confirmation && (
               <p className="mt-1 text-sm text-red-500">{String(errors.password_confirmation.message)}</p>

@@ -69,7 +69,7 @@ const LoginForm = () => {
             />
             <Mail
               size={20}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600"
               aria-hidden="true"
             />
           </div>
@@ -105,7 +105,7 @@ const LoginForm = () => {
             />
             <Lock
               size={20}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600"
               aria-hidden="true"
             />
           </div>
