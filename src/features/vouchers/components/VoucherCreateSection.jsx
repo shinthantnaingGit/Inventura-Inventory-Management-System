@@ -13,52 +13,71 @@ import {
   Calendar,
 } from "lucide-react";
 import { storeVoucher } from "@/services/voucher";
-import {  fetchProducts, productApiUrl } from "@/services/product";
+import { fetchProducts, productApiUrl } from "@/services/product";
 import { useI18n } from "@/i18n/I18nProvider";
 import useSWR from "swr";
 
-// Small helper for currency-ish display
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+// Format numbers with thousand separators (e.g., 1000 → 1,000)
 const fmt = (n) =>
   isNaN(n) ? "-" : new Intl.NumberFormat().format(Math.round(n));
 
-export default function VoucherCreateSection() {
-  const router = useRouter();
-  const { t } = useI18n();
+// Generate unique voucher ID based on current date + random number
+// Format: INV-YYYYMMDD-XXXX (e.g., INV-20241218-1234)
+const makeVoucherId = () => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed, so add 1
+  const day = String(d.getDate()).padStart(2, "0");
+  const rand = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
+  return `INV-${y}${m}${day}-${rand}`;
+};
 
-  // Load products for selector
+// ============================================
+// MAIN COMPONENT
+// ============================================
+
+export default function VoucherCreateSection() {
+  // ============================================
+  // HOOKS & DATA FETCHING
+  // ============================================
+  
+  const router = useRouter(); // For navigation after form submission
+  const { t } = useI18n(); // For internationalization (i18n)
+
+  // Fetch products list from API using SWR for caching & revalidation
   const {
     data: productsResp,
     isLoading: productsLoading,
     error: productsError,
   } = useSWR(`${productApiUrl}?limit=100`, fetchProducts);
+  
+  // Extract products array from response, default to empty array if no data
   const products = productsResp?.data ?? [];
 
-  // put this helper above onSubmit (inside component file, outside onSubmit)
-  const makeVoucherId = () => {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    const rand = Math.floor(1000 + Math.random() * 9000);
-    return `INV-${y}${m}${day}-${rand}`;
-  };
-
-  // RHF
+  // ============================================
+  // FORM SETUP WITH REACT HOOK FORM
+  // ============================================
+  
   const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    watch,
-    getValues, // ADDED
-    reset,
-    formState: { errors, isSubmitting },
+    register,        // Register input fields
+    handleSubmit,    // Handle form submission
+    control,         // Control for field arrays and watching
+    setValue,        // Programmatically set field values
+    watch,          // Watch specific fields for changes
+    getValues,      // Get current form values
+    reset,          // Reset form to default values
+    formState: { errors, isSubmitting }, // Form state and validation errors
   } = useForm({
+    // Initial form values
     defaultValues: {
-      voucher_id: `${makeVoucherId()}`,
+      voucher_id: makeVoucherId(), // Auto-generate voucher ID
       customer_name: "",
       customer_email: "",
-      sale_date: new Date().toISOString().slice(0, 10),
+      sale_date: new Date().toISOString().slice(0, 10), // Today's date in YYYY-MM-DD format
       records: [
         {
           product_id: "",
@@ -67,47 +86,100 @@ export default function VoucherCreateSection() {
           cost: 0,
         },
       ],
-      confirm: false,
+      confirm: false, // Confirmation checkbox
     },
   });
 
+  // Handle dynamic array of product line items
   const { fields, append, remove } = useFieldArray({
     name: "records",
     control,
   });
 
-  // Live subscription to records for instant totals
+  // Watch all records for real-time calculation updates
   const recordsWatch = useWatch({ control, name: "records" });
 
-  const taxRate = 0.07; // 7%
+  // Tax configuration (7% Japanese consumption tax)
+  const taxRate = 0.07;
 
-  // Totals recompute instantly as records change
+  // ============================================
+  // COMPUTED VALUES (TOTALS)
+  // ============================================
+  
+  // Calculate totals whenever records change (reactive computation)
   const totals = useMemo(() => {
+    // Sum all line item costs
     const total =
       recordsWatch?.reduce((sum, r) => sum + Number(r?.cost ?? 0), 0) || 0;
+    // Calculate tax amount
     const tax = total * taxRate;
+    // Calculate final total including tax
     const net = total + tax;
     return { total, tax, net };
-  }, [recordsWatch]);
+  }, [recordsWatch]); // Recalculate when records change
 
+  // Watch confirmation checkbox state
   const confirmed = watch("confirm");
 
-  // REPLACE your existing onSubmit with this version
+  // ============================================
+  // PRODUCT SELECTION HANDLER
+  // ============================================
+  
+  // Check if product already exists in records and update quantity
+  const handleProductSelection = (productId, currentIndex) => {
+    if (!productId) return;
+    
+    const currentRecords = getValues("records");
+    
+    // Find if this product already exists in another row
+    const existingIndex = currentRecords.findIndex((r, idx) => 
+      idx !== currentIndex && String(r.product_id) === String(productId)
+    );
+    
+    if (existingIndex !== -1) {
+      // Product already exists - add quantities together
+      const existingQty = Number(currentRecords[existingIndex].quantity || 0);
+      const currentQty = Number(currentRecords[currentIndex].quantity || 1);
+      const newQty = existingQty + currentQty;
+      
+      // Update existing row with combined quantity
+      const unitPrice = Number(currentRecords[existingIndex].unit_price || 0);
+      setValue(`records.${existingIndex}.quantity`, newQty);
+      setValue(`records.${existingIndex}.cost`, newQty * unitPrice);
+      
+      // Remove current duplicate row
+      remove(currentIndex);
+      
+      // Show notification to user
+      toast.info(t("vouchers.create.toast.productCombined", "同じ商品の数量を合計しました"));
+      return true; // Indicate that product was combined
+    }
+    
+    return false; // Product was not a duplicate
+  };
+
+  // ============================================
+  // FORM SUBMISSION
+  // ============================================
+  
   const onSubmit = async () => {
     try {
-      // read current form values
+      // Get all current form values
       const values = getValues();
 
-      // build record lines to match API sample (include nested product, quantity as string)
+      // Transform records to match API format
+      // Filter out empty records and format properly
       const items = (values.records || [])
-        .filter((r) => r.product_id && Number(r.quantity) > 0)
+        .filter((r) => r.product_id && Number(r.quantity) > 0) // Only include valid items
         .map((r) => {
+          // Find full product details from products list
           const prod = products.find(
             (p) => String(p.id) === String(r.product_id)
           );
+          
           return {
             product_id: Number(r.product_id),
-            // include minimal product object like your sample
+            // Include nested product object as required by API
             product: prod
               ? {
                   id: prod.id,
@@ -116,38 +188,40 @@ export default function VoucherCreateSection() {
                   created_at: prod.created_at ?? undefined,
                 }
               : undefined,
-            quantity: String(r.quantity), // API sample uses string
+            quantity: String(r.quantity), // API expects string for quantity
             cost: Number(r.cost || 0),
-            created_at: new Date().toISOString(), // optional; harmless if backend ignores
+            created_at: new Date().toISOString(), // Current timestamp
           };
         });
 
-      // compute totals just before submit (simple + precise)
+      // Calculate final totals for submission
       const total = items.reduce((s, r) => s + (r.cost || 0), 0);
-      const tax = +(total * 0.07).toFixed(2);
+      const tax = +(total * taxRate).toFixed(2); // Round to 2 decimal places
       const net_total = +(total + tax).toFixed(2);
 
-      // voucher_id fallback if user left it blank
+      // Ensure voucher_id is not empty (use auto-generated if needed)
       const voucher_id = (values.voucher_id || "").trim() || makeVoucherId();
 
+      // Prepare final payload for API
       const payload = {
         voucher_id,
         customer_name: values.customer_name,
-        customer_email: values.customer_email || undefined,
+        customer_email: values.customer_email || undefined, // Optional field
         sale_date: values.sale_date,
         records: items,
         total,
         tax,
         net_total,
-        // DO NOT send 'id' in request; backend will generate it
+        // Note: Don't send 'id' - backend will generate it
       };
 
+      // Send to API
       const res = await storeVoucher(payload);
       const result = (await res.json?.()) ?? res;
 
+      // Handle API errors
       if (!res?.ok) {
-        // bubble up API validation message so 422 is obvious
-        console.error("Voucher create 422:", result);
+        console.error("Voucher create error:", result);
         throw new Error(
           result?.message ||
             result?.errors?.[0] ||
@@ -155,8 +229,10 @@ export default function VoucherCreateSection() {
         );
       }
 
+      // Success - show notification
       toast.success(t("vouchers.create.toast.success", "伝票を作成しました"));
 
+      // Navigate to new voucher or vouchers list
       const newId = result?.data?.id ?? result?.id;
       if (newId) {
         router.push(`/dashboard/vouchers/${newId}`);
@@ -171,9 +247,13 @@ export default function VoucherCreateSection() {
     }
   };
 
+  // ============================================
+  // RENDER UI
+  // ============================================
+  
   return (
     <section className="mx-auto max-w-full sm:max-w-[80%] lg:max-w-[60%] px-4 sm:px-5 pb-24 sm:pb-6">
-      {/* Back (mobile) */}
+      {/* Mobile-only back button (hidden on desktop) */}
       <Link
         href="/dashboard/vouchers"
         className="mb-5 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
@@ -185,16 +265,21 @@ export default function VoucherCreateSection() {
         <span>{t("vouchers.create.backToVouchers", "バウチャーに戻る")}</span>
       </Link>
 
+      {/* Page title */}
       <h3 className="text-gray-900 dark:text-gray-100 text-xl font-bold mb-4">
         {t("vouchers.create.title", "伝票を作成")}
       </h3>
 
+      {/* Main form container */}
       <div className="rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-8 shadow-sm">
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Basic info */}
+          
+          {/* ============================================ */}
+          {/* BASIC INFO SECTION - 2 column grid on desktop */}
+          {/* ============================================ */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Voucher ID */}
+            
+            {/* Voucher ID field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t("vouchers.create.labels.voucherId", "伝票番号")}
@@ -211,7 +296,7 @@ export default function VoucherCreateSection() {
               />
             </div>
 
-            {/* Sale date */}
+            {/* Sale date field with calendar icon */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t("vouchers.create.labels.saleDate", "販売日")}
@@ -227,7 +312,7 @@ export default function VoucherCreateSection() {
               </div>
             </div>
 
-            {/* Customer name */}
+            {/* Customer name field (required) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t("vouchers.create.labels.customerName", "顧客名")}{" "}
@@ -262,6 +347,7 @@ export default function VoucherCreateSection() {
                 className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                            text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
               />
+              {/* Show validation error if exists */}
               {errors.customer_name && (
                 <p className="mt-1 text-sm text-red-500">
                   {errors.customer_name.message}
@@ -269,7 +355,7 @@ export default function VoucherCreateSection() {
               )}
             </div>
 
-            {/* Customer email */}
+            {/* Customer email field (optional) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t("vouchers.create.labels.customerEmail", "顧客メール")}
@@ -287,7 +373,11 @@ export default function VoucherCreateSection() {
             </div>
           </div>
 
-          {/* Records header */}
+          {/* ============================================ */}
+          {/* PRODUCT LINE ITEMS SECTION */}
+          {/* ============================================ */}
+          
+          {/* Section header with Add button */}
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {t("vouchers.create.lines.title", "明細")}
@@ -295,6 +385,7 @@ export default function VoucherCreateSection() {
             <button
               type="button"
               onClick={() =>
+                // Add new empty line item
                 append({
                   product_id: "",
                   quantity: 1,
@@ -309,9 +400,10 @@ export default function VoucherCreateSection() {
             </button>
           </div>
 
-          {/* Lines grid */}
+          {/* Dynamic line items list */}
           <div className="space-y-3">
             {fields.map((f, idx) => {
+              // Watch cost for this specific line item
               const cost = watch(`records.${idx}.cost`);
 
               return (
@@ -319,7 +411,7 @@ export default function VoucherCreateSection() {
                   key={f.id}
                   className="grid grid-cols-1 sm:grid-cols-12 gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                 >
-                  {/* Product */}
+                  {/* Product dropdown (5 columns on desktop) */}
                   <div className="sm:col-span-5">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.product", "商品")}
@@ -330,25 +422,35 @@ export default function VoucherCreateSection() {
                         <select
                           {...productReg}
                           onChange={(e) => {
-                            // RHF update
+                            // Update form state
                             productReg.onChange(e);
-
-                            // Derive unit from product and recalc cost
-                            const prod = products.find(
-                              (p) => String(p.id) === String(e.target.value)
-                            );
-                            const unit = Number(prod?.price ?? 0);
-                            setValue(`records.${idx}.unit_price`, unit, {
-                              shouldDirty: true,
-                              shouldValidate: true,
-                            });
-                            const qty = Number(
-                              getValues(`records.${idx}.quantity`) ?? 0
-                            );
-                            setValue(`records.${idx}.cost`, qty * unit, {
-                              shouldDirty: true,
-                              shouldValidate: true,
-                            });
+                            
+                            // Check for duplicate product
+                            const isDuplicate = handleProductSelection(e.target.value, idx);
+                            
+                            // If not duplicate, update pricing
+                            if (!isDuplicate && e.target.value) {
+                              // Find selected product details
+                              const prod = products.find(
+                                (p) => String(p.id) === String(e.target.value)
+                              );
+                              const unit = Number(prod?.price ?? 0);
+                              
+                              // Set unit price from product
+                              setValue(`records.${idx}.unit_price`, unit, {
+                                shouldDirty: true,
+                                shouldValidate: true,
+                              });
+                              
+                              // Calculate and set cost (quantity × unit price)
+                              const qty = Number(
+                                getValues(`records.${idx}.quantity`) ?? 0
+                              );
+                              setValue(`records.${idx}.cost`, qty * unit, {
+                                shouldDirty: true,
+                                shouldValidate: true,
+                              });
+                            }
                           }}
                           className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
@@ -369,14 +471,14 @@ export default function VoucherCreateSection() {
                     })()}
                   </div>
 
-                  {/* Quantity */}
+                  {/* Quantity input (2 columns on desktop) */}
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.qty", "数量")}
                     </label>
                     {(() => {
                       const qtyReg = register(`records.${idx}.quantity`, {
-                        valueAsNumber: true,
+                        valueAsNumber: true, // Automatically convert to number
                       });
                       return (
                         <input
@@ -385,7 +487,10 @@ export default function VoucherCreateSection() {
                           step={1}
                           {...qtyReg}
                           onChange={(e) => {
+                            // Update form state
                             qtyReg.onChange(e);
+                            
+                            // Recalculate cost when quantity changes
                             const qty = Number(e.target.value ?? 0);
                             const unit = Number(
                               getValues(`records.${idx}.unit_price`) ?? 0
@@ -402,7 +507,7 @@ export default function VoucherCreateSection() {
                     })()}
                   </div>
 
-                  {/* Unit price (editable) */}
+                  {/* Unit price input - editable (2 columns on desktop) */}
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.unitPrice", "単価")}
@@ -417,7 +522,10 @@ export default function VoucherCreateSection() {
                           step="1"
                           {...unitReg}
                           onChange={(e) => {
+                            // Update form state
                             unitReg.onChange(e);
+                            
+                            // Recalculate cost when unit price changes
                             const unit = Number(e.target.value ?? 0);
                             const qty = Number(
                               getValues(`records.${idx}.quantity`) ?? 0
@@ -434,7 +542,7 @@ export default function VoucherCreateSection() {
                     })()}
                   </div>
 
-                  {/* Cost (qty * unit) */}
+                  {/* Cost display - read only (2 columns on desktop) */}
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.cost", "金額")}
@@ -447,11 +555,11 @@ export default function VoucherCreateSection() {
                     </div>
                   </div>
 
-                  {/* Remove */}
+                  {/* Delete button (1 column on desktop) */}
                   <div className="sm:col-span-1 flex items-end">
                     <button
                       type="button"
-                      onClick={() => remove(idx)}
+                      onClick={() => remove(idx)} // Remove this line item
                       className="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                       title={t("vouchers.create.lines.remove", "削除")}
                     >
@@ -463,8 +571,11 @@ export default function VoucherCreateSection() {
             })}
           </div>
 
-          {/* Totals */}
+          {/* ============================================ */}
+          {/* TOTALS SECTION - 3 column grid */}
+          {/* ============================================ */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Subtotal */}
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
@@ -476,6 +587,8 @@ export default function VoucherCreateSection() {
                 </p>
               </div>
             </div>
+            
+            {/* Tax amount */}
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
@@ -487,6 +600,8 @@ export default function VoucherCreateSection() {
                 </p>
               </div>
             </div>
+            
+            {/* Grand total */}
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
@@ -500,7 +615,9 @@ export default function VoucherCreateSection() {
             </div>
           </div>
 
-          {/* Checkboxes */}
+          {/* ============================================ */}
+          {/* CONFIRMATION CHECKBOX */}
+          {/* ============================================ */}
           <div className="space-y-2">
             <label className="flex items-center gap-2">
               <input
@@ -511,7 +628,7 @@ export default function VoucherCreateSection() {
                     "作成前に確認にチェックしてください"
                   ),
                 })}
-                className="size-4  accent-blue-600 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+                className="size-4 accent-blue-600 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
               />
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 {t(
@@ -520,18 +637,22 @@ export default function VoucherCreateSection() {
                 )}
               </span>
             </label>
+            {/* Show error if confirmation not checked */}
             {errors.confirm && (
               <p className="text-sm text-red-500">{errors.confirm.message}</p>
             )}
           </div>
 
-          {/* Actions */}
+          {/* ============================================ */}
+          {/* ACTION BUTTONS */}
+          {/* ============================================ */}
           <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
+            {/* Reset button - clears all form data */}
             <button
               type="button"
               onClick={() =>
                 reset({
-                  voucher_id: "",
+                  voucher_id: makeVoucherId(), // Generate new ID on reset
                   customer_name: "",
                   customer_email: "",
                   sale_date: new Date().toISOString().slice(0, 10),
@@ -546,6 +667,8 @@ export default function VoucherCreateSection() {
             >
               {t("vouchers.create.actions.reset", "リセット")}
             </button>
+            
+            {/* Submit button - disabled until confirmed */}
             <button
               type="submit"
               disabled={!confirmed || isSubmitting}
@@ -560,7 +683,7 @@ export default function VoucherCreateSection() {
         </form>
       </div>
 
-      {/* Back (desktop) */}
+      {/* Desktop-only back button (hidden on mobile) */}
       <Link
         href="/dashboard/vouchers"
         className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
