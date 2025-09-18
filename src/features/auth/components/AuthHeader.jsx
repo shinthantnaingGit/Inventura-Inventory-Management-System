@@ -1,7 +1,7 @@
 // components/AuthHeader.jsx
 import React from "react";
 import Link from "next/link";
-import { DarkThemeToggle } from "flowbite-react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import InventuraMark from "@/components/InventuraMark";
 import LangToggle, { LangToggleIcon } from "@/components/LangToggle";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -22,7 +22,7 @@ const AuthHeader = () => {
       </Link>
       <div className="flex gap-3">
         <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
-        <DarkThemeToggle />
+        <DarkModeToggle />
       </div>
     </div>
   );

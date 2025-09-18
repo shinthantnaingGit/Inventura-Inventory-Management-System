@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Languages } from "lucide-react";
-import { DarkThemeToggle } from "flowbite-react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import InventuraMark from "@/components/InventuraMark";
 import { useI18n } from "@/i18n/I18nProvider";
 import LangToggle from "@/components/LangToggle";
@@ -46,7 +46,7 @@ export default function Header() {
         {/* Right: toggles + auth */}
         <div className="hidden md:flex items-center space-x-4">
           <LangToggle className="rounded-xl bg-gray-100  dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-600 dark:border-gray-300" />
-          <DarkThemeToggle />
+          <DarkModeToggle />
           <Link
             href="/login"
             className="px-4 py-2 w-25 text-center text-sm font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105"
@@ -60,7 +60,7 @@ export default function Header() {
             {t("landing.auth.register", "登録")}
           </Link>
         </div>
-        <DarkThemeToggle className="md:hidden" />
+        <DarkModeToggle className="md:hidden" />
         <LangToggle className="rounded-xl md:hidden bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
         {/* Mobile: menu button */}
         <button

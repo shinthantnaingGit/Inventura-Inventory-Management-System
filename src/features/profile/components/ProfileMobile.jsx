@@ -11,7 +11,7 @@ import {
   Loader2,
   ArrowLeft,
 } from "lucide-react";
-import { DarkThemeToggle } from "flowbite-react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import { useState } from "react";
 import {
   storeProfileImage,
@@ -107,7 +107,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
             {t("profile.title", "ユーザープロフィール")}
           </h1>
           <div className="flex items-center gap-2">
-            <DarkThemeToggle className="border text-white dark:text-white" />
+            <DarkModeToggle className="border text-white dark:text-white" />
             <LangToggle className="px-2 py-3 rounded-lg text-white border dark:border-gray-300" />
           </div>
         </div>
