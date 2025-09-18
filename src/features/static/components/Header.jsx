@@ -45,7 +45,7 @@ export default function Header() {
 
         {/* Right: toggles + auth */}
         <div className="hidden md:flex items-center space-x-4">
-          <LangToggle className="rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+          <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
           <DarkThemeToggle />
           <Link
             href="/login"
@@ -61,7 +61,7 @@ export default function Header() {
           </Link>
         </div>
         <DarkThemeToggle className="md:hidden" />
-        <LangToggle className="rounded-xl md:hidden bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+        <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
         {/* Mobile: menu button */}
         <button
           onClick={toggleMenu}

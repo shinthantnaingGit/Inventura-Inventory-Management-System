@@ -28,9 +28,7 @@ export default function LangToggle({ className = "", size = "sm" }) {
       onClick={toggle}
       aria-label={t("nav.settings", "設定")}
       className={[
-        "flex  items-center gap-2 border border-gray-300 dark:border-gray-700",
-        "text-gray-600 dark:text-gray-300",
-        "hover:bg-gray-50 dark:hover:bg-gray-800",
+        "flex  items-center gap-2 ",
         S.pad,
         S.text,
         className,
