@@ -87,9 +87,9 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 aria-expanded={openProfile}
               >
                 <div className="size-7  rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-                  {!isLoading && profileData.profile_image ? (
+                  {!isLoading && !error ? (
                     <img
-                      src={profileData.profile_image}
+                      src={profileData?.profile_image}
                       alt="Profile"
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -103,7 +103,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 {/* Reserve space for 'プロフィール' vs 'Profile' */}
                 <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-100 w-[5.75rem] text-center truncate">
                   {/* {t("nav.profile", "プロフィール")} */}
-                  {profileData?.name}
+                  {!isLoading && !error ?profileData?.name:"User Name"} 
                 </span>
                 <ChevronDown className="size-4 text-gray-700 shrink-0" />
               </button>
