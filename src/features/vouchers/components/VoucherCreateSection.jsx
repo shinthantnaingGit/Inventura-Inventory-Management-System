@@ -409,7 +409,7 @@ export default function VoucherCreateSection() {
               return (
                 <div
                   key={f.id}
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                 >
                   {/* Product dropdown (5 columns on desktop) */}
                   <div className="lg:col-span-5">
