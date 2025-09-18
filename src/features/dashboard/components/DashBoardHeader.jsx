@@ -69,11 +69,11 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
           <div className="flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
             {/* Language toggle — reserve width for longest label */}
 
-            <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+            <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700" />
 
             {/* Theme toggle */}
             <div className="block">
-              <DarkModeToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+              <DarkModeToggle className="rounded-xl text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700" />
             </div>
 
             {/* Profile menu — fix label width to avoid EN/JA shift */}
