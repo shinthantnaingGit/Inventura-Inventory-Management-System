@@ -92,7 +92,7 @@ const VoucherListSection = () => {
         {/* Desktop Table */}
         <div className="hidden sm:block">
           {VouchersLoading ? (
-            <VoucherTableSkeleton rows={6} />
+            <VoucherTableSkeleton rows={5} />
           ) : (
             <VoucherTable vouchers={Vouchers?.data} />
           )}

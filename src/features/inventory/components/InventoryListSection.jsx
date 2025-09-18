@@ -98,7 +98,7 @@ const InventoryListSection = () => {
       <div className="flex-1 overflow-auto px-4 sm:px-6 lg:px-10">
         <div className="hidden sm:block">
           {productsLoading ? (
-            <InventoryTableSkeleton rows={6} />
+            <InventoryTableSkeleton rows={5} />
           ) : (
             <InventoryTable products={products?.data} />
           )}
@@ -106,7 +106,7 @@ const InventoryListSection = () => {
 
         <div className="block sm:hidden">
           {productsLoading ? (
-            <InventoryListMobileSkeleton rows={6} />
+            <InventoryListMobileSkeleton rows={5} />
           ) : (
             <InventoryListMobile products={products?.data} />
           )}

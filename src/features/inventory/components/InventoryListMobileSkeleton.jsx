@@ -9,7 +9,7 @@ import React from "react";
  * Props:
  *   - rows?: number (default 6)
  */
-export default function InventoryListMobileSkeleton({ rows = 6 }) {
+export default function InventoryListMobileSkeleton({ rows = 5 }) {
   return (
     <ul
       role="list"
