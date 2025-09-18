@@ -260,7 +260,7 @@ const RegisterForm = () => {
               <input
                 id="terms"
                 type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                className="h-4 w-4 accent-blue-600 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 {...register("terms", {
                   required: t("auth.register.validation.terms.required", "利用規約に同意してください"),
                 })}

@@ -222,7 +222,7 @@ const ProductEditForm = () => {
                   "更新前に確認にチェックしてください"
                 ),
               })}
-              className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+              className="size-4 accent-blue-600 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
               {t(
@@ -240,7 +240,7 @@ const ProductEditForm = () => {
             <input
               type="checkbox"
               {...register("goback")}
-              className="size-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+              className="size-4 accent-blue-600 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">
               {t(

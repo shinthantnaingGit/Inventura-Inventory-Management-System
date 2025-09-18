@@ -14,11 +14,11 @@ html {
 }
 
 input[type="checkbox"]:checked {
-  background-color: #3b82f6; /* blue-500 */
-  border-color: #3b82f6;
+  background-color: #3b82f6 !important; /* blue-500 */
+  border-color: #3b82f6 !important;
 }
 
 input[type="checkbox"]:checked:invalid {
-  background-color: #3b82f6; /* Override red styling */
-  border-color: #3b82f6;
+  background-color: #3b82f6 !important; /* Override red styling */
+  border-color: #3b82f6 !important;
 }
