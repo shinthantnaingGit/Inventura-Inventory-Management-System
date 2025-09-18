@@ -13,7 +13,7 @@ const InventoryActionBar = ({
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-5">
       {/* Search Product Input */}
       <div className="relative w-full sm:w-1/3 ">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300 w-5 h-5" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 w-5 h-5" />
         <input
           ref={searchRef}
           onChange={handleOnChange}
@@ -29,7 +29,7 @@ const InventoryActionBar = ({
           <button
             type="button"
             onClick={handleClearSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
           >
             <X className="w-4 h-4" />
           </button>

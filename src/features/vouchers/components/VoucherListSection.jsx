@@ -58,7 +58,7 @@ const VoucherListSection = () => {
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               Failed to load vouchers
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
               Please check your connection and try again.
             </p>
             <div className="mt-4">

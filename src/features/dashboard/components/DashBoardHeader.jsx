@@ -104,7 +104,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                   {/* {t("nav.profile", "プロフィール")} */}
                   {profileData?.name}
                 </span>
-                <ChevronDown className="size-4 text-gray-500 shrink-0" />
+                <ChevronDown className="size-4 text-gray-600 shrink-0" />
               </div>
 
               {openProfile && (
@@ -143,7 +143,7 @@ function MenuItem({ href, icon: Icon, label }) {
       role="menuitem"
       className="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800"
     >
-      <Icon className="size-4 text-gray-500 shrink-0" />
+      <Icon className="size-4 text-gray-600 shrink-0" />
       <span>{label}</span>
     </Link>
   );

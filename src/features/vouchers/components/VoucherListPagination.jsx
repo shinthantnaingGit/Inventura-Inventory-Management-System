@@ -120,7 +120,7 @@ export default function VoucherListPagination({
             {/* Fields (controlled) */}
             <div className="space-y-3">
               <label className="block">
-                <span className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                <span className="block text-xs text-gray-600 dark:text-gray-300 mb-1">
                   {t("vouchers.filters.minNet", "最小税込合計")}
                 </span>
                 <input
@@ -137,7 +137,7 @@ export default function VoucherListPagination({
               </label>
 
               <label className="block">
-                <span className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                <span className="block text-xs text-gray-600 dark:text-gray-300 mb-1">
                   {t("vouchers.filters.maxNet", "最大税込合計")}
                 </span>
                 <input
@@ -155,7 +155,7 @@ export default function VoucherListPagination({
 
               <div className="grid grid-cols-2 gap-2">
                 <label className="block">
-                  <span className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  <span className="block text-xs text-gray-600 dark:text-gray-300 mb-1">
                     {t("dashboard.filters.dateFrom", "開始日")}
                   </span>
                   <input
@@ -166,7 +166,7 @@ export default function VoucherListPagination({
                   />
                 </label>
                 <label className="block">
-                  <span className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  <span className="block text-xs text-gray-600 dark:text-gray-300 mb-1">
                     {t("dashboard.filters.dateTo", "終了日")}
                   </span>
                   <input

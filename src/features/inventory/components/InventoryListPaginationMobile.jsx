@@ -60,7 +60,7 @@ export default function InventoryListPaginationMobile({
         {/* Sorting */}
         <div className="flex items-center gap-2">
           {" "}
-          <label className="text-sm text-gray-600 dark:text-gray-400">
+          <label className="text-sm text-gray-600 dark:text-gray-300">
             {" "}
             {t("inventoryPagination.sortBy", "並び替え")} {/* ADDED */}
           </label>{" "}
@@ -89,7 +89,7 @@ export default function InventoryListPaginationMobile({
       <div className="mt-2 flex items-center justify-between gap-3">
         {/* Total pill */}
         <div className="inline-flex items-center gap-1 rounded-md border border-gray-200/70 dark:border-gray-800/70 bg-white/90 dark:bg-gray-900/70 px-5 py-1 ">
-          <span className="text-[11px] text-gray-500 dark:text-gray-300">
+          <span className="text-[11px] text-gray-600 dark:text-gray-300">
             {t("inventoryPaginationMobile.total", "合計")}
           </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">

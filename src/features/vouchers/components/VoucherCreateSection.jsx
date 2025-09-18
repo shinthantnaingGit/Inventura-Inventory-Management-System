@@ -468,7 +468,7 @@ export default function VoucherCreateSection() {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("vouchers.create.totals.total", "合計")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -479,7 +479,7 @@ export default function VoucherCreateSection() {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("vouchers.create.totals.tax", "税 (7%)")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -490,7 +490,7 @@ export default function VoucherCreateSection() {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("vouchers.create.totals.net", "税込合計")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">

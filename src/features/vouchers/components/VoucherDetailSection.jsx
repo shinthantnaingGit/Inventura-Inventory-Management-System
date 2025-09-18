@@ -50,7 +50,7 @@ const VoucherDetailSection = () => {
                   "バウチャーの読み込みに失敗しました"
                 )}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 {error?.message ||
                   t(
                     "voucherDetail.errorBody",
@@ -256,7 +256,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("voucherDetail.createdAt", "作成日時")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -268,7 +268,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("voucherDetail.updatedAt", "更新日時")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -280,7 +280,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                   {t("voucherDetail.saleDate", "販売日")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">

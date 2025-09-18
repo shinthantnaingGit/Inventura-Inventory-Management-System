@@ -85,7 +85,7 @@ const TermsModal = ({ open, onClose }) => {
               "不正アクセス、サービスの妨害、法令違反行為は固く禁止します。"
             )}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
+          <p className="text-xs text-gray-600 dark:text-gray-300 mt-4">
             {t(
               "auth.register.terms.footer",
               "本規約は予告なく変更される場合があります。最新の規約は当社サイトでご確認ください。"
@@ -170,7 +170,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="name"
               />
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
             </div>
             {errors.name && <p className="mt-1 text-sm text-red-500">{String(errors.name.message)}</p>}
           </div>
@@ -198,7 +198,7 @@ const RegisterForm = () => {
                 autoComplete="email"
                 inputMode="email"
               />
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
             </div>
             {errors.email && <p className="mt-1 text-sm text-red-500">{String(errors.email.message)}</p>}
           </div>
@@ -222,7 +222,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="new-password"
               />
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
             </div>
             {errors.password && <p className="mt-1 text-sm text-red-500">{String(errors.password.message)}</p>}
           </div>
@@ -247,7 +247,7 @@ const RegisterForm = () => {
                 })}
                 autoComplete="new-password"
               />
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={20} />
             </div>
             {errors.password_confirmation && (
               <p className="mt-1 text-sm text-red-500">{String(errors.password_confirmation.message)}</p>
@@ -297,7 +297,7 @@ const RegisterForm = () => {
 
         {/* Login link */}
         <div className="mt-6 text-center">
-          <span className="text-gray-600 dark:text-gray-400">
+          <span className="text-gray-600 dark:text-gray-300">
             {t("auth.register.labels.haveAccount", "すでにアカウントをお持ちですか？")}{" "}
           </span>
           <Link href="/login" className="font-medium text-blue-600 hover:underline dark:text-blue-400">

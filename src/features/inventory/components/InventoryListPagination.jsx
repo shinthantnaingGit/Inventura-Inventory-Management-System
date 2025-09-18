@@ -30,7 +30,7 @@ const InventoryListPagination = ({
     <div className="flex flex-wrap justify-around items-center gap-4 mt-6">
       {/* Total */}
       <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-3 py-1 shadow-sm">
-        <span className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        <span className="text-[11px] uppercase tracking-wide text-gray-600 dark:text-gray-300">
           {t("inventoryPagination.total", "合計")}
         </span>
         <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">

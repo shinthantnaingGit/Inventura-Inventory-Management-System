@@ -289,7 +289,10 @@ export default function DashBoardSectionMobile() {
       </Card>
 
       <Card
-        title={t("dashboard.cards.topProductsByQty", "Top Products by Quantity")}
+        title={t(
+          "dashboard.cards.topProductsByQty",
+          "Top Products by Quantity"
+        )}
       >
         <div className="h-56">
           <Bar data={topData} options={{ ...baseOptions, indexAxis: "y" }} />
@@ -305,21 +308,24 @@ export default function DashBoardSectionMobile() {
             className="inline-flex w-full items-center justify-between"
           >
             <span className="inline-flex items-center gap-2">
-              <SlidersHorizontal className="size-4 text-gray-500" />
+              <SlidersHorizontal className="size-4 text-gray-600" />
               {t("dashboard.filters.title", "Filters")}
             </span>
             <ChevronDown
-              className={`size-4 text-gray-500 transition-transform ${
+              className={`size-4 text-gray-600 transition-transform ${
                 filtersOpen ? "rotate-180" : ""
               }`}
             />
           </button>
         }
-        subtitle={t("dashboard.filters.subtitle", "Refine result set, then Apply")}
+        subtitle={t(
+          "dashboard.filters.subtitle",
+          "Refine result set, then Apply"
+        )}
         rightSlot={
           <button
             onClick={() => mutate()}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="text-gray-600 dark:text-gray-300 inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             title={t("dashboard.filters.refreshNow", "Refresh")}
           >
             <RefreshCw className="size-4" />
@@ -330,8 +336,8 @@ export default function DashBoardSectionMobile() {
         {filtersOpen && (
           <>
             {/* Quick Date Presets */}
-            <div className="mb-3 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+            <div className="mb-3 text-gray-600 dark:text-gray-300  flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
                 <CalendarDays className="size-4" />
                 {t("dashboard.filters.quickRanges", "Quick ranges:")}
               </span>
@@ -431,7 +437,7 @@ export default function DashBoardSectionMobile() {
               <button
                 type="button"
                 onClick={onClear}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="inline-flex text-gray-600 dark:text-gray-300 items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 {t("dashboard.filters.reset", "Reset")}
               </button>
@@ -470,13 +476,13 @@ export default function DashBoardSectionMobile() {
                       t("dashboard.recents.unknown", "Unknown")}{" "}
                     × {r.quantity}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-600">
                     {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} ·{" "}
                     {t("dashboard.recents.voucherAbbr", "V#")}
                     {r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-[11px] text-gray-500">
+                <span className="shrink-0 text-[11px] text-gray-600">
                   {t("dashboard.recents.id", "ID")} {r.id}
                 </span>
               </li>
@@ -507,7 +513,7 @@ function StatsCard({ title, value, icon: Icon }) {
     <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400">{title}</p>
+          <p className="text-xs text-gray-600 dark:text-gray-300">{title}</p>
           <p className="mt-1 text-xl font-semibold text-gray-900 dark:text-gray-100">
             {value}
           </p>
@@ -532,7 +538,7 @@ function Card({ title, subtitle, rightSlot, children }) {
               </h3>
             )}
             {subtitle && (
-              <p className="text-xs text-gray-600 dark:text-gray-400">
+              <p className="text-xs text-gray-600 dark:text-gray-300">
                 {subtitle}
               </p>
             )}
@@ -548,7 +554,7 @@ function Card({ title, subtitle, rightSlot, children }) {
 function Input({ label, name, value, onChange, type = "text" }) {
   return (
     <label className="block">
-      <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-400 mb-1">
+      <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300 mb-1">
         {label}
       </span>
       <input

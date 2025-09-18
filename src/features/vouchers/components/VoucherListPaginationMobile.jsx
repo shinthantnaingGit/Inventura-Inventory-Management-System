@@ -80,7 +80,7 @@ export default function VoucherListPaginationMobile({
       <div className="flex items-center justify-between gap-3">
         {/* Total */}
         <div className="inline-flex items-center gap-1 rounded-md border border-gray-200/70 dark:border-gray-800/70 bg-white/90 dark:bg-gray-900/70 px-3 py-1">
-          <span className="text-[11px] text-gray-500 dark:text-gray-300">
+          <span className="text-[11px] text-gray-600 dark:text-gray-300">
             {t("pagination.total", "合計")}
           </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">

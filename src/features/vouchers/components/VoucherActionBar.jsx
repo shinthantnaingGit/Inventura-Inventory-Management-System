@@ -18,7 +18,7 @@ export default function VoucherActionBar({
     <div className="mb-4 flex items-center gap-2">
       {/* Search input */}
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-500 dark:text-gray-300" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-600 dark:text-gray-300" />
         <input
           ref={searchRef}
           type="text"
@@ -37,7 +37,7 @@ export default function VoucherActionBar({
         <button
           type="button"
           onClick={handleClearSearch}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
           aria-label={t("voucher.actionBar.clear", "検索をクリア")}
           title={t("vouchers.actionBar.clear", "検索をクリア")}
         >

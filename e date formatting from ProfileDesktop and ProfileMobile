@@ -43,7 +43,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [31m-                )}[m
 [32m+[m[32m                {t("voucherDetail.errorTitle", "バウチャーの読み込みに失敗しました")}[m
                </h3>[m
-               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">[m
+               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">[m
 [31m-                {error?.message ||[m
 [31m-                  t([m
 [31m-                    "voucherDetail.errorBody",[m
@@ -184,7 +184,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [31m-          <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [31m-            <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />[m
 [31m-            <div>[m
-[31m-              <p className="text-xs text-gray-500 dark:text-gray-400">[m
+[31m-              <p className="text-xs text-gray-600 dark:text-gray-300">[m
 [31m-                {t("voucherDetail.createdAt", "作成日時")}[m
 [31m-              </p>[m
 [31m-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">[m
@@ -205,7 +205,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [31m-          <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [31m-            <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />[m
 [31m-            <div>[m
-[31m-              <p className="text-xs text-gray-500 dark:text-gray-400">[m
+[31m-              <p className="text-xs text-gray-600 dark:text-gray-300">[m
 [31m-                {t("voucherDetail.updatedAt", "更新日時")}[m
 [31m-              </p>[m
 [31m-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">[m
@@ -257,7 +257,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [31m-          <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [31m-            <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />[m
 [31m-            <div>[m
-[31m-              <p className="text-xs text-gray-500 dark:text-gray-400">[m
+[31m-              <p className="text-xs text-gray-600 dark:text-gray-300">[m
 [31m-                {t("voucherDetail.saleDate", "販売日")}[m
 [31m-              </p>[m
 [31m-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">[m
@@ -268,7 +268,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [32m+[m[32m            <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [32m+[m[32m              <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />[m
 [32m+[m[32m              <div>[m
-[32m+[m[32m                <p className="text-xs text-gray-500 dark:text-gray-400">{t("voucherDetail.createdAt", "作成日時")}</p>[m
+[32m+[m[32m                <p className="text-xs text-gray-600 dark:text-gray-300">{t("voucherDetail.createdAt", "作成日時")}</p>[m
 [32m+[m[32m                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{createdAt}</p>[m
 [32m+[m[32m              </div>[m
 [32m+[m[32m            </div>[m
@@ -276,7 +276,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [32m+[m[32m            <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [32m+[m[32m              <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />[m
 [32m+[m[32m              <div>[m
-[32m+[m[32m                <p className="text-xs text-gray-500 dark:text-gray-400">{t("voucherDetail.updatedAt", "更新日時")}</p>[m
+[32m+[m[32m                <p className="text-xs text-gray-600 dark:text-gray-300">{t("voucherDetail.updatedAt", "更新日時")}</p>[m
 [32m+[m[32m                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{updatedAt}</p>[m
 [32m+[m[32m              </div>[m
 [32m+[m[32m            </div>[m
@@ -284,7 +284,7 @@ Date:   Mon Sep 8 01:25:38 2025 +0900
 [32m+[m[32m            <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">[m
 [32m+[m[32m              <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />[m
 [32m+[m[32m              <div>[m
-[32m+[m[32m                <p className="text-xs text-gray-500 dark:text-gray-400">{t("voucherDetail.saleDate", "販売日")}</p>[m
+[32m+[m[32m                <p className="text-xs text-gray-600 dark:text-gray-300">{t("voucherDetail.saleDate", "販売日")}</p>[m
 [32m+[m[32m                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{v?.sale_date}</p>[m
 [32m+[m[32m              </div>[m
              </div>[m

@@ -60,7 +60,7 @@ const InventoryListSection = () => {
                 "商品の読み込みに失敗しました"
               )}
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
               {t(
                 "inventoryListSection.errorBody",
                 "接続を確認して、もう一度お試しください。"

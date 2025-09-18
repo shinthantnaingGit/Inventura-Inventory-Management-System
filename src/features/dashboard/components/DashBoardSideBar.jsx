@@ -109,7 +109,7 @@ const DashBoardSideBar = ({ onNavigate }) => {
                     "ml-auto size-4 transition-opacity",
                     active
                       ? "opacity-100"
-                      : "opacity-0 group-hover:opacity-100 text-gray-400 dark:text-gray-500",
+                      : "opacity-0 group-hover:opacity-100 text-gray-400 dark:text-gray-600",
                   ].join(" ")}
                 />
               </Link>

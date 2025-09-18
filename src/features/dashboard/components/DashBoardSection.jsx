@@ -476,13 +476,13 @@ export default function DashBoardSection() {
                       t("dashboard.recents.unknown", "Unknown")}{" "}
                     × {r.quantity}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
                     {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)}{" "}
                     · {fmtDate(r.created_at)} ·{" "}
                     {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs text-gray-500 dark:text-gray-400">
+                <span className="shrink-0 text-xs text-gray-600 dark:text-gray-300">
                   {t("dashboard.recents.id", "ID")} {r.id}
                 </span>
               </li>
@@ -510,7 +510,7 @@ function StatsCard({ title, value, icon: Icon }) {
     <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{title}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">{title}</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">
             {value}
           </p>
@@ -535,7 +535,7 @@ function Card({ title, subtitle, rightSlot, children }) {
               </h3>
             )}
             {subtitle && (
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 {subtitle}
               </p>
             )}
@@ -551,7 +551,7 @@ function Card({ title, subtitle, rightSlot, children }) {
 function Input({ label, name, value, onChange, type = "text" }) {
   return (
     <label className="block">
-      <span className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+      <span className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">
         {label}
       </span>
       <input

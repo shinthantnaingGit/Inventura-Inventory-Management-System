@@ -165,7 +165,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
               </div>
 
               <div className="mb-6 flex flex-col justify-center items-center">
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-2">
                   {t("profile.labels.userId", "ユーザーID")}: #{profileData.id}
                 </p>
 
@@ -176,7 +176,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                     </h2>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="p-2 -mb-2 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white transition-colors"
+                      className="p-2 -mb-2 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors"
                       aria-label={t("profile.actions.editName", "氏名を編集")}
                     >
                       <Edit3 size={20} />

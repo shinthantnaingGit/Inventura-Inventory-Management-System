@@ -69,7 +69,7 @@ const LoginForm = () => {
             />
             <Mail
               size={20}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600"
               aria-hidden="true"
             />
           </div>
@@ -105,7 +105,7 @@ const LoginForm = () => {
             />
             <Lock
               size={20}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600"
               aria-hidden="true"
             />
           </div>
@@ -152,7 +152,7 @@ const LoginForm = () => {
 
       {/* Register link */}
       <div className="mt-6 text-center">
-        <span className="text-gray-600 dark:text-gray-400">
+        <span className="text-gray-600 dark:text-gray-300">
           {t("auth.login.labels.noAccount", "アカウントをお持ちではありませんか？")}{" "}
         </span>
         <Link
