@@ -3,8 +3,8 @@ import React from "react";
 import Link from "next/link";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import InventuraMark from "@/components/InventuraMark";
-import LangToggle, { LangToggleIcon } from "@/components/LangToggle";
 import { useI18n } from "@/i18n/I18nProvider";
+import LangToggle from "@/components/LangToggle";
 
 const AuthHeader = () => {
     const { t } = useI18n();

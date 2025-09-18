@@ -2,32 +2,16 @@
 import { Languages } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 
-export default function LangToggle({ text = "", className = "", size = "sm" }) {
+export default function LangToggle({ text = "", className = "", }) {
   const { t, locale, setLocale } = useI18n();
   const toggle = () => setLocale(locale === "en" ? "ja" : "en");
-
-  // size presets
-  const S =
-    size === "sm"
-      ? {
-          pad: "px-3 py-1.5",
-          icon: "size-4",
-          labelW: "w-[48px]",
-          text: "text-sm",
-        }
-      : {
-          pad: "px-3.5 py-2",
-          icon: "size-5",
-          labelW: "w-[56px]",
-          text: "text-sm",
-        };
 
   return (
     <button
       type="button"
       onClick={toggle}
       aria-label={t("nav.settings", "設定")}
-      className={["flex  items-center gap-2 ", S.pad, S.text, className].join(
+      className={["flex  items-center gap-2 px-3 py-1.5 text-sm",className].join(
         " "
       )}
     >
@@ -44,17 +28,3 @@ export default function LangToggle({ text = "", className = "", size = "sm" }) {
   );
 }
 
-export function LangToggleIcon() {
-  const { t, locale, setLocale } = useI18n();
-  const toggle = () => setLocale(locale === "en" ? "ja" : "en");
-
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      className="rounded-xl bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200"
-    >
-      <Languages />
-    </button>
-  );
-}
