@@ -412,7 +412,7 @@ export default function VoucherCreateSection() {
                   className="grid grid-cols-1 sm:grid-cols-12 gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                 >
                   {/* Product dropdown (5 columns on desktop) */}
-                  <div className="sm:col-span-5">
+                  <div className="lg:col-span-5">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.product", "商品")}
                     </label>
@@ -472,7 +472,7 @@ export default function VoucherCreateSection() {
                   </div>
 
                   {/* Quantity input (2 columns on desktop) */}
-                  <div className="sm:col-span-2">
+                  <div className="lg:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.qty", "数量")}
                     </label>
