@@ -27,7 +27,7 @@ export default function DarkModeToggle({ className = "" }) {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`inline-flex items-center justify-center ${className}`}
+      className={`inline-flex items-center px-3 py-1.5 justify-center ${className}`}
       aria-label="Toggle dark mode"
     >
       {theme === "dark" ? (
