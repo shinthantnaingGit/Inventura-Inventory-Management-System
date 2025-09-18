@@ -11,7 +11,7 @@ import {
   Loader2,
   ArrowLeft,
 } from "lucide-react";
-import { DarkThemeToggle } from "flowbite-react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import { useState } from "react";
 import {
   storeProfileImage,
@@ -125,7 +125,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
             {/* Lang Toggle */}
             <LangToggle text="text-blue-600" className="rounded-xl bg-white/90  hover:bg-white px-3 py-2 text-sm font-medium transition" />
             {/* Dark Mode Toggle */}
-            <DarkThemeToggle className="border text-white dark:text-white " />
+            <DarkModeToggle className="border text-white dark:text-white " />
           </div>
         </div>
       </div>

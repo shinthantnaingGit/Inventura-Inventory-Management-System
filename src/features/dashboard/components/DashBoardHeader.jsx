@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { DarkThemeToggle } from "flowbite-react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import {
   Bell,
   Search,
@@ -73,7 +73,7 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
 
             {/* Theme toggle */}
             <div className="block">
-              <DarkThemeToggle />
+              <DarkModeToggle />
             </div>
 
             {/* Profile menu — fix label width to avoid EN/JA shift */}
