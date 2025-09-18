@@ -78,7 +78,7 @@ const InventoryListPagination = ({
       <div className="flex justify-center items-center gap-3">
         <button
           type="button"
-          className="active:scale-90  active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+          className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
           disabled={!hasPrev}
           onClick={() => handlePagination(prevLink)}
           aria-label={t("inventoryPagination.prev", "前へ")}

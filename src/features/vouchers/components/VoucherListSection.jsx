@@ -111,7 +111,7 @@ const VoucherListSection = () => {
       {/* Fixed Footer: Pagination */}
       <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pb-4">
         {/* Pagination Desktop */}
-        <div className="hidden md:block">
+        <div className="hidden md:block py-4 px-2 rounded border-t shadow-lg dark:border-t-gray-600 border-t-gray-300">
           <VoucherListPagination
             total={total}
             currentPage={currentPage}
