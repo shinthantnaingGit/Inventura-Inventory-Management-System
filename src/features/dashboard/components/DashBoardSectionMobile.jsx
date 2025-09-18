@@ -14,6 +14,7 @@ import {
   CalendarDays,
   SlidersHorizontal,
   ChevronDown,
+  Calendar,
 } from "lucide-react";
 import useAccountStore from "@/store/useAccountStore";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -308,11 +309,11 @@ export default function DashBoardSectionMobile() {
             className="inline-flex w-full items-center justify-between"
           >
             <span className="inline-flex items-center gap-2">
-              <SlidersHorizontal className="size-4 text-gray-600" />
+              <SlidersHorizontal className="size-4 text-gray-700" />
               {t("dashboard.filters.title", "Filters")}
             </span>
             <ChevronDown
-              className={`size-4 text-gray-600 transition-transform ${
+              className={`size-4 text-gray-700 transition-transform ${
                 filtersOpen ? "rotate-180" : ""
               }`}
             />
@@ -325,7 +326,7 @@ export default function DashBoardSectionMobile() {
         rightSlot={
           <button
             onClick={() => mutate()}
-            className="text-gray-600 dark:text-gray-300 inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="text-gray-700 dark:text-gray-300 inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             title={t("dashboard.filters.refreshNow", "Refresh")}
           >
             <RefreshCw className="size-4" />
@@ -336,8 +337,8 @@ export default function DashBoardSectionMobile() {
         {filtersOpen && (
           <>
             {/* Quick Date Presets */}
-            <div className="mb-3 text-gray-600 dark:text-gray-300  flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
+            <div className="mb-3 text-gray-700 dark:text-gray-300  flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
                 <CalendarDays className="size-4" />
                 {t("dashboard.filters.quickRanges", "Quick ranges:")}
               </span>
@@ -408,25 +409,33 @@ export default function DashBoardSectionMobile() {
                 />
               </Row>
               <Row>
-                <Input
-                  label={t("dashboard.filters.fromShort", "From")}
-                  name="date_from"
-                  value={filters.date_from}
-                  onChange={onField}
-                  type="date"
-                />
-                <Input
-                  label={t("dashboard.filters.toShort", "To")}
-                  name="date_to"
-                  value={filters.date_to}
-                  onChange={onField}
-                  type="date"
-                />
+                <div className="flex relative w-full ">
+                  <Input
+                    label={t("dashboard.filters.fromShort", "From")}
+                    name="date_from"
+                    value={filters.date_from}
+                    onChange={onField}
+                    type="date"
+                  />
+                  <Calendar className="size-4 absolute right-0 top-1/2 -translate-y-1/2 text-gray-300" />
+                </div>
+              </Row>
+              <Row>
+                <div className="flex relative w-full">
+                  <Input
+                    label={t("dashboard.filters.toShort", "To")}
+                    name="date_to"
+                    value={filters.date_to}
+                    onChange={onField}
+                    type="date"
+                  />
+                  <Calendar className="size-4 absolute right-0 top-1/2 -translate-y-1/2 text-gray-300" />
+                </div>
               </Row>
             </div>
 
             {/* Actions */}
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={() => mutate()}
@@ -437,7 +446,7 @@ export default function DashBoardSectionMobile() {
               <button
                 type="button"
                 onClick={onClear}
-                className="inline-flex text-gray-600 dark:text-gray-300 items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="inline-flex text-gray-700 dark:text-gray-300 items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 {t("dashboard.filters.reset", "Reset")}
               </button>
@@ -471,25 +480,25 @@ export default function DashBoardSectionMobile() {
                 className="flex items-start justify-between gap-3 py-3"
               >
                 <div>
-                  <p className="text-sm text-gray-800 dark:text-gray-200">
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
                     {r.product?.product_name ??
                       t("dashboard.recents.unknown", "Unknown")}{" "}
                     × {r.quantity}
                   </p>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-gray-700">
                     {fmtCurrency(r.cost)} · {fmtDate(r.created_at)} ·{" "}
                     {t("dashboard.recents.voucherAbbr", "V#")}
                     {r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-[11px] text-gray-600">
+                <span className="shrink-0 text-[11px] text-gray-700">
                   {t("dashboard.recents.id", "ID")} {r.id}
                 </span>
               </li>
             ))}
           </ul>
         ) : (
-          <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-600 dark:text-gray-300">
+          <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-700 dark:text-gray-300">
             {t("dashboard.recents.empty", "No records match your filters.")}
           </div>
         )}
@@ -513,13 +522,13 @@ function StatsCard({ title, value, icon: Icon }) {
     <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-300">{title}</p>
+          <p className="text-xs text-gray-700 dark:text-gray-300">{title}</p>
           <p className="mt-1 text-xl font-semibold text-gray-900 dark:text-gray-100">
             {value}
           </p>
         </div>
         <div className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800">
-          <Icon className="size-5 text-gray-700 dark:text-gray-200" />
+          <Icon className="size-5 text-gray-700 dark:text-gray-300" />
         </div>
       </div>
     </div>
@@ -538,7 +547,7 @@ function Card({ title, subtitle, rightSlot, children }) {
               </h3>
             )}
             {subtitle && (
-              <p className="text-xs text-gray-600 dark:text-gray-300">
+              <p className="text-xs text-gray-700 dark:text-gray-300">
                 {subtitle}
               </p>
             )}
@@ -554,7 +563,7 @@ function Card({ title, subtitle, rightSlot, children }) {
 function Input({ label, name, value, onChange, type = "text" }) {
   return (
     <label className="block">
-      <span className="block text-[11px] font-medium text-gray-600 dark:text-gray-300 mb-1">
+      <span className="block text-[11px] font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </span>
       <input

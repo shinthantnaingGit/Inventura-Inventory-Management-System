@@ -86,7 +86,7 @@ const InventoryTable = ({ products, onCreateProduct, onImportProducts }) => {
                   </div>
 
                   {/* Tips */}
-                  <ul className="mt-6 space-y-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                  <ul className="mt-6 space-y-1 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                     <li>
                       {t(
                         "inventoryTable.tips.tip1",

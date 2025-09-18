@@ -1,7 +1,14 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, SquareUserRound, Ticket, Box, User, Receipt } from "lucide-react";
+import {
+  Home,
+  SquareUserRound,
+  Ticket,
+  Box,
+  User,
+  Receipt,
+} from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const DashBoardBottomNav = () => {
@@ -53,7 +60,7 @@ const DashBoardBottomNav = () => {
                 className={`flex flex-col items-center justify-center py-2 text-xs ${
                   active
                     ? "text-blue-600 dark:text-blue-400 font-medium"
-                    : "text-gray-600 dark:text-gray-300"
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
                 aria-label={label}
                 title={label}

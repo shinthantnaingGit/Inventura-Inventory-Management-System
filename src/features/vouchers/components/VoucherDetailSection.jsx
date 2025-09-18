@@ -50,7 +50,7 @@ const VoucherDetailSection = () => {
                   "バウチャーの読み込みに失敗しました"
                 )}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                 {error?.message ||
                   t(
                     "voucherDetail.errorBody",
@@ -90,7 +90,7 @@ const VoucherDetailSection = () => {
   const handlePrint = () => window.print();
 
   return (
-    <section className="mx-auto max-w-full sm:max-w-[70%] lg:max-w-[60%] print:w-full print:p-5 px-4 sm:px-5 pb-24 sm:pb-6">
+    <section className="mx-auto max-w-full sm:max-w-[70%] lg:max-w-[60%] print:w-full print:p-5 px-4 pb-24 sm:p-5">
       {/* PRINT PAGE SETUP */}
       <style jsx global>{`
         @page {
@@ -138,7 +138,7 @@ const VoucherDetailSection = () => {
         <button
           type="button"
           onClick={() => router.push("/dashboard/vouchers")}
-          className="mb-4 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition active:scale-95"
+          className="mb-4 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition active:scale-95"
         >
           <ArrowLeft className="size-4" />
           <span>{t("voucherDetail.backToVouchers", "バウチャーに戻る")}</span>
@@ -151,7 +151,7 @@ const VoucherDetailSection = () => {
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
             title={t("common.print", "印刷")}
           >
             <Printer className="size-4" />
@@ -173,7 +173,7 @@ const VoucherDetailSection = () => {
           </div>
 
           {/* Customer Info */}
-          <div className="mt-3 space-y-2 text-sm text-gray-700 dark:text-gray-200">
+          <div className="mt-3 space-y-2 text-sm text-gray-700 dark:text-gray-300">
             <div className="flex items-center gap-2">
               <User className="w-4 h-4" />
               {t("voucherDetail.customerName", "顧客名")}: {v?.customer_name}
@@ -191,16 +191,16 @@ const VoucherDetailSection = () => {
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="text-left border-b border-gray-200 dark:border-gray-700">
-                    <th className="py-2 pr-2 text-gray-700 dark:text-gray-200">
+                    <th className="py-2 pr-2 text-gray-700 dark:text-gray-300">
                       {t("vouchers.create.lines.product", "商品")}
                     </th>
-                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-200">
+                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-300">
                       {t("vouchers.create.lines.qty", "数量")}
                     </th>
-                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-200">
+                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-300">
                       {t("vouchers.create.lines.unitPrice", "単価")}
                     </th>
-                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-200">
+                    <th className="py-2 pr-2 text-right text-gray-700 dark:text-gray-300">
                       {t("vouchers.create.lines.cost", "金額")}
                     </th>
                   </tr>
@@ -235,13 +235,13 @@ const VoucherDetailSection = () => {
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <div className="flex items-center gap-2 font-medium">
               <BadgeJapaneseYenIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
-              <span className="text-gray-600 dark:text-gray-300">
+              <span className="text-gray-700 dark:text-gray-300">
                 {t("voucherDetail.total", "合計")}: {v?.total}{" "}
               </span>
             </div>
             <div className="flex items-center gap-2 font-medium">
               <BadgeJapaneseYenIcon className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <span className="text-gray-600 dark:text-gray-300">
+              <span className="text-gray-700 dark:text-gray-300">
                 {t("voucherDetail.tax", "税")}: {v?.tax}
               </span>
             </div>
@@ -256,7 +256,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               <div>
-                <p className="text-xs text-gray-600 dark:text-gray-300">
+                <p className="text-xs text-gray-700 dark:text-gray-300">
                   {t("voucherDetail.createdAt", "作成日時")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -268,7 +268,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               <div>
-                <p className="text-xs text-gray-600 dark:text-gray-300">
+                <p className="text-xs text-gray-700 dark:text-gray-300">
                   {t("voucherDetail.updatedAt", "更新日時")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -280,7 +280,7 @@ const VoucherDetailSection = () => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />
               <div>
-                <p className="text-xs text-gray-600 dark:text-gray-300">
+                <p className="text-xs text-gray-700 dark:text-gray-300">
                   {t("voucherDetail.saleDate", "販売日")}
                 </p>
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -294,7 +294,7 @@ const VoucherDetailSection = () => {
           <button
             type="button"
             onClick={() => router.push("/dashboard/vouchers")}
-            className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition active:scale-95"
+            className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition active:scale-95"
           >
             <ArrowLeft className="size-4" />
             <span>{t("voucherDetail.backToVouchers", "バウチャーに戻る")}</span>

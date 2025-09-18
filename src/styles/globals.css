@@ -13,20 +13,18 @@ html {
   scroll-behavior: smooth;
 }
 
-/* In globals.css */
-html {
-  /* Prevent flash by defaulting to dark if system prefers it */
+
+/* html {
   color-scheme: light dark;
 }
 
-/* Hide content until theme is applied */
 html:not(.dark):not(.light) {
   visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not(.light) {
-    background: rgb(17 24 39); /* dark background */
-    color: rgb(243 244 246); /* light text */
+    background: rgb(17 24 39); 
+    color: rgb(243 244 246); 
   }
-}
+} */

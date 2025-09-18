@@ -37,7 +37,7 @@ export default function InventoryListPaginationMobile({
         <div className="flex items-center gap-2">
           <label
             htmlFor="limit"
-            className="text-sm text-gray-600 dark:text-gray-300"
+            className="text-sm text-gray-700 dark:text-gray-300"
           >
             {t("inventoryPagination.show", "表示")}
           </label>
@@ -45,7 +45,7 @@ export default function InventoryListPaginationMobile({
             id="limit"
             onChange={(e) => handleChangeLimit(e.target.value)}
             defaultValue={String(perPage ?? "5")}
-            className="text-gray-600 dark:text-gray-300  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-gray-700 dark:text-gray-300  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {[5, 10, 20, 50].map((n) => (
               <option key={n} value={n}>
@@ -60,21 +60,21 @@ export default function InventoryListPaginationMobile({
         {/* Sorting */}
         <div className="flex items-center gap-2">
           {" "}
-          <label className="text-sm text-gray-600 dark:text-gray-300">
+          <label className="text-sm text-gray-700 dark:text-gray-300">
             {" "}
             {t("inventoryPagination.sortBy", "並び替え")} {/* ADDED */}
           </label>{" "}
           <select
             value={strOrEmpty(sortBy)}
             onChange={(e) => handleSortBy(e.target.value)}
-            className="rounded-md border text-gray-600 dark:text-gray-300  border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-md border text-gray-700 dark:text-gray-300  border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">
               {t("inventoryPagination.sortOptionNone", "デフォルト")}
             </option>
-            <option value="name">
+            {/* <option value="name">
               {t("inventoryPagination.sortOptionName", "名前")}
-            </option>
+            </option> */}
             <option value="price">
               {t("inventoryPagination.sortOptionPrice", "価格")}
             </option>
@@ -89,19 +89,19 @@ export default function InventoryListPaginationMobile({
       <div className="mt-2 flex items-center justify-between gap-3">
         {/* Total pill */}
         <div className="inline-flex items-center gap-1 rounded-md border border-gray-200/70 dark:border-gray-800/70 bg-white/90 dark:bg-gray-900/70 px-5 py-1 ">
-          <span className="text-[11px] text-gray-600 dark:text-gray-300">
+          <span className="text-[11px] text-gray-700 dark:text-gray-300">
             {t("inventoryPaginationMobile.total", "合計")}
           </span>
           <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-            {total ?? <Spiral size="18" speed="0.9" color="gray" />}
+            {total ?? <Spiral size="12" speed="0.9" color="gray" />}
           </span>
         </div>
 
         {/* Pagination controls */}
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-1.5">
           <button
             type="button"
-            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasPrev}
             onClick={() => handlePagination(prevLink)}
             aria-label={t("inventoryPagination.prev", "前へ")}
@@ -110,14 +110,14 @@ export default function InventoryListPaginationMobile({
             <ChevronLeft className="size-4 " />
           </button>
 
-          <span className="text-[11px] text-gray-600 dark:text-gray-300">
-            {currentPage ?? <Spiral size="20" speed="0.9" color="gray" />} /{" "}
-            {lastPage ?? <Spiral size="20" speed="0.9" color="gray" />}
+          <span className="text-[11px] text-gray-700 dark:text-gray-300">
+            {currentPage ?? <Spiral size="12" speed="0.9" color="gray" />} /{" "}
+            {lastPage ?? <Spiral size="12" speed="0.9" color="gray" />}
           </span>
 
           <button
             type="button"
-            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+            className="active:scale-90 active:opacity-85 duration-200 flex items-center gap-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 disabled:pointer-events-none text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
             disabled={!hasNext}
             onClick={() => handlePagination(nextLink)}
             aria-label={t("inventoryPagination.next", "次へ")}
@@ -136,7 +136,7 @@ export default function InventoryListPaginationMobile({
               "px-3 py-2 text-xs font-medium transition-colors",
               sortDirection === "asc"
                 ? "bg-blue-600 text-white"
-                : "bg-white/90 dark:bg-gray-900/70 text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-gray-800/70",
+                : "bg-white/90 dark:bg-gray-900/70 text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-800/70",
             ].join(" ")}
             aria-pressed={sortDirection === "asc"}
           >
@@ -149,7 +149,7 @@ export default function InventoryListPaginationMobile({
               "px-3 py-2 text-xs font-medium transition-colors border-l border-gray-300/70 dark:border-gray-700/70",
               sortDirection === "desc"
                 ? "bg-blue-600 text-white"
-                : "bg-white/90 dark:bg-gray-900/70 text-gray-800 dark:text-gray-200 hover:bg-gray-100/80 dark:hover:bg-gray-800/70",
+                : "bg-white/90 dark:bg-gray-900/70 text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-800/70",
             ].join(" ")}
             aria-pressed={sortDirection === "desc"}
           >

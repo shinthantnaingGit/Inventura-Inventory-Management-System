@@ -5,10 +5,17 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Hero() {
   const { t } = useI18n();
-  const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.5 });
+  const [heroRef, heroInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+  });
 
   return (
-    <section ref={heroRef} id="hero" className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20 lg:py-40 transition-colors duration-500">
+    <section
+      ref={heroRef}
+      id="hero"
+      className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white py-20 lg:py-40 transition-colors duration-500"
+    >
       <div className="container mx-auto px-4 text-center">
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
@@ -22,9 +29,12 @@ export default function Hero() {
           initial={{ y: 20, opacity: 0 }}
           animate={heroInView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg lg:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          className="text-lg lg:text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
         >
-          {t("landing.hero.subheading", "在庫管理、請求書発行、売上分析を一つの強力なツールで実現します。")}
+          {t(
+            "landing.hero.subheading",
+            "在庫管理、請求書発行、売上分析を一つの強力なツールで実現します。"
+          )}
         </motion.p>
         <motion.a
           initial={{ y: 20, opacity: 0 }}

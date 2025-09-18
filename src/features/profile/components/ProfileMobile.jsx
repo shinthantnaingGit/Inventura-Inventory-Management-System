@@ -163,7 +163,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
                 onChange={(e) =>
                   setEditForm((prev) => ({ ...prev, name: e.target.value }))
                 }
-                className="text-xl font-semibold text-gray-800 dark:text-white text-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="text-xl font-semibold text-gray-700 dark:text-white text-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={t("profile.placeholders.name", "表示名を入力")}
               />
               <div className="flex gap-2 w-full">
@@ -208,11 +208,11 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Mail size={16} className="text-blue-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 dark:text-white">
+            <h3 className="font-semibold text-gray-700 dark:text-white">
               {t("profile.labels.email", "メールアドレス")}
             </h3>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 ml-11 break-all">
+          <p className="text-gray-700 dark:text-gray-300 ml-11 break-all">
             {profileData.email}
           </p>
         </div>
@@ -273,10 +273,10 @@ const InfoRow = ({ color = "green", title, value }) => {
           <Calendar size={16} className={colorMap[color].split(" ").pop()} />
         </div>
         <div>
-          <h4 className="font-medium text-gray-800 dark:text-white text-sm">
+          <h4 className="font-medium text-gray-700 dark:text-white text-sm">
             {title}
           </h4>
-          <p className="text-gray-600 dark:text-gray-300 text-sm">{value}</p>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">{value}</p>
         </div>
       </div>
     </div>

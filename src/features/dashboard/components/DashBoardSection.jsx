@@ -325,7 +325,7 @@ export default function DashBoardSection() {
       <Card
         title={
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="size-4 text-gray-600 dark:text-gray-300 " />
+            <SlidersHorizontal className="size-4 text-gray-700 dark:text-gray-300 " />
             <span>{t("dashboard.filters.title", "Filters")}</span>
           </div>
         }
@@ -336,7 +336,7 @@ export default function DashBoardSection() {
         rightSlot={
           <button
             onClick={() => mutate()}
-            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300  rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300  rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             title={t("dashboard.filters.refreshNow", "Refresh now")}
           >
             <RefreshCw className="size-4" />
@@ -345,8 +345,8 @@ export default function DashBoardSection() {
         }
       >
         {/* Quick Date Presets */}
-        <div className="mb-4 flex flex-wrap items-center text-gray-600 dark:text-gray-300  gap-2">
-          <span className="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
+        <div className="mb-4 flex flex-wrap items-center text-gray-700 dark:text-gray-300  gap-2">
+          <span className="inline-flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
             <CalendarDays className="size-4" />
             {t("dashboard.filters.quickRanges", "Quick ranges:")}
           </span>
@@ -371,7 +371,7 @@ export default function DashBoardSection() {
         </div>
 
         {/* Form grid */}
-        <div className="grid gap-3 text-gray-600 dark:text-gray-300  md:grid-cols-4">
+        <div className="grid gap-3 text-gray-700 dark:text-gray-300  md:grid-cols-4">
           <Input
             label={t("dashboard.filters.voucherId", "Voucher ID")}
             name="voucher_id"
@@ -439,7 +439,7 @@ export default function DashBoardSection() {
           <button
             type="button"
             onClick={onClear}
-            className="inline-flex text-gray-600 dark:text-gray-300  items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="inline-flex text-gray-700 dark:text-gray-300  items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
           >
             {t("dashboard.filters.reset", "Reset")}
           </button>
@@ -471,25 +471,25 @@ export default function DashBoardSection() {
                 className="flex items-start justify-between gap-4 py-3"
               >
                 <div>
-                  <p className="text-sm text-gray-800 dark:text-gray-200">
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
                     {r.product?.product_name ??
                       t("dashboard.recents.unknown", "Unknown")}{" "}
                     × {r.quantity}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-300">
+                  <p className="text-xs text-gray-700 dark:text-gray-300">
                     {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)}{" "}
                     · {fmtDate(r.created_at)} ·{" "}
                     {t("dashboard.recents.voucher", "Voucher")} #{r.voucher_id}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs text-gray-600 dark:text-gray-300">
+                <span className="shrink-0 text-xs text-gray-700 dark:text-gray-300">
                   {t("dashboard.recents.id", "ID")} {r.id}
                 </span>
               </li>
             ))}
           </ul>
         ) : (
-          <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-600 dark:text-gray-300">
+          <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-700 dark:text-gray-300">
             {t("dashboard.recents.empty", "No records match your filters.")}
           </div>
         )}
@@ -510,13 +510,13 @@ function StatsCard({ title, value, icon: Icon }) {
     <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-sm">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-gray-600 dark:text-gray-300">{title}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">{title}</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900 dark:text-gray-100">
             {value}
           </p>
         </div>
         <div className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800">
-          <Icon className="size-5 text-gray-700 dark:text-gray-200" />
+          <Icon className="size-5 text-gray-700 dark:text-gray-300" />
         </div>
       </div>
     </div>
@@ -535,7 +535,7 @@ function Card({ title, subtitle, rightSlot, children }) {
               </h3>
             )}
             {subtitle && (
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 {subtitle}
               </p>
             )}
@@ -551,7 +551,7 @@ function Card({ title, subtitle, rightSlot, children }) {
 function Input({ label, name, value, onChange, type = "text" }) {
   return (
     <label className="block">
-      <span className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1">
+      <span className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
         {label}
       </span>
       <input

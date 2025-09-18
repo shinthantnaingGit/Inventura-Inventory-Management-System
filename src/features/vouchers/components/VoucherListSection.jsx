@@ -51,14 +51,14 @@ const VoucherListSection = () => {
   // Error State
   if (VouchersError) {
     return (
-      <section className="rounded-xl bg-[--color-card] text-[--color-fg] border border-gray-200 dark:border-gray-700 p-6">
+      <section className="rounded-xl bg-[--color-card] text-[--color-fg] border border-gray-200 dark:border-gray-700 p-5">
         <div className="flex items-start gap-3">
           <AlertTriangle className="size-5 text-red-500 mt-0.5" />
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               Failed to load vouchers
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
               Please check your connection and try again.
             </p>
             <div className="mt-4">
@@ -77,86 +77,94 @@ const VoucherListSection = () => {
   }
 
   return (
-    <section className="px-4 sm:px-6 lg:px-10 pt-4">
-      {/* Search + Filters */}
-      <VoucherActionBar
-        searchRef={searchRef}
-        handleOnChange={handleOnChange}
-        handleClearSearch={handleClearSearch}
-      />
-
-      {/* Desktop Table */}
-      <div className="hidden sm:block">
-        {VouchersLoading ? (
-          <VoucherTableSkeleton rows={6} />
-        ) : (
-          <VoucherTable vouchers={Vouchers?.data} />
-        )}
-      </div>
-
-      {/* Mobile List */}
-      <div className="block sm:hidden">
-        {VouchersLoading ? (
-          <VoucherListMobileSkeleton rows={6} />
-        ) : (
-          <VoucherListMobile vouchers={Vouchers?.data} />
-        )}
-      </div>
-
-      {/* Pagination Desktop */}
-      <div className="hidden md:block">
-        <VoucherListPagination
-          total={total}
-          currentPage={currentPage}
-          lastPage={lastPage}
-          perPage={perPage}
-          hasPrev={hasPrev}
-          hasNext={hasNext}
-          prevLink={prevLink}
-          nextLink={nextLink}
-          handleChangeLimit={handleChangeLimit}
-          handlePagination={handlePagination}
-          handleSortBy={handleSortBy}
-          handleSortDirection={handleSortDirection}
-          handleMinNetTotal={handleMinNetTotal}
-          handleMaxNetTotal={handleMaxNetTotal}
-          handleStartDate={handleStartDate}
-          handleEndDate={handleEndDate}
-          handleResetFilters={handleResetFilters}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-          minNetTotal={minNetTotal}
-          maxNetTotal={maxNetTotal}
-          netTotalBetween={netTotalBetween}
-          startDate={startDate}
-          endDate={endDate}
-          dateBetween={dateBetween}
+    <section className="h-full flex flex-col">
+      {/* Fixed Header: Search + Filters */}
+      <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pt-4">
+        <VoucherActionBar
+          searchRef={searchRef}
+          handleOnChange={handleOnChange}
+          handleClearSearch={handleClearSearch}
         />
       </div>
 
-      {/* Pagination Mobile */}
-      <div className="md:hidden">
-        <VoucherListPaginationMobile
-          total={total}
-          currentPage={currentPage}
-          lastPage={lastPage}
-          perPage={perPage}
-          hasPrev={hasPrev}
-          hasNext={hasNext}
-          prevLink={prevLink}
-          nextLink={nextLink}
-          handleChangeLimit={handleChangeLimit}
-          handlePagination={handlePagination}
-          handleSortBy={handleSortBy}
-          handleSortDirection={handleSortDirection}
-          handleMinNetTotal={handleMinNetTotal}
-          handleMaxNetTotal={handleMaxNetTotal}
-          handleStartDate={handleStartDate}
-          handleEndDate={handleEndDate}
-          handleResetFilters={handleResetFilters}
-          sortBy={sortBy}
-          sortDirection={sortDirection}
-        />
+      {/* Scrollable Content Area */}
+      <div className="flex-1 overflow-auto px-4 sm:px-6 lg:px-10">
+        {/* Desktop Table */}
+        <div className="hidden sm:block">
+          {VouchersLoading ? (
+            <VoucherTableSkeleton rows={6} />
+          ) : (
+            <VoucherTable vouchers={Vouchers?.data} />
+          )}
+        </div>
+
+        {/* Mobile List */}
+        <div className="block sm:hidden">
+          {VouchersLoading ? (
+            <VoucherListMobileSkeleton rows={6} />
+          ) : (
+            <VoucherListMobile vouchers={Vouchers?.data} />
+          )}
+        </div>
+      </div>
+
+      {/* Fixed Footer: Pagination */}
+      <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pb-4">
+        {/* Pagination Desktop */}
+        <div className="hidden md:block">
+          <VoucherListPagination
+            total={total}
+            currentPage={currentPage}
+            lastPage={lastPage}
+            perPage={perPage}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            prevLink={prevLink}
+            nextLink={nextLink}
+            handleChangeLimit={handleChangeLimit}
+            handlePagination={handlePagination}
+            handleSortBy={handleSortBy}
+            handleSortDirection={handleSortDirection}
+            handleMinNetTotal={handleMinNetTotal}
+            handleMaxNetTotal={handleMaxNetTotal}
+            handleStartDate={handleStartDate}
+            handleEndDate={handleEndDate}
+            handleResetFilters={handleResetFilters}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
+            minNetTotal={minNetTotal}
+            maxNetTotal={maxNetTotal}
+            netTotalBetween={netTotalBetween}
+            startDate={startDate}
+            endDate={endDate}
+            dateBetween={dateBetween}
+          />
+        </div>
+
+        {/* Pagination Mobile */}
+        <div className="md:hidden">
+          <VoucherListPaginationMobile
+            total={total}
+            currentPage={currentPage}
+            lastPage={lastPage}
+            perPage={perPage}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            prevLink={prevLink}
+            nextLink={nextLink}
+            handleChangeLimit={handleChangeLimit}
+            handlePagination={handlePagination}
+            handleSortBy={handleSortBy}
+            handleSortDirection={handleSortDirection}
+            handleMinNetTotal={handleMinNetTotal}
+            handleMaxNetTotal={handleMaxNetTotal}
+            handleStartDate={handleStartDate}
+            handleEndDate={handleEndDate}
+            handleResetFilters={handleResetFilters}
+            sortBy={sortBy}
+            sortDirection={sortDirection}
+          />
+        </div>
       </div>
     </section>
   );

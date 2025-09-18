@@ -79,7 +79,7 @@ const ProductDetailSection = () => {
   const price = product?.data?.price;
 
   return (
-    <section className="mx-auto max-w-full sm:max-w-[70%] lg:max-w-[60%] px-4 sm:px-5 pb-24 sm:pb-6">
+    <section className="mx-auto max-w-full sm:max-w-[70%] lg:max-w-[60%] pb-24 sm:p-5">
       {/* Back (mobile) */}
       <button
         type="button"

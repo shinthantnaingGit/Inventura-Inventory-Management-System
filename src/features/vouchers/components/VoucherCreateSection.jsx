@@ -44,7 +44,7 @@ export default function VoucherCreateSection() {
   // ============================================
   // HOOKS & DATA FETCHING
   // ============================================
-  
+
   const router = useRouter(); // For navigation after form submission
   const { t } = useI18n(); // For internationalization (i18n)
 
@@ -54,22 +54,22 @@ export default function VoucherCreateSection() {
     isLoading: productsLoading,
     error: productsError,
   } = useSWR(`${productApiUrl}?limit=100`, fetchProducts);
-  
+
   // Extract products array from response, default to empty array if no data
   const products = productsResp?.data ?? [];
 
   // ============================================
   // FORM SETUP WITH REACT HOOK FORM
   // ============================================
-  
+
   const {
-    register,        // Register input fields
-    handleSubmit,    // Handle form submission
-    control,         // Control for field arrays and watching
-    setValue,        // Programmatically set field values
-    watch,          // Watch specific fields for changes
-    getValues,      // Get current form values
-    reset,          // Reset form to default values
+    register, // Register input fields
+    handleSubmit, // Handle form submission
+    control, // Control for field arrays and watching
+    setValue, // Programmatically set field values
+    watch, // Watch specific fields for changes
+    getValues, // Get current form values
+    reset, // Reset form to default values
     formState: { errors, isSubmitting }, // Form state and validation errors
   } = useForm({
     // Initial form values
@@ -105,7 +105,7 @@ export default function VoucherCreateSection() {
   // ============================================
   // COMPUTED VALUES (TOTALS)
   // ============================================
-  
+
   // Calculate totals whenever records change (reactive computation)
   const totals = useMemo(() => {
     // Sum all line item costs
@@ -124,44 +124,50 @@ export default function VoucherCreateSection() {
   // ============================================
   // PRODUCT SELECTION HANDLER
   // ============================================
-  
+
   // Check if product already exists in records and update quantity
   const handleProductSelection = (productId, currentIndex) => {
     if (!productId) return;
-    
+
     const currentRecords = getValues("records");
-    
+
     // Find if this product already exists in another row
-    const existingIndex = currentRecords.findIndex((r, idx) => 
-      idx !== currentIndex && String(r.product_id) === String(productId)
+    const existingIndex = currentRecords.findIndex(
+      (r, idx) =>
+        idx !== currentIndex && String(r.product_id) === String(productId)
     );
-    
+
     if (existingIndex !== -1) {
       // Product already exists - add quantities together
       const existingQty = Number(currentRecords[existingIndex].quantity || 0);
       const currentQty = Number(currentRecords[currentIndex].quantity || 1);
       const newQty = existingQty + currentQty;
-      
+
       // Update existing row with combined quantity
       const unitPrice = Number(currentRecords[existingIndex].unit_price || 0);
       setValue(`records.${existingIndex}.quantity`, newQty);
       setValue(`records.${existingIndex}.cost`, newQty * unitPrice);
-      
+
       // Remove current duplicate row
       remove(currentIndex);
-      
+
       // Show notification to user
-      toast.info(t("vouchers.create.toast.productCombined", "同じ商品の数量を合計しました"));
+      toast.info(
+        t(
+          "vouchers.create.toast.productCombined",
+          "同じ商品の数量を合計しました"
+        )
+      );
       return true; // Indicate that product was combined
     }
-    
+
     return false; // Product was not a duplicate
   };
 
   // ============================================
   // FORM SUBMISSION
   // ============================================
-  
+
   const onSubmit = async () => {
     try {
       // Get all current form values
@@ -176,7 +182,7 @@ export default function VoucherCreateSection() {
           const prod = products.find(
             (p) => String(p.id) === String(r.product_id)
           );
-          
+
           return {
             product_id: Number(r.product_id),
             // Include nested product object as required by API
@@ -250,9 +256,9 @@ export default function VoucherCreateSection() {
   // ============================================
   // RENDER UI
   // ============================================
-  
+
   return (
-    <section className="mx-auto max-w-full sm:max-w-[80%] lg:max-w-[60%] px-4 sm:px-5 pb-24 sm:pb-6">
+    <section className="mx-auto max-w-full sm:max-w-[80%] lg:max-w-[60%] px-4  pb-24 sm:p-5">
       {/* Mobile-only back button (hidden on desktop) */}
       <Link
         href="/dashboard/vouchers"
@@ -273,12 +279,10 @@ export default function VoucherCreateSection() {
       {/* Main form container */}
       <div className="rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-8 shadow-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          
           {/* ============================================ */}
           {/* BASIC INFO SECTION - 2 column grid on desktop */}
           {/* ============================================ */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
             {/* Voucher ID field */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -301,14 +305,14 @@ export default function VoucherCreateSection() {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {t("vouchers.create.labels.saleDate", "販売日")}
               </label>
-              <div className="relative">
+              <div className="relative flex gap-2">
                 <input
                   type="date"
                   {...register("sale_date", { required: true })}
-                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
+                  className="sm:w-full flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                              text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <Calendar className="size-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
+                <Calendar className="sm:hidden size-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-300" />
               </div>
             </div>
 
@@ -376,7 +380,7 @@ export default function VoucherCreateSection() {
           {/* ============================================ */}
           {/* PRODUCT LINE ITEMS SECTION */}
           {/* ============================================ */}
-          
+
           {/* Section header with Add button */}
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -409,10 +413,10 @@ export default function VoucherCreateSection() {
               return (
                 <div
                   key={f.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                  className="space-y-3 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                 >
-                  {/* Product dropdown (5 columns on desktop) */}
-                  <div className="md:col-span-12">
+                  {/* First line: Product dropdown */}
+                  <div className="w-full">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.product", "商品")}
                     </label>
@@ -424,10 +428,13 @@ export default function VoucherCreateSection() {
                           onChange={(e) => {
                             // Update form state
                             productReg.onChange(e);
-                            
+
                             // Check for duplicate product
-                            const isDuplicate = handleProductSelection(e.target.value, idx);
-                            
+                            const isDuplicate = handleProductSelection(
+                              e.target.value,
+                              idx
+                            );
+
                             // If not duplicate, update pricing
                             if (!isDuplicate && e.target.value) {
                               // Find selected product details
@@ -435,13 +442,13 @@ export default function VoucherCreateSection() {
                                 (p) => String(p.id) === String(e.target.value)
                               );
                               const unit = Number(prod?.price ?? 0);
-                              
+
                               // Set unit price from product
                               setValue(`records.${idx}.unit_price`, unit, {
                                 shouldDirty: true,
                                 shouldValidate: true,
                               });
-                              
+
                               // Calculate and set cost (quantity × unit price)
                               const qty = Number(
                                 getValues(`records.${idx}.quantity`) ?? 0
@@ -452,7 +459,7 @@ export default function VoucherCreateSection() {
                               });
                             }
                           }}
-                          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
+                          className="w-full overflow-auto rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                         >
                           <option value="">
@@ -471,99 +478,105 @@ export default function VoucherCreateSection() {
                     })()}
                   </div>
 
-                  {/* Quantity input (2 columns on desktop) */}
-                  <div className="md:col-span-4">
-                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      {t("vouchers.create.lines.qty", "数量")}
-                    </label>
-                    {(() => {
-                      const qtyReg = register(`records.${idx}.quantity`, {
-                        valueAsNumber: true, // Automatically convert to number
-                      });
-                      return (
-                        <input
-                          type="number"
-                          min={1}
-                          step={1}
-                          {...qtyReg}
-                          onChange={(e) => {
-                            // Update form state
-                            qtyReg.onChange(e);
-                            
-                            // Recalculate cost when quantity changes
-                            const qty = Number(e.target.value ?? 0);
-                            const unit = Number(
-                              getValues(`records.${idx}.unit_price`) ?? 0
-                            );
-                            setValue(`records.${idx}.cost`, qty * unit, {
-                              shouldDirty: true,
-                              shouldValidate: true,
-                            });
-                          }}
-                          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
-                                     text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      );
-                    })()}
-                  </div>
+                  {/* Second line: Quantity, Unit Price, and Cost */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* Quantity input */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {t("vouchers.create.lines.qty", "数量")}
+                      </label>
+                      {(() => {
+                        const qtyReg = register(`records.${idx}.quantity`, {
+                          valueAsNumber: true, // Automatically convert to number
+                        });
+                        return (
+                          <input
+                            type="number"
+                            min={1}
+                            step={1}
+                            {...qtyReg}
+                            onChange={(e) => {
+                              // Update form state
+                              qtyReg.onChange(e);
 
-                  {/* Unit price input - editable (2 columns on desktop) */}
-                  <div className="md:col-span-4">
-                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      {t("vouchers.create.lines.unitPrice", "単価")}
-                    </label>
-                    {(() => {
-                      const unitReg = register(`records.${idx}.unit_price`, {
-                        valueAsNumber: true,
-                      });
-                      return (
-                        <input
-                          type="number"
-                          step="1"
-                          {...unitReg}
-                          onChange={(e) => {
-                            // Update form state
-                            unitReg.onChange(e);
-                            
-                            // Recalculate cost when unit price changes
-                            const unit = Number(e.target.value ?? 0);
-                            const qty = Number(
-                              getValues(`records.${idx}.quantity`) ?? 0
-                            );
-                            setValue(`records.${idx}.cost`, qty * unit, {
-                              shouldDirty: true,
-                              shouldValidate: true,
-                            });
-                          }}
-                          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
+                              // Recalculate cost when quantity changes
+                              const qty = Number(e.target.value ?? 0);
+                              const unit = Number(
+                                getValues(`records.${idx}.unit_price`) ?? 0
+                              );
+                              setValue(`records.${idx}.cost`, qty * unit, {
+                                shouldDirty: true,
+                                shouldValidate: true,
+                              });
+                            }}
+                            className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
                                      text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      );
-                    })()}
-                  </div>
+                          />
+                        );
+                      })()}
+                    </div>
 
-                  {/* Cost display - read only (2 columns on desktop) */}
-                  <div className="md:col-span-4">
-                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      {t("vouchers.create.lines.cost", "金額")}
-                    </label>
-                    <div className="flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2">
-                      <BadgeJapaneseYenIcon className="size-4 text-green-600 dark:text-green-400" />
-                      <span className="text-sm text-gray-900 dark:text-gray-100">
-                        ¥{fmt(cost)}
-                      </span>
+                    {/* Unit price input - editable */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {t("vouchers.create.lines.unitPrice", "単価")}
+                      </label>
+                      {(() => {
+                        const unitReg = register(`records.${idx}.unit_price`, {
+                          valueAsNumber: true,
+                        });
+                        return (
+                          <input
+                            type="number"
+                            step="1"
+                            {...unitReg}
+                            onChange={(e) => {
+                              // Update form state
+                              unitReg.onChange(e);
+
+                              // Recalculate cost when unit price changes
+                              const unit = Number(e.target.value ?? 0);
+                              const qty = Number(
+                                getValues(`records.${idx}.quantity`) ?? 0
+                              );
+                              setValue(`records.${idx}.cost`, qty * unit, {
+                                shouldDirty: true,
+                                shouldValidate: true,
+                              });
+                            }}
+                            className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 
+                                     text-gray-900 dark:text-gray-100 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        );
+                      })()}
+                    </div>
+
+                    {/* Cost display - read only */}
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {t("vouchers.create.lines.cost", "金額")}
+                      </label>
+                      <div className="flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2">
+                        <BadgeJapaneseYenIcon className="size-4 text-green-600 dark:text-green-400" />
+                        <span className="text-sm text-gray-900 dark:text-gray-100">
+                          ¥{fmt(cost)}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Delete button (1 column on desktop) */}
-                  <div className="md:col-span-2 self-end flex items-end">
+                  {/* Third line: Delete button */}
+                  <div className="flex justify-end">
                     <button
                       type="button"
                       onClick={() => remove(idx)} // Remove this line item
-                      className="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 px-2 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      className="flex items-center gap-2 rounded-lg border border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
                       title={t("vouchers.create.lines.remove", "削除")}
                     >
-                      <Trash2 className="size-4 text-red-600" />
+                      <Trash2 className="size-4" />
+                      <span className="text-xs">
+                        {t("vouchers.create.lines.remove", "削除")}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -587,7 +600,7 @@ export default function VoucherCreateSection() {
                 </p>
               </div>
             </div>
-            
+
             {/* Tax amount */}
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -600,7 +613,7 @@ export default function VoucherCreateSection() {
                 </p>
               </div>
             </div>
-            
+
             {/* Grand total */}
             <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
               <BadgeJapaneseYenIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -667,7 +680,7 @@ export default function VoucherCreateSection() {
             >
               {t("vouchers.create.actions.reset", "リセット")}
             </button>
-            
+
             {/* Submit button - disabled until confirmed */}
             <button
               type="submit"

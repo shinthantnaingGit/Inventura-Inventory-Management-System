@@ -168,18 +168,18 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
               </div>
 
               <div className="mb-6 flex flex-col justify-center items-center">
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-2">
+                <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-2">
                   {t("profile.labels.userId", "ユーザーID")}: #{profileData.id}
                 </p>
 
                 {!isEditing ? (
                   <div className="flex w-full sm:w-80 items-center justify-center gap-2">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-2">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-white mb-2">
                       {profileData.name}
                     </h2>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="p-2 -mb-2 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition-colors"
+                      className="p-2 -mb-2 text-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors"
                       aria-label={t("profile.actions.editName", "氏名を編集")}
                     >
                       <Edit3 size={20} />
@@ -196,7 +196,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                           name: e.target.value,
                         }))
                       }
-                      className="w-full sm:w-96 text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white text-center bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-xl px-3 py-1 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
+                      className="w-full sm:w-96 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-white text-center bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-xl px-3 py-1 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
                       placeholder={t(
                         "profile.placeholders.name",
                         "表示名を入力"
@@ -250,10 +250,10 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                   <Mail size={22} className="text-blue-600" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-1 sm:mb-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-white mb-1 sm:mb-2">
                     {t("profile.labels.email", "メールアドレス")}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-lg break-all">
+                  <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-lg break-all">
                     {profileData.email}
                   </p>
                 </div>
@@ -295,10 +295,10 @@ const InfoCard = ({ icon, iconWrapClass, title, value }) => (
     <div className="flex items-start gap-4 sm:gap-6">
       <div className={`p-3 sm:p-4 rounded-xl ${iconWrapClass}`}>{icon}</div>
       <div>
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-1 sm:mb-2">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-white mb-1 sm:mb-2">
           {title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-300">{value}</p>
+        <p className="text-gray-700 dark:text-gray-300">{value}</p>
       </div>
     </div>
   </div>

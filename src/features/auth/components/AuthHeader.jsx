@@ -7,8 +7,8 @@ import { useI18n } from "@/i18n/I18nProvider";
 import LangToggle from "@/components/LangToggle";
 
 const AuthHeader = () => {
-    const { t } = useI18n();
-  
+  const { t } = useI18n();
+
   return (
     <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10">
       <Link
@@ -21,8 +21,8 @@ const AuthHeader = () => {
         </div>
       </Link>
       <div className="flex gap-3">
-        <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
-        <DarkModeToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+        <LangToggle className="rounded-xl text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
+        <DarkModeToggle className="rounded-xl text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
       </div>
     </div>
   );

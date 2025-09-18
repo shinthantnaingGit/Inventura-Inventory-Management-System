@@ -16,7 +16,7 @@ export default function DarkModeToggle({ className = "" }) {
   if (!mounted) {
     return (
       <button
-        className={`inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 ${className}`}
+        className={`inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 ${className}`}
         disabled
       >
         <Sun className="h-4 w-4" />

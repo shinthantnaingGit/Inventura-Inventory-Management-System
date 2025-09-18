@@ -117,7 +117,7 @@ const PasswordChangeModal = ({ onClose }) => {
           <button
             onClick={onClose}
             disabled={isSubmitting}
-            className="flex-1 flex items-center justify-center py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            className="flex-1 flex items-center justify-center py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             {t("profile.passwordModal.actions.cancel")}
           </button>

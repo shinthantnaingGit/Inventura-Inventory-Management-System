@@ -60,7 +60,7 @@ const InventoryListSection = () => {
                 "商品の読み込みに失敗しました"
               )}
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+            <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
               {t(
                 "inventoryListSection.errorBody",
                 "接続を確認して、もう一度お試しください。"
@@ -76,8 +76,6 @@ const InventoryListSection = () => {
                 {t("inventoryListSection.retry", "再試行")}
               </button>
             </div>
-
-
           </div>
         </div>
       </section>
@@ -86,13 +84,18 @@ const InventoryListSection = () => {
 
   // Success → your normal UI
   return (
-    <section>
-      <div className=" px-4 sm:px-6 lg:px-10 pt-4">
+    <section className="h-full flex flex-col">
+      {/* Fixed Header: Search + Action Bar */}
+      <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pt-4">
         <InventoryActionBar
           searchRef={searchRef}
           handleOnChange={handleOnChange}
           handleClearSearch={handleClearSearch}
         />
+      </div>
+
+      {/* Scrollable Content Area */}
+      <div className="flex-1 overflow-auto px-4 sm:px-6 lg:px-10">
         <div className="hidden sm:block">
           {productsLoading ? (
             <InventoryTableSkeleton rows={6} />
@@ -108,7 +111,10 @@ const InventoryListSection = () => {
             <InventoryListMobile products={products?.data} />
           )}
         </div>
+      </div>
 
+      {/* Fixed Footer: Pagination */}
+      <div className="flex-shrink-0 px-4 sm:px-6 lg:px-10 pb-4">
         {/* Pagination controls */}
         <div className="hidden md:block">
           <InventoryListPagination

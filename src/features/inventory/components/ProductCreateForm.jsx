@@ -44,14 +44,14 @@ const ProductCreateForm = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] h-[80vh] sm:p-5">
+    <div className="mx-auto max-w-[80%] sm:max-w-[60%] lg:max-w-[40%] sm:p-5">
       {/* 🔙 Back button (mobile) */}
       <button
         type="button"
         onClick={() => router.push("/dashboard/inventory")}
         className="mb-5 sm:hidden inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
              bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
-             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 
              transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
@@ -193,7 +193,7 @@ const ProductCreateForm = () => {
               type="button"
               onClick={() => reset()}
               className="w-full sm:w-auto rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 
-                       text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                       text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
               {t("productCreate.actions.reset", "リセット")}
             </button>
@@ -217,7 +217,7 @@ const ProductCreateForm = () => {
         onClick={() => router.push("/dashboard/inventory")}
         className="mt-5 hidden sm:inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 
              bg-gray-100 dark:bg-gray-800 px-4 py-2 text-sm font-medium 
-             text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 
+             text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 
              transition active:scale-95"
       >
         <ArrowLeft className="size-4" />
