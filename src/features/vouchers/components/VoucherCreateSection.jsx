@@ -556,7 +556,7 @@ export default function VoucherCreateSection() {
                   </div>
 
                   {/* Delete button (1 column on desktop) */}
-                  <div className="md:col-span-2 flex items-end">
+                  <div className="md:col-span-2 self-end flex items-end">
                     <button
                       type="button"
                       onClick={() => remove(idx)} // Remove this line item
