@@ -45,7 +45,7 @@ export default function Header() {
 
         {/* Right: toggles + auth */}
         <div className="hidden md:flex items-center space-x-4">
-          <LangToggle className="rounded-xl bg-gray-100  dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-600 dark:border-gray-300" />
+          <LangToggle className="rounded-xl bg-gray-100  dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-600 dark:border-gray-300" />
           <DarkThemeToggle />
           <Link
             href="/login"
