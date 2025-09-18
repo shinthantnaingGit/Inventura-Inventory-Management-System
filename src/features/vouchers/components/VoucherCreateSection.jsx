@@ -508,7 +508,7 @@ export default function VoucherCreateSection() {
                   </div>
 
                   {/* Unit price input - editable (2 columns on desktop) */}
-                  <div className="sm:col-span-2">
+                  <div className="lg:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.unitPrice", "単価")}
                     </label>
@@ -543,7 +543,7 @@ export default function VoucherCreateSection() {
                   </div>
 
                   {/* Cost display - read only (2 columns on desktop) */}
-                  <div className="sm:col-span-2">
+                  <div className="lg:col-span-2">
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {t("vouchers.create.lines.cost", "金額")}
                     </label>
@@ -556,7 +556,7 @@ export default function VoucherCreateSection() {
                   </div>
 
                   {/* Delete button (1 column on desktop) */}
-                  <div className="sm:col-span-1 flex items-end">
+                  <div className="lg:col-span-1 flex items-end">
                     <button
                       type="button"
                       onClick={() => remove(idx)} // Remove this line item
