@@ -67,7 +67,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ja" suppressHydrationWarning>
+    <html lang="ja" suppressHydrationWarning className={theme === 'dark' ? 'dark' : ''}>
       <head>
         {/* Anti-flicker script - runs before any content renders */}
         <script
