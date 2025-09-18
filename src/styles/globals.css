@@ -12,3 +12,13 @@
 html {
   scroll-behavior: smooth;
 }
+
+input[type="checkbox"]:checked {
+  background-color: #3b82f6; /* blue-500 */
+  border-color: #3b82f6;
+}
+
+input[type="checkbox"]:checked:invalid {
+  background-color: #3b82f6; /* Override red styling */
+  border-color: #3b82f6;
+}
