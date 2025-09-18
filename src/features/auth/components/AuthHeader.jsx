@@ -22,7 +22,7 @@ const AuthHeader = () => {
       </Link>
       <div className="flex gap-3">
         <LangToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
-        <DarkModeToggle />
+        <DarkModeToggle className="rounded-xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700" />
       </div>
     </div>
   );

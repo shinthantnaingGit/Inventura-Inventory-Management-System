@@ -107,7 +107,7 @@ const ProfileMobile = ({ profileData, onOpenPasswordModal }) => {
             {t("profile.title", "ユーザープロフィール")}
           </h1>
           <div className="flex items-center gap-2">
-            <DarkModeToggle className="border text-white dark:text-white" />
+            <DarkModeToggle className="px-2 py-3 rounded-lg text-white border dark:border-gray-300" />
             <LangToggle className="px-2 py-3 rounded-lg text-white border dark:border-gray-300" />
           </div>
         </div>
