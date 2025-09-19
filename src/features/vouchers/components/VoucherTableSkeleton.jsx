@@ -6,8 +6,8 @@ const VoucherTableSkeleton = ({ rows = 5 }) => {
   const { t } = useI18n();
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
+    <div className="relative shadow-md sm:rounded-lg">
+      <table className="w-full overflow-x-auto text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-100">
           <tr>
             <th scope="col" className="px-6 py-3 text-center">
