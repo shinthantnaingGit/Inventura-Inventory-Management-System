@@ -7,8 +7,8 @@ const VoucherTable = ({ vouchers }) => {
   const { t } = useI18n();
 
   return (
-    <div className="relative overflow-x-scroll shadow-md sm:rounded-lg">
-      <table className="w-full sm:text-xs lg:text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
+    <div className="relative mx-auto shadow-md sm:rounded-lg">
+      <table className="w-full overflow-x-auto sm:text-xs lg:text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-100">
           <tr>
             <th scope="col" className="px-6 py-3 text-center">
