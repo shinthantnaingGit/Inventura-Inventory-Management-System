@@ -7,7 +7,7 @@ const VoucherTableSkeleton = ({ rows = 5 }) => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full min-w-[800px] text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-100">
           <tr>
             <th scope="col" className="px-6 py-3 text-center">
