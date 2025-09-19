@@ -150,7 +150,7 @@ const ProductCreateForm = () => {
           </div>
 
           {/* Confirm */}
-          <div className="flex items-center gap-2">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               {...register("confirm", {
@@ -167,13 +167,13 @@ const ProductCreateForm = () => {
                 "この商品を作成することを確認します"
               )}
             </span>
-          </div>
+          </label>
           {errors.confirm && (
             <p className="text-sm text-red-500">{errors.confirm.message}</p>
           )}
 
           {/* Go Back to Product List */}
-          <div className="flex items-center gap-2">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               {...register("goback")}
@@ -185,7 +185,7 @@ const ProductCreateForm = () => {
                 "保存後に商品一覧へ戻る"
               )}
             </span>
-          </div>
+          </label>
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
