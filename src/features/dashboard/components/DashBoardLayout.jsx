@@ -26,7 +26,7 @@ const DashBoardLayout = ({ children }) => {
         <div className="h-[calc(100vh-104px)] border dark:border-gray-700 border-gray-300 rounded-lg bg-white/90 dark:bg-gray-900/70 shadow-sm overflow-hidden">
           <div className="flex h-full">
             {/* Sidebar */}
-            <div className="w-64 flex-shrink-0 border-r dark:border-gray-700 border-gray-300">
+            <div className="w-60 flex-shrink-0 border-r dark:border-gray-700 border-gray-300">
               <div className="h-full py-6 px-4">
                 <DashBoardSideBar />
               </div>
