@@ -664,6 +664,22 @@ export const messages = {
         memberSince: "Member Since",
         lastUpdated: "Last Updated",
       },
+      errors: {
+        title: "Failed to Load Profile",
+        subtitle: "We couldn't fetch your profile information",
+        heading: "Profile Unavailable",
+        description: "There was an error loading your profile information. This could be due to a network issue or server problem.",
+        tryAgain: "Try Again",
+        goToDashboard: "Go to Dashboard",
+        supportMessage: "If this problem persists, please contact support",
+        troubleshootingTitle: "Troubleshooting Tips:",
+        tips: [
+          "Check your internet connection",
+          "Try refreshing the page",
+          "Clear your browser cache",
+          "Make sure you're logged in properly"
+        ]
+      },
       actions: {
         back: "Back to Dashboard",
         uploadImage: "Upload Image",
@@ -1349,6 +1365,22 @@ export const messages = {
         email: "メールアドレス",
         memberSince: "登録日",
         lastUpdated: "最終更新",
+      },
+      errors: {
+        title: "プロフィールの読み込みに失敗",
+        subtitle: "プロフィール情報を取得できませんでした",
+        heading: "プロフィールが利用できません",
+        description: "プロフィール情報の読み込み中にエラーが発生しました。ネットワークの問題やサーバーの問題が原因の可能性があります。",
+        tryAgain: "再試行",
+        goToDashboard: "ダッシュボードに戻る",
+        supportMessage: "この問題が続く場合は、サポートにお問い合わせください",
+        troubleshootingTitle: "トラブルシューティングのヒント:",
+        tips: [
+          "インターネット接続を確認してください",
+          "ページを更新してみてください",
+          "ブラウザのキャッシュをクリアしてください",
+          "正しくログインしていることを確認してください"
+        ]
       },
       actions: {
         back: "ダッシュボードに戻る",
