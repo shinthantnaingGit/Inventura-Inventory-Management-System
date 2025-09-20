@@ -148,7 +148,7 @@ export function RevenueOverTimeChart({ revenueOverTime, isMobile = false }) {
     labels: revenueOverTime.map((p) => p.label),
     datasets: [
       {
-        label: t("dashboard.charts.revenue", "Revenue"),
+        label: t("dashboard.charts.revenue", "売上"),
         data: revenueOverTime.map((p) => p.cost),
         borderColor: "rgba(59,130,246,1)", // blue-500
         backgroundColor: "rgba(59,130,246,0.25)", // blue-500/25
@@ -182,7 +182,7 @@ export function RevenueByMonthChart({ revenueByMonth, isMobile = false }) {
     labels: revenueByMonth.map((m) => m.label),
     datasets: [
       {
-        label: t("dashboard.charts.revenueByMonthLegend", "Revenue by Month"),
+        label: t("dashboard.charts.revenueByMonthLegend", "月別売上"),
         data: revenueByMonth.map((m) => m.revenue),
         backgroundColor: isMobile
           ? "rgba(16,185,129,0.85)"
@@ -220,7 +220,7 @@ export function TopProductsChart({ topProducts, isMobile = false }) {
     labels: topProducts.map((p) => truncateLabel(p.name)),
     datasets: [
       {
-        label: t("dashboard.charts.quantity", "Quantity"),
+        label: t("dashboard.charts.quantity", "数量"),
         data: topProducts.map((p) => p.qty),
         backgroundColor: isMobile
           ? "rgba(245,158,11,0.9)"
@@ -292,7 +292,7 @@ export function FilterHeader({
       >
         <span className="inline-flex items-center gap-2">
           <SlidersHorizontal className="size-4 text-gray-700" />
-          {t("dashboard.filters.title", "Filters")}
+          {t("dashboard.filters.title", "フィルター")}
         </span>
         <ChevronDown
           className={`size-4 text-gray-700 transition-transform ${
@@ -306,7 +306,7 @@ export function FilterHeader({
   return (
     <div className="flex items-center gap-2">
       <SlidersHorizontal className="size-4 text-gray-700 dark:text-gray-300 " />
-      <span>{t("dashboard.filters.title", "Filters")}</span>
+      <span>{t("dashboard.filters.title", "フィルター")}</span>
     </div>
   );
 }
@@ -321,10 +321,10 @@ export function RefreshButton({ mutate, isMobile = false }) {
     <button
       onClick={() => mutate()}
       className={baseClasses}
-      title={t("dashboard.filters.refreshNow", "Refresh now")}
+      title={t("dashboard.filters.refreshNow", "今すぐ更新")}
     >
       <RefreshCw className="size-4" />
-      {t("dashboard.filters.refresh", "Refresh")}
+      {t("dashboard.filters.refresh", "更新")}
     </button>
   );
 }
@@ -359,7 +359,7 @@ export function QuickDatePresets({
     <div className={containerClasses}>
       <span className="inline-flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
         <CalendarDays className="size-4" />
-        {t("dashboard.filters.quickRanges", "Quick ranges:")}
+        {t("dashboard.filters.quickRanges", "クイック期間：")}
       </span>
       <PresetBtn onClick={() => setRange(7)}>
         {getPresetText("last7")}
@@ -408,14 +408,14 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
       <div className="grid gap-3">
         <Row>
           <Input
-            label={t(getLabelKey("voucherId"), "Voucher")}
+            label={t(getLabelKey("voucherId"), "バウチャー")}
             name="voucher_id"
             value={filters.voucher_id}
             onChange={onField}
             isMobile={true}
           />
           <Input
-            label={t(getLabelKey("productId"), "Product")}
+            label={t(getLabelKey("productId"), "商品")}
             name="product_id"
             value={filters.product_id}
             onChange={onField}
@@ -424,7 +424,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
         </Row>
         <Row>
           <Input
-            label={t(getLabelKey("minQty"), "Min Qty")}
+            label={t(getLabelKey("minQty"), "最小数量")}
             name="min_quantity"
             value={filters.min_quantity}
             onChange={onField}
@@ -432,7 +432,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
             isMobile={true}
           />
           <Input
-            label={t(getLabelKey("maxQty"), "Max Qty")}
+            label={t(getLabelKey("maxQty"), "最大数量")}
             name="max_quantity"
             value={filters.max_quantity}
             onChange={onField}
@@ -442,7 +442,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
         </Row>
         <Row>
           <Input
-            label={t(getLabelKey("minCost"), "Min Cost")}
+            label={t(getLabelKey("minCost"), "最小単価")}
             name="min_cost"
             value={filters.min_cost}
             onChange={onField}
@@ -450,7 +450,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
             isMobile={true}
           />
           <Input
-            label={t(getLabelKey("maxCost"), "Max Cost")}
+            label={t(getLabelKey("maxCost"), "最大単価")}
             name="max_cost"
             value={filters.max_cost}
             onChange={onField}
@@ -460,7 +460,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
         </Row>
         <Row>
           <Input
-            label={t(getLabelKey("dateFrom"), "From")}
+            label={t(getLabelKey("dateFrom"), "開始")}
             name="date_from"
             value={filters.date_from}
             onChange={onField}
@@ -474,7 +474,7 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
         </Row>
         <Row>
           <Input
-            label={t(getLabelKey("dateTo"), "To")}
+            label={t(getLabelKey("dateTo"), "終了")}
             name="date_to"
             value={filters.date_to}
             onChange={onField}
@@ -493,54 +493,54 @@ export function FilterInputs({ filters, onField, isMobile = false }) {
   return (
     <div className="grid gap-3 text-gray-700 dark:text-gray-300 md:grid-cols-4">
       <Input
-        label={t("dashboard.filters.voucherId", "Voucher ID")}
+        label={t("dashboard.filters.voucherId", "バウチャーID")}
         name="voucher_id"
         value={filters.voucher_id}
         onChange={onField}
       />
       <Input
-        label={t("dashboard.filters.productId", "Product ID")}
+        label={t("dashboard.filters.productId", "商品ID")}
         name="product_id"
         value={filters.product_id}
         onChange={onField}
       />
       <Input
-        label={t("dashboard.filters.minQty", "Min Quantity")}
+        label={t("dashboard.filters.minQty", "最小数量")}
         name="min_quantity"
         value={filters.min_quantity}
         onChange={onField}
         type="number"
       />
       <Input
-        label={t("dashboard.filters.maxQty", "Max Quantity")}
+        label={t("dashboard.filters.maxQty", "最大数量")}
         name="max_quantity"
         value={filters.max_quantity}
         onChange={onField}
         type="number"
       />
       <Input
-        label={t("dashboard.filters.minCost", "Min Cost")}
+        label={t("dashboard.filters.minCost", "最小単価")}
         name="min_cost"
         value={filters.min_cost}
         onChange={onField}
         type="number"
       />
       <Input
-        label={t("dashboard.filters.maxCost", "Max Cost")}
+        label={t("dashboard.filters.maxCost", "最大単価")}
         name="max_cost"
         value={filters.max_cost}
         onChange={onField}
         type="number"
       />
       <Input
-        label={t("dashboard.filters.dateFrom", "Date From")}
+        label={t("dashboard.filters.dateFrom", "開始日")}
         name="date_from"
         value={filters.date_from}
         onChange={onField}
         type="date"
       />
       <Input
-        label={t("dashboard.filters.dateTo", "Date To")}
+        label={t("dashboard.filters.dateTo", "終了日")}
         name="date_to"
         value={filters.date_to}
         onChange={onField}
@@ -572,10 +572,10 @@ export function FilterActions({ mutate, onClear, isMobile = false }) {
   return (
     <div className={containerClasses}>
       <button type="button" onClick={() => mutate()} className={applyClasses}>
-        {t("dashboard.filters.apply", "Apply")}
+        {t("dashboard.filters.apply", "適用")}
       </button>
       <button type="button" onClick={onClear} className={resetClasses}>
-        {t("dashboard.filters.reset", "Reset")}
+        {t("dashboard.filters.reset", "リセット")}
       </button>
       <Link href="/dashboard/inventory" className={linkClasses}>
         {t("nav.inventory", "在庫")} <ArrowRight className="size-4" />
@@ -628,7 +628,7 @@ export function RecentRecords({ records, isLoading, error, isMobile = false }) {
             <div>
               <p className="text-sm text-gray-700 dark:text-gray-300">
                 {r.product?.product_name ??
-                  t("dashboard.recents.unknown", "Unknown")}{" "}
+                  t("dashboard.recents.unknown", "不明")}{" "}
                 × {r.quantity}
               </p>
               <p
@@ -638,8 +638,8 @@ export function RecentRecords({ records, isLoading, error, isMobile = false }) {
                     : "text-xs text-gray-700 dark:text-gray-300"
                 }`}
               >
-                {t("dashboard.recents.cost", "Cost")} {fmtCurrency(r.cost)} ·{" "}
-                {fmtDate(r.created_at)} · {t(voucherKey, "Voucher")}{" "}
+                {t("dashboard.recents.cost", "コスト")} {fmtCurrency(r.cost)} ·{" "}
+                {fmtDate(r.created_at)} · {t(voucherKey, "バウチャー")}{" "}
                 {isMobile ? "#" : "#"}
                 {r.voucher_id}
               </p>
@@ -657,7 +657,7 @@ export function RecentRecords({ records, isLoading, error, isMobile = false }) {
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-4 text-sm text-gray-700 dark:text-gray-300">
-      {t("dashboard.recents.empty", "No records match your filters.")}
+      {t("dashboard.recents.empty", "条件に合致するレコードはありません。")}
     </div>
   );
 }

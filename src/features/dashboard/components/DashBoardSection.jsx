@@ -49,22 +49,22 @@ export default function DashBoardSection() {
       {/* INSIGHTS */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard
-          title={t("dashboard.stats.totalRevenue", "Total Revenue")}
+          title={t("dashboard.stats.totalRevenue", "総売上")}
           value={fmtCurrency(totalRevenue)}
           icon={BarChart3}
         />
         <StatsCard
-          title={t("dashboard.stats.totalQuantity", "Total Quantity")}
+          title={t("dashboard.stats.totalQuantity", "総数量")}
           value={fmtNumber(totalQuantity)}
           icon={ShoppingCart}
         />
         <StatsCard
-          title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")}
+          title={t("dashboard.stats.avgCostPerRecord", "1レコード平均コスト")}
           value={fmtCurrency(avgCostPerRecord)}
           icon={Package}
         />
         <StatsCard
-          title={t("dashboard.stats.topProduct", "Top Product")}
+          title={t("dashboard.stats.topProduct", "人気商品")}
           value={topProducts[0]?.name ?? "—"}
           icon={Trophy}
         />
@@ -73,14 +73,12 @@ export default function DashBoardSection() {
       {/* CHARTS */}
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="col-span-2">
-          <Card
-            title={t("dashboard.charts.revenueOverTime", "Revenue Over Time")}
-          >
+          <Card title={t("dashboard.charts.revenueOverTime", "売上の推移")}>
             <RevenueOverTimeChart revenueOverTime={revenueOverTime} />
           </Card>
         </div>
 
-        <Card title={t("dashboard.charts.revenueByMonth", "Revenue by Month")}>
+        <Card title={t("dashboard.charts.revenueByMonth", "月別売上")}>
           <RevenueByMonthChart revenueByMonth={revenueByMonth} />
         </Card>
 
@@ -114,11 +112,14 @@ export default function DashBoardSection() {
       </Card>
 
       {/* RECENTS */}
-      <Card title={t("dashboard.recents.title", "Recent Records")}>
+      <Card title={t("dashboard.recents.title", "最新のレコード")}>
         <RecentRecords records={records} isLoading={isLoading} error={error} />
         {error && (
           <div className="mt-3 rounded-lg border border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200 p-3">
-            {t("dashboard.recents.error", "Failed to load dashboard.")}
+            {t(
+              "dashboard.recents.error",
+              "ダッシュボードの読み込みに失敗しました。"
+            )}
           </div>
         )}
       </Card>

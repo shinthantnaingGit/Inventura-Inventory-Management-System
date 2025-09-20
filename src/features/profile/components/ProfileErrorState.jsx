@@ -21,7 +21,7 @@ export default function ProfileErrorState({ onRetry }) {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-red-900 dark:text-red-100">
-                    {t("profile.errors.title", "Failed to Load Profile")}
+                    {t("profile.errors.title", "プロフィールの読み込みに失敗")}
                   </h2>
                   <p className="text-sm text-red-700 dark:text-red-300">
                     {t(
@@ -41,7 +41,7 @@ export default function ProfileErrorState({ onRetry }) {
                 </div>
 
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  {t("profile.errors.heading", "Profile Unavailable")}
+                  {t("profile.errors.heading", "プロフィールが利用できません")}
                 </h3>
 
                 <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
@@ -58,7 +58,7 @@ export default function ProfileErrorState({ onRetry }) {
                     className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
                     <RefreshCw className="h-4 w-4" />
-                    {t("profile.errors.tryAgain", "Try Again")}
+                    {t("profile.errors.tryAgain", "再試行")}
                   </button>
 
                   <Link
@@ -66,7 +66,7 @@ export default function ProfileErrorState({ onRetry }) {
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                   >
                     <Home className="h-4 w-4" />
-                    {t("profile.errors.goToDashboard", "Go to Dashboard")}
+                    {t("profile.errors.goToDashboard", "ダッシュボードに戻る")}
                   </Link>
                 </div>
               </div>

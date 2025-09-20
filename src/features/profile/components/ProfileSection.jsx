@@ -1,24 +1,23 @@
 "use client";
-import React, { useState } from "react";
-import { fetchProfile, profileApiUrl } from "@/services/profile";
+import React from "react";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ProfileMobile from "./ProfileMobile";
 import ProfileDesktop from "./ProfleDesktop";
 import ProfileDesktopSkeleton from "./ProfileDesktopSkeleton";
 import ProfileMobileSkeleton from "./ProfileMobileSkeleton";
-import useSWR from "swr";
 import ProfileErrorState from "./ProfileErrorState";
+import { useProfileHook } from "../hooks/useProfileHook";
 
 const ProfileSection = () => {
   const {
-    data: profileData,
+    profileData,
     isLoading,
     error,
     mutate,
-  } = useSWR(`${profileApiUrl}/profile`, fetchProfile);
-  const [isDark, setIsDark] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  console.log(profileData);
+    showPasswordModal,
+    handleOpenPasswordModal,
+    handleClosePasswordModal,
+  } = useProfileHook();
 
   if (error) {
     return <ProfileErrorState onRetry={() => mutate()} />;
@@ -30,8 +29,8 @@ const ProfileSection = () => {
           <ProfileMobileSkeleton />
         ) : (
           <ProfileMobile
-            profileData={profileData?.data}
-            onOpenPasswordModal={() => setShowPasswordModal(true)}
+            profileData={profileData}
+            onOpenPasswordModal={handleOpenPasswordModal}
           />
         )}
       </div>
@@ -41,18 +40,17 @@ const ProfileSection = () => {
           <ProfileDesktopSkeleton />
         ) : (
           <ProfileDesktop
-            profileData={profileData?.data}
-            onOpenPasswordModal={() => setShowPasswordModal(true)}
+            profileData={profileData}
+            onOpenPasswordModal={handleOpenPasswordModal}
           />
         )}
       </div>
 
       {showPasswordModal && (
-        <PasswordChangeModal onClose={() => setShowPasswordModal(false)} />
+        <PasswordChangeModal onClose={handleClosePasswordModal} />
       )}
     </div>
   );
 };
-
 
 export default ProfileSection;

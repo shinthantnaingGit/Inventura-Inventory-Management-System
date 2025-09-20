@@ -668,7 +668,8 @@ export const messages = {
         title: "Failed to Load Profile",
         subtitle: "We couldn't fetch your profile information",
         heading: "Profile Unavailable",
-        description: "There was an error loading your profile information. This could be due to a network issue or server problem.",
+        description:
+          "There was an error loading your profile information. This could be due to a network issue or server problem.",
         tryAgain: "Try Again",
         goToDashboard: "Go to Dashboard",
         supportMessage: "If this problem persists, please contact support",
@@ -677,12 +678,16 @@ export const messages = {
           "Check your internet connection",
           "Try refreshing the page",
           "Clear your browser cache",
-          "Make sure you're logged in properly"
-        ]
+          "Make sure you're logged in properly",
+        ],
       },
       actions: {
         back: "Back to Dashboard",
         uploadImage: "Upload Image",
+        addPhoto: "Add Photo",
+        changeProfile: "Change Profile",
+        removeProfile: "Remove Profile",
+        deleteImage: "Delete Image",
         editName: "Edit name",
         changePassword: "Change Password",
       },
@@ -690,7 +695,18 @@ export const messages = {
       toasts: {
         nameSaved: "Name updated.",
         imageSaved: "Profile photo updated.",
+        imageDeleted: "Profile photo deleted.",
         errorGeneric: "Request failed. Please try again.",
+      },
+      messages: {
+        imageUpdated: "Profile image updated successfully",
+        imageDeleted: "Profile image deleted successfully",
+        invalidImageType: "Please select a valid image file",
+        imageTooLarge: "Image size must be less than 5MB",
+        uploadFailed: "Failed to upload image",
+        uploadError: "Failed to upload image",
+        deleteFailed: "Failed to delete image",
+        deleteError: "Failed to delete image",
       },
       passwordModal: {
         title: "Change Password",
@@ -1370,7 +1386,8 @@ export const messages = {
         title: "プロフィールの読み込みに失敗",
         subtitle: "プロフィール情報を取得できませんでした",
         heading: "プロフィールが利用できません",
-        description: "プロフィール情報の読み込み中にエラーが発生しました。ネットワークの問題やサーバーの問題が原因の可能性があります。",
+        description:
+          "プロフィール情報の読み込み中にエラーが発生しました。ネットワークの問題やサーバーの問題が原因の可能性があります。",
         tryAgain: "再試行",
         goToDashboard: "ダッシュボードに戻る",
         supportMessage: "この問題が続く場合は、サポートにお問い合わせください",
@@ -1379,12 +1396,16 @@ export const messages = {
           "インターネット接続を確認してください",
           "ページを更新してみてください",
           "ブラウザのキャッシュをクリアしてください",
-          "正しくログインしていることを確認してください"
-        ]
+          "正しくログインしていることを確認してください",
+        ],
       },
       actions: {
         back: "ダッシュボードに戻る",
         uploadImage: "画像をアップロード",
+        addPhoto: "写真を追加",
+        changeProfile: "プロフィールを変更",
+        removeProfile: "プロフィールを削除",
+        deleteImage: "画像を削除",
         editName: "名前を編集",
         changePassword: "パスワードを変更",
       },
@@ -1392,7 +1413,18 @@ export const messages = {
       toasts: {
         nameSaved: "名前を更新しました。",
         imageSaved: "プロフィール写真を更新しました。",
+        imageDeleted: "プロフィール写真を削除しました。",
         errorGeneric: "リクエストに失敗しました。もう一度お試しください。",
+      },
+      messages: {
+        imageUpdated: "プロフィール画像を更新しました",
+        imageDeleted: "プロフィール画像を削除しました",
+        invalidImageType: "有効な画像ファイルを選択してください",
+        imageTooLarge: "画像サイズは5MB未満である必要があります",
+        uploadFailed: "画像のアップロードに失敗しました",
+        uploadError: "画像のアップロードに失敗しました",
+        deleteFailed: "画像の削除に失敗しました",
+        deleteError: "画像の削除に失敗しました",
       },
       passwordModal: {
         title: "パスワードを変更",

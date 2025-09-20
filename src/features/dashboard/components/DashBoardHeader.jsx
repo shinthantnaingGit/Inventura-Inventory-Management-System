@@ -42,8 +42,8 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
     data: profile,
     isLoading,
     error,
-  } = useSWR(`${profileApiUrl}/profile`, fetchProfile);
-  const profileData = profile?.data;
+  } = useSWR(profileApiUrl, fetchProfile);
+  const profileData = profile?.data || profile;
 
   return (
     <header className="print:hidden fixed top-0 left-0 right-0 z-50 border-b border-gray-200/70 dark:border-gray-800/70 bg-white/70 dark:bg-gray-900/60 backdrop-blur">
@@ -86,8 +86,18 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                 aria-haspopup="menu"
                 aria-expanded={openProfile}
               >
-                <div className="size-7  rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center overflow-hidden">
-                  {!isLoading && !error ? (
+                <div
+                  className={`size-7 rounded-full flex items-center justify-center overflow-hidden ${
+                    profileData?.profile_image &&
+                    profileData.profile_image.trim() !== "" &&
+                    !profileData.profile_image.endsWith("/storage")
+                      ? "bg-gradient-to-r from-blue-400 to-purple-400"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {profileData?.profile_image &&
+                  profileData.profile_image.trim() !== "" &&
+                  !profileData.profile_image.endsWith("/storage") ? (
                     <img
                       src={profileData?.profile_image}
                       alt="Profile"
@@ -97,13 +107,13 @@ const DashBoardHeader = ({ onOpenSidebar, brand = "Inventura" }) => {
                       }}
                     />
                   ) : (
-                    <User size={32} className="text-white" />
+                    <User size={20} className="text-gray-500" />
                   )}
                 </div>
                 {/* Reserve space for 'プロフィール' vs 'Profile' */}
                 <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-100 w-[5.75rem] text-center truncate">
                   {/* {t("nav.profile", "プロフィール")} */}
-                  {!isLoading && !error ?profileData?.name:"User Name"} 
+                  {!isLoading && !error ? profileData?.name : "User Name"}
                 </span>
                 <ChevronDown className="size-4 text-gray-700 shrink-0" />
               </button>

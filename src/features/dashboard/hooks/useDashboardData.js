@@ -148,7 +148,7 @@ export function useDashboardData(isMobile = false) {
     const qtyMap = new Map();
     for (const r of records) {
       const name =
-        r.product?.product_name ?? t("dashboard.recents.unknown", "Unknown");
+        r.product?.product_name ?? t("dashboard.recents.unknown", "不明");
       qtyMap.set(name, (qtyMap.get(name) ?? 0) + Number(r.quantity || 0));
     }
     const top = [...qtyMap.entries()]

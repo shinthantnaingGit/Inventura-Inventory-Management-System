@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import {
   User,
   Mail,
@@ -10,91 +11,38 @@ import {
   Camera,
   Loader2,
   ArrowLeft,
+  Trash2,
+  MoreVertical,
 } from "lucide-react";
 import DarkModeToggle from "@/components/DarkModeToggle";
-import { useState } from "react";
-import {
-  storeProfileImage,
-  updateProfileName,
-  profileApiUrl,
-} from "@/services/profile";
-import { useSWRConfig } from "swr";
-import { toast } from "sonner";
 import { useI18n } from "@/i18n/I18nProvider";
 import LangToggle from "@/components/LangToggle";
+import { useProfileHook } from "../hooks/useProfileHook";
 
 const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
+  const {
+    isEditing,
+    editForm,
+    isUpdating,
+    isUploading,
+    handleUpdateName,
+    handleImageUpload,
+    handleImageDelete,
+    handleEditFormChange,
+    handleStartEdit,
+    handleCancelEdit,
+    formatDate,
+  } = useProfileHook();
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({ name: profileData.name });
-  const [isUpdating, setIsUpdating] = useState(false);
-  const { mutate } = useSWRConfig();
+  const [showImageDropdown, setShowImageDropdown] = useState(false);
 
-  const formatDate = (dateString) =>
-    new Date(dateString).toLocaleString(locale === "ja" ? "ja-JP" : "en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Asia/Tokyo",
-    });
-
-  const handleSave = async () => {
-    try {
-      setIsUpdating(true);
-      const res = await updateProfileName({ name: editForm.name });
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err || "Failed to update name");
-      }
-      toast.success(t("profile.toasts.nameSaved", "氏名を更新しました。"));
-      // refresh profile data (FIX: target the actual profile endpoint)
-      await mutate(profileApiUrl);
-      setIsEditing(false);
-    } catch (e) {
-      console.error(e);
-      toast.error(
-        e.message || t("profile.toasts.errorGeneric", "通信に失敗しました。")
-      );
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEditForm({ name: profileData.name });
-  };
-
-  const handleImageUpload = async (e) => {
+  const handleImageUploadWrapper = async (e) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-    try {
-      setIsUpdating(true);
-      const res = await storeProfileImage(file); // FormData handled in service
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err || "Failed to upload image");
-      }
-      toast.success(
-        t("profile.toasts.imageSaved", "プロフィール画像を更新しました。")
-      );
-      // await mutate(
-      //   (key) => typeof key === "string" && key.startsWith(profileApiUrl),
-      //   undefined,
-      //   { revalidate: true }
-      // );
-      mutate((key) => typeof key === "string" && key.startsWith(profileApiUrl));
-    } catch (e) {
-      console.error(e);
-      toast.error(
-        e.message || t("profile.toasts.errorGeneric", "通信に失敗しました。")
-      );
-    } finally {
-      setIsUpdating(false);
-      e.target.value = "";
+    if (file) {
+      await handleImageUpload(file);
+      e.target.value = ""; // Reset file input
+      setShowImageDropdown(false); // Close dropdown after upload
     }
   };
 
@@ -140,31 +88,89 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
           <div className="lg:col-span-1">
             <div className="text-center">
               <div className="relative inline-block mb-6">
-                <div className="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center overflow-hidden shadow-2xl">
-                  {profileData.profile_image ? (
+                <div
+                  className={`w-36 h-36 sm:w-40 sm:h-40 rounded-full flex items-center justify-center overflow-hidden shadow-2xl ${
+                    profileData.profile_image &&
+                    profileData.profile_image.trim() !== "" &&
+                    !profileData.profile_image.endsWith("/storage")
+                      ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {profileData.profile_image &&
+                  profileData.profile_image.trim() !== "" &&
+                  !profileData.profile_image.endsWith("/storage") ? (
                     <img
                       src={profileData.profile_image}
                       alt={t("profile.alt.avatar", "プロフィール画像")}
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <User size={64} className="text-white" />
+                    <User size={60} className="text-gray-500" />
                   )}
                 </div>
-                <label
-                  htmlFor="desktop-profile-image"
-                  className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full cursor-pointer transition-colors shadow-lg"
-                  title={t("profile.actions.uploadImage", "画像をアップロード")}
+
+                {/* Edit Icon Dropdown */}
+                <button
+                  onClick={() => setShowImageDropdown(!showImageDropdown)}
+                  className="absolute bottom-2 right-2 bg-white text-gray-600 p-3 rounded-full shadow-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                  title="Profile Options"
                 >
-                  <Camera size={18} />
-                  <input
-                    id="desktop-profile-image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
+                  <MoreVertical size={18} />
+                </button>
+
+                {/* Dropdown Menu */}
+                {showImageDropdown && (
+                  <div className="absolute -right-30 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10 min-w-[160px]">
+                    <label
+                      htmlFor="desktop-profile-image"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    >
+                      <Camera size={18} />
+                      {profileData?.profile_image &&
+                      profileData.profile_image.trim() !== "" &&
+                      !profileData.profile_image.endsWith("/storage")
+                        ? t(
+                            "profile.actions.changeProfile",
+                            "プロフィールを変更"
+                          )
+                        : t("profile.actions.addPhoto", "写真を追加")}
+                    </label>
+                    <input
+                      id="desktop-profile-image"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUploadWrapper}
+                      className="hidden"
+                    />
+                    {profileData?.profile_image &&
+                      profileData.profile_image.trim() !== "" &&
+                      !profileData.profile_image.endsWith("/storage") && (
+                        <button
+                          onClick={() => {
+                            handleImageDelete();
+                            setShowImageDropdown(false);
+                          }}
+                          disabled={isUploading}
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Trash2 size={18} />
+                          {t(
+                            "profile.actions.removeProfile",
+                            "プロフィールを削除"
+                          )}
+                        </button>
+                      )}
+                  </div>
+                )}
+
+                {/* Click outside to close dropdown */}
+                {showImageDropdown && (
+                  <div
+                    className="fixed inset-0 z-0"
+                    onClick={() => setShowImageDropdown(false)}
                   />
-                </label>
+                )}
               </div>
 
               <div className="mb-6 flex flex-col justify-center items-center">
@@ -178,7 +184,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                       {profileData.name}
                     </h2>
                     <button
-                      onClick={() => setIsEditing(true)}
+                      onClick={handleStartEdit}
                       className="p-2 -mb-2 text-gray-700 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors"
                       aria-label={t("profile.actions.editName", "氏名を編集")}
                     >
@@ -190,12 +196,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                     <input
                       type="text"
                       value={editForm.name}
-                      onChange={(e) =>
-                        setEditForm((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }))
-                      }
+                      onChange={handleEditFormChange}
                       className="w-full sm:w-96 text-2xl sm:text-3xl font-bold text-gray-700 dark:text-white text-center bg-gray-50 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-xl px-3 py-1 focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
                       placeholder={t(
                         "profile.placeholders.name",
@@ -204,7 +205,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                     />
                     <div className="flex gap-3">
                       <button
-                        onClick={handleSave}
+                        onClick={handleUpdateName}
                         disabled={isUpdating}
                         className={`flex shadow-sm items-center gap-2 px-3 py-1 rounded-lg transition-colors ${
                           isUpdating
@@ -220,7 +221,7 @@ const ProfileDesktop = ({ profileData, onOpenPasswordModal }) => {
                         {t("common.save", "保存")}
                       </button>
                       <button
-                        onClick={handleCancel}
+                        onClick={handleCancelEdit}
                         disabled={isUpdating}
                         className="flex shadow-sm items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition-colors"
                       >

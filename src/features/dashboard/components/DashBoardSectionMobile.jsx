@@ -49,25 +49,25 @@ export default function DashBoardSectionMobile() {
       {/* INSIGHTS */}
       <div className="grid gap-3">
         <StatsCard
-          title={t("dashboard.stats.totalRevenue", "Total Revenue")}
+          title={t("dashboard.stats.totalRevenue", "総売上")}
           value={fmtCurrency(totalRevenue)}
           icon={BarChart3}
           isMobile={true}
         />
         <StatsCard
-          title={t("dashboard.stats.totalQuantity", "Total Quantity")}
+          title={t("dashboard.stats.totalQuantity", "総数量")}
           value={fmtNumber(totalQuantity)}
           icon={ShoppingCart}
           isMobile={true}
         />
         <StatsCard
-          title={t("dashboard.stats.avgCostPerRecord", "Avg Cost / Record")}
+          title={t("dashboard.stats.avgCostPerRecord", "1レコード平均コスト")}
           value={fmtCurrency(avgCostPerRecord)}
           icon={Package}
           isMobile={true}
         />
         <StatsCard
-          title={t("dashboard.stats.topProduct", "Top Product")}
+          title={t("dashboard.stats.topProduct", "人気商品")}
           value={topProducts[0]?.name ?? "—"}
           icon={Trophy}
           isMobile={true}
@@ -76,7 +76,7 @@ export default function DashBoardSectionMobile() {
 
       {/* CHARTS */}
       <Card
-        title={t("dashboard.cards.revenueOverTime", "Revenue Over Time")}
+        title={t("dashboard.cards.revenueOverTime", "売上の推移")}
         isMobile={true}
       >
         <RevenueOverTimeChart
@@ -86,7 +86,7 @@ export default function DashBoardSectionMobile() {
       </Card>
 
       <Card
-        title={t("dashboard.cards.revenueByMonth", "Revenue by Month")}
+        title={t("dashboard.cards.revenueByMonth", "月別売上")}
         isMobile={true}
       >
         <RevenueByMonthChart revenueByMonth={revenueByMonth} isMobile={true} />
@@ -135,7 +135,7 @@ export default function DashBoardSectionMobile() {
 
       {/* RECENTS */}
       <Card
-        title={t("dashboard.recents.title", "Recent Records")}
+        title={t("dashboard.recents.title", "最新のレコード")}
         isMobile={true}
       >
         <RecentRecords
@@ -146,7 +146,10 @@ export default function DashBoardSectionMobile() {
         />
         {error && (
           <div className="mt-3 rounded-lg border border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200 p-3">
-            {t("dashboard.recents.error", "Failed to load dashboard.")}
+            {t(
+              "dashboard.recents.error",
+              "ダッシュボードの読み込みに失敗しました。"
+            )}
           </div>
         )}
       </Card>

@@ -1,56 +1,119 @@
 // services/profile.js
 import useAccountStore from "@/store/useAccountStore";
 import useSWR from "swr";
+import { uploadImage } from "./media";
 
-export const profileApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile`;
+export const profileApiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile/show`;
+export const profileBaseUrl = `${process.env.NEXT_PUBLIC_API_URL}/user-profile`;
 export const token = useAccountStore.getState().token;
 
 // 1) GET PROFILE
-export const fetchProfile = (url) =>
-  fetch(url, {
+export const fetchProfile = (url) => {
+  const token = useAccountStore.getState().token;
+  return fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${useAccountStore.getState().token}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
+};
 
+// 2) UPLOAD IMAGE TO MEDIA ENDPOINT (using media service)
+export const uploadImageToMedia = uploadImage;
 
-// 2) POST (CREATE) ADD PROFILE IMAGE  <-- use FormData
-export const storeProfileImage = (file) => {
-  const fd = new FormData();
-  // 👇 match your backend’s field name (commonly "profile_image" or "image")
-  fd.append("profile_image", file);
+// 3) UPDATE PROFILE WITH IMAGE PATH
+export const updateProfileImage = (imagePath) => {
+  const formData = new URLSearchParams();
+  formData.append("profile_image", imagePath);
 
-  return fetch(`${profileApiUrl}/change-profile-image`, {
-    method: "POST",
+  return fetch(`${profileBaseUrl}/change-profile-image`, {
+    method: "PATCH",
     headers: {
-      // ❌ don't set Content-Type for FormData; browser will set boundary
+      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-    body: fd,
+    body: formData,
   });
 };
 
-// 3) PATCH (UPDATE) CHANGE NAME  <-- remove trailing space + send JSON object
+// 4) DELETE PROFILE IMAGE
+export const deleteProfileImage = () => {
+  const formData = new URLSearchParams();
+  formData.append("profile_image", ""); // Empty string to remove image
+
+  return fetch(`${profileBaseUrl}/change-profile-image`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${useAccountStore.getState().token}`,
+    },
+    body: formData,
+  });
+};
+
+// 5) COMBINED FUNCTION: Upload image and update profile
+export const storeProfileImage = async (file) => {
+  try {
+    // First, upload image to media endpoint
+    const uploadResponse = await uploadImageToMedia(file);
+
+    const uploadData = await uploadResponse.json();
+    const imagePath =
+      uploadData.path ||
+      uploadData.url ||
+      uploadData.image ||
+      uploadData.data?.path ||
+      uploadData.data?.url;
+
+    if (!imagePath) {
+      throw new Error("No image path returned from media upload");
+    }
+
+    // Then, update profile with the image path
+    const profileResponse = await updateProfileImage(imagePath);
+
+    if (!profileResponse.ok) {
+      const errorData = await profileResponse.text();
+      throw new Error(`Failed to update profile: ${errorData}`);
+    }
+
+    return profileResponse;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 6) PATCH (UPDATE) CHANGE NAME
 export const updateProfileName = (payload) => {
-  return fetch(`${profileApiUrl}/change-name`, {
+  const formData = new URLSearchParams();
+  formData.append("name", payload.name);
+
+  return fetch(`${profileBaseUrl}/change-name`, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-    body: JSON.stringify(payload), // e.g. { name: "New Name" }
+    body: formData,
   });
 };
 
-// 4) PATCH (UPDATE) CHANGE PASSWORD (unchanged)
+// 7) PATCH (UPDATE) CHANGE PASSWORD
 export const updatePassword = (payload) => {
-  return fetch(`${profileApiUrl}/change-password`, {
+  const formData = new URLSearchParams();
+  formData.append("old_password", payload.old_password);
+  formData.append("new_password", payload.new_password);
+  formData.append(
+    "new_password_confirmation",
+    payload.new_password_confirmation
+  );
+
+  return fetch(`${profileBaseUrl}/change-password`, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Bearer ${useAccountStore.getState().token}`,
     },
-    body: JSON.stringify(payload),
+    body: formData,
   });
 };
