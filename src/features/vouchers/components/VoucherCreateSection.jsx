@@ -278,7 +278,7 @@ export default function VoucherCreateSection() {
 
       {/* Main form container */}
       <div className="rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-8 shadow-sm">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">ဖ
           {/* ============================================ */}
           {/* BASIC INFO SECTION - 2 column grid on desktop */}
           {/* ============================================ */}
